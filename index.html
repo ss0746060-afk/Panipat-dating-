@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Panipat Connect | Find Friends Near You</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body class="bg-gradient-to-b from-rose-50 to-pink-100 min-h-screen text-gray-800 pb-24">
+
+    <nav class="bg-white/80 backdrop-blur-md shadow-xs sticky top-0 z-50 px-4 py-3 flex items-center justify-between border-b border-rose-100">
+        <div class="text-xl font-black text-rose-600 tracking-wide">
+            PANIPAT<span class="text-gray-700 font-bold">.CONNECT</span>
+        </div>
+        
+        <div class="flex items-center bg-rose-50 border border-rose-200 rounded-full px-3 py-1 text-xs md:text-sm">
+            <i class="fa-solid fa-location-dot text-rose-500 mr-1.5"></i>
+            <span class="font-semibold text-gray-700">Model Town, Panipat</span>
+        </div>
+
+        <div class="w-8 h-8 rounded-full bg-rose-500 text-white flex items-center justify-center font-bold text-sm shadow-xs">
+            N
+        </div>
+    </nav>
+
+    <div class="px-4 py-8 text-center max-w-xl mx-auto">
+        <h1 class="text-2xl md:text-3xl font-black text-gray-900 leading-tight">
+            अपने आसपास नए दोस्त ढूंढें 🌟
+        </h1>
+        <p class="text-xs md:text-sm text-gray-500 mt-1.5">
+            पानीपत में रहने वाले लोगों से सुरक्षित और आसान तरीके से जुड़ें
+        </p>
+    </div>
+
+    <main class="max-w-4xl mx-auto px-4">
+        <h2 class="text-sm font-bold text-gray-400 uppercase tracking-wider mb-4">New Members Online Nearby</h2>
+        
+        <div class="grid grid-cols-2 md:grid-cols-3 gap-4">
+            
+            <div class="bg-white rounded-2xl p-3 shadow-xs border border-rose-50 flex flex-col justify-between">
+                <div class="relative rounded-xl overflow-hidden aspect-square bg-gray-100">
+                    <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=400" class="w-full h-full object-cover">
+                    <span class="absolute top-2 left-2 bg-green-500 w-2.5 h-2.5 rounded-full border-2 border-white animate-pulse"></span>
+                </div>
+                <div class="mt-2.5">
+                    <div class="flex justify-between items-baseline">
+                        <h3 class="font-bold text-base text-gray-900">अपेक्षा, 22</h3>
+                    </div>
+                    <p class="text-[11px] text-rose-600 font-medium mt-0.5">
+                        <i class="fa-solid fa-location-dot mr-0.5"></i> Model Town (1.2 km)
+                    </p>
+                    <p class="text-xs text-gray-500 mt-1.5 line-clamp-2">"चाय और अच्छी बातचीत पसंद है। नए दोस्त बनाने के लिए यहाँ हूँ।"</p>
+                </div>
+                <button class="mt-3 w-full bg-rose-500 hover:bg-rose-600 text-white font-bold py-1.5 rounded-xl text-xs transition shadow-xs">
+                    <i class="fa-solid fa-message mr-1"></i> Say Hello
+                </button>
+            </div>
+
+            <div class="bg-white rounded-2xl p-3 shadow-xs border border-rose-50 flex flex-col justify-between">
+                <div class="relative rounded-xl overflow-hidden aspect-square bg-gray-100">
+                    <img src="https://images.unsplash.com/photo-1524504388940-b1c1722653e1?w=400" class="w-full h-full object-cover">
+                    <span class="absolute top-2 left-2 bg-green-500 w-2.5 h-2.5 rounded-full border-2 border-white animate-pulse"></span>
+                </div>
+                <div class="mt-2.5">
+                    <div class="flex justify-between items-baseline">
+                        <h3 class="font-bold text-base text-gray-900">कोमल, 24</h3>
+                    </div>
+                    <p class="text-[11px] text-rose-600 font-medium mt-0.5">
+                        <i class="fa-solid fa-location-dot mr-0.5"></i> GT Road (2.5 km)
+                    </p>
+                    <p class="text-xs text-gray-500 mt-1.5 line-clamp-2">"किताबें पढ़ना और संगीत सुनना पसंद है। सिर्फ अच्छे लोगों से दोस्ती।"</p>
+                </div>
+                <button class="mt-3 w-full bg-rose-500 hover:bg-rose-600 text-white font-bold py-1.5 rounded-xl text-xs transition shadow-xs">
+                    <i class="fa-solid fa-message mr-1"></i> Say Hello
+                </button>
+            </div>
+
+        </div>
+    </main>
+
+    <div class="fixed bottom-0 left-0 right-0 bg-white border-t border-rose-100 py-2.5 px-6 flex justify-around items-center z-50 shadow-lg">
+        <button class="flex flex-col items-center gap-1 text-rose-500">
+            <i class="fa-solid fa-users text-lg"></i>
+            <span class="text-[10px] font-bold">Discover</span>
+        </button>
+        <button class="flex flex-col items-center gap-1 text-gray-400 hover:text-rose-500">
+            <i class="fa-solid fa-comments text-lg"></i>
+            <span class="text-[10px] font-medium">Chats</span>
+        </button>
+        <button class="flex flex-col items-center gap-1 text-gray-400 hover:text-rose-500">
+            <i class="fa-solid fa-bell text-lg"></i>
+            <span class="text-[10px] font-medium">Alerts</span>
+        </button>
+        <button class="flex flex-col items-center gap-1 text-gray-400 hover:text-rose-500">
+            <i class="fa-solid fa-user text-lg"></i>
+            <span class="text-[10px] font-medium">Profile</span>
+        </button>
+    </div>
+
+</body>
+</html>
