@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Panipat Connect | Live Dating & Friendship</title>
+    <title>Panipat Connect | Live Chat & Dating</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
@@ -18,13 +18,12 @@
             <i class="fa-solid fa-location-dot text-rose-500 mr-1.5"></i>
             <span class="font-semibold text-gray-700">Model Town, Panipat</span>
         </div>
-        <!-- प्रोफाइल जोड़ने का बटन -->
         <button onclick="toggleRegisterForm()" class="bg-rose-500 hover:bg-rose-600 text-white text-xs font-bold px-3 py-1.5 rounded-full shadow-xs cursor-pointer">
             <i class="fa-solid fa-user-plus mr-1"></i> Join Now
         </button>
     </nav>
 
-    <!-- 2. गुप्त रजिस्ट्रेशन फॉर्म (Popup Modal) -->
+    <!-- 2. रजिस्ट्रेशन फॉर्म (Popup Modal) -->
     <div id="registerModal" class="fixed inset-0 bg-black/60 z-50 flex items-center justify-center hidden p-4">
         <div class="bg-white w-full max-w-md rounded-2xl p-6 shadow-2xl relative">
             <button onclick="toggleRegisterForm()" class="absolute top-4 right-4 text-gray-400 hover:text-gray-600 text-xl cursor-pointer">
@@ -36,7 +35,7 @@
             <form id="profileForm" onsubmit="addNewProfile(event)" class="space-y-4">
                 <div>
                     <label class="block text-xs font-bold text-gray-600 mb-1">आपका नाम</label>
-                    <input type="text" id="regName" required placeholder="जैसे: अंजली, राहुल" class="w-full px-3 py-2 border border-gray-200 rounded-xl text-sm focus:outline-none focus:border-rose-500">
+                    <input type="text" id="regName" required placeholder="जैसे: अंजली" class="w-full px-3 py-2 border border-gray-200 rounded-xl text-sm focus:outline-none focus:border-rose-500">
                 </div>
                 <div class="grid grid-cols-2 gap-4">
                     <div>
@@ -51,11 +50,10 @@
                 <div>
                     <label class="block text-xs font-bold text-gray-600 mb-1">प्रोफाइल फोटो का लिंक (URL)</label>
                     <input type="url" id="regImg" placeholder="https://images.unsplash.com/..." class="w-full px-3 py-2 border border-gray-200 rounded-xl text-sm focus:outline-none focus:border-rose-500">
-                    <p class="text-[10px] text-gray-400 mt-0.5">*अभी के लिए आप कोई भी इंटरनेट फोटो लिंक डाल सकते हैं</p>
                 </div>
                 <div>
-                    <label class="block text-xs font-bold text-gray-600 mb-1">अपने बारे में कुछ लिखें (Bio)</label>
-                    <textarea id="regBio" required rows="2" placeholder="आपको क्या पसंद है? आप कैसी दोस्ती चाहते हैं..." class="w-full px-3 py-2 border border-gray-200 rounded-xl text-sm focus:outline-none focus:border-rose-500"></textarea>
+                    <label class="block text-xs font-bold text-gray-600 mb-1">अपने बारे में (Bio)</label>
+                    <textarea id="regBio" required rows="2" placeholder="आपको क्या पसंद है..." class="w-full px-3 py-2 border border-gray-200 rounded-xl text-sm focus:outline-none focus:border-rose-500"></textarea>
                 </div>
                 <button type="submit" class="w-full bg-rose-500 hover:bg-rose-600 text-white font-bold py-2.5 rounded-xl text-sm shadow-md transition">
                     प्रोफाइल लाइव करें ✨
@@ -64,41 +62,72 @@
         </div>
     </div>
 
-    <!-- 3. मुख्य बैनर -->
+    <!-- 3. लाइव चैट बॉक्स (Zomato Style Chat Window) -->
+    <div id="chatBox" class="fixed inset-x-0 bottom-0 bg-white z-50 rounded-t-3xl shadow-2xl border-t border-rose-100 hidden flex flex-col h-[70vh] md:max-w-md md:left-auto md:right-4 md:rounded-2xl md:bottom-20 md:h-[500px]">
+        <!-- चैट हेडर -->
+        <div class="bg-gradient-to-r from-rose-500 to-pink-500 text-white px-4 py-3 rounded-t-3xl md:rounded-t-2xl flex justify-between items-center shadow-md">
+            <div class="flex items-center gap-3">
+                <div class="w-9 h-9 rounded-full bg-white/20 overflow-hidden border border-white/40">
+                    <img id="chatUserImg" src="" class="w-full h-full object-cover">
+                </div>
+                <div>
+                    <h4 id="chatUserName" class="font-bold text-sm">User Chat</h4>
+                    <p class="text-[10px] text-green-200 flex items-center gap-1"><span class="w-1.5 h-1.5 bg-green-400 rounded-full animate-ping"></span> Online</p>
+                </div>
+            </div>
+            <button onclick="closeChat()" class="text-white hover:text-rose-100 text-xl cursor-pointer p-1">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+        </div>
+
+        <!-- मैसेज स्क्रीन -->
+        <div id="chatMessages" class="flex-1 p-4 overflow-y-auto space-y-3 bg-gray-50 text-sm">
+            <!-- यहाँ मैसेज दिखेंगे -->
+            <div class="bg-rose-100 text-gray-800 p-3 rounded-2xl rounded-tl-none max-w-[80%] self-start shadow-xs">
+                हेलो! मुझसे दोस्ती करने के लिए शुक्रिया। आप पानीपत में कहाँ से हैं? 😊
+            </div>
+        </div>
+
+        <!-- इनपुट बार -->
+        <form onsubmit="sendMessage(event)" class="p-3 border-t bg-white flex gap-2 items-center">
+            <input type="text" id="messageInput" required placeholder="Type a message..." class="flex-1 px-4 py-2 bg-gray-100 border border-transparent rounded-full text-sm focus:outline-none focus:bg-white focus:border-rose-500">
+            <button type="submit" class="bg-rose-500 hover:bg-rose-600 text-white w-9 h-9 rounded-full flex items-center justify-center shadow-md transition cursor-pointer">
+                <i class="fa-solid fa-paper-plane text-sm"></i>
+            </button>
+        </form>
+    </div>
+
+    <!-- 4. मुख्य हेडर बैनर -->
     <div class="px-4 py-8 text-center max-w-xl mx-auto">
         <h1 class="text-2xl md:text-3xl font-black text-gray-900 leading-tight">अपने आसपास नए दोस्त ढूंढें 🌟</h1>
         <p class="text-xs md:text-sm text-gray-500 mt-1.5">पानीपत में रहने वाले लोगों से सुरक्षित और आसान तरीके से जुड़ें</p>
     </div>
 
-    <!-- 4. प्रोफाइल्स एरिया -->
+    <!-- 5. प्रोफाइल्स एरिया -->
     <main class="max-w-4xl mx-auto px-4">
         <h2 class="text-sm font-bold text-gray-400 uppercase tracking-wider mb-4">Members Online Nearby</h2>
-        
-        <!-- यहाँ प्रोफाइल्स अपने आप लोड होंगी -->
         <div id="profileGrid" class="grid grid-cols-2 md:grid-cols-3 gap-4"></div>
     </main>
 
-    <!-- 5. बॉटम ऐप बार -->
+    <!-- 6. बॉटम ऐप बार -->
     <div class="fixed bottom-0 left-0 right-0 bg-white border-t border-rose-100 py-2.5 px-6 flex justify-around items-center z-40 shadow-lg">
         <button class="flex flex-col items-center gap-1 text-rose-500"><i class="fa-solid fa-users text-lg"></i><span class="text-[10px] font-bold">Discover</span></button>
-        <button class="flex flex-col items-center gap-1 text-gray-400 hover:text-rose-500"><i class="fa-solid fa-comments text-lg"></i><span class="text-[10px] font-medium">Chats</span></button>
+        <button onclick="alert('आपका इनबॉक्स अभी खाली है!')" class="flex flex-col items-center gap-1 text-gray-400 hover:text-rose-500"><i class="fa-solid fa-comments text-lg"></i><span class="text-[10px] font-medium">Chats</span></button>
         <button class="flex flex-col items-center gap-1 text-gray-400 hover:text-rose-500"><i class="fa-solid fa-user text-lg"></i><span class="text-[10px] font-medium">Profile</span></button>
     </div>
 
-    <!-- जावास्क्रिप्ट डेटाबेस लॉजिक -->
+    <!-- जावास्क्रिप्ट लॉजिक -->
     <script>
-        // शुरुआती डमी डेटाबेस
         let initialProfiles = [
             { name: "अपेक्षा", age: 22, loc: "Model Town", bio: "चाय और अच्छी बातचीत पसंद है। नए दोस्त बनाने के लिए यहाँ हूँ।", img: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=400" },
             { name: "कोमल", age: 24, loc: "GT Road", bio: "किताबें पढ़ना और संगीत सुनना पसंद है। सिर्फ अच्छे लोगों से दोस्ती।", img: "https://images.unsplash.com/photo-1524504388940-b1c1722653e1?w=400" }
         ];
 
-        // प्रोफाइल्स को स्क्रीन पर दिखाने का फंक्शन
         function displayProfiles() {
             const grid = document.getElementById('profileGrid');
-            grid.innerHTML = ""; // पुराना डेटा साफ़ करें
+            grid.innerHTML = ""; 
             
-            initialProfiles.forEach(p => {
+            initialProfiles.forEach((p, index) => {
                 grid.innerHTML += `
                     <div class="bg-white rounded-2xl p-3 shadow-xs border border-rose-50 flex flex-col justify-between">
                         <div class="relative rounded-xl overflow-hidden aspect-square bg-gray-100">
@@ -110,7 +139,7 @@
                             <p class="text-[11px] text-rose-600 font-medium mt-0.5"><i class="fa-solid fa-location-dot mr-0.5"></i> ${p.loc}</p>
                             <p class="text-xs text-gray-500 mt-1.5 line-clamp-2">"${p.bio}"</p>
                         </div>
-                        <button onclick="alert('${p.name} को आपका हैलो भेज दिया गया है!')" class="mt-3 w-full bg-rose-500 hover:bg-rose-600 text-white font-bold py-1.5 rounded-xl text-xs transition shadow-xs cursor-pointer">
+                        <button onclick="openChat('${p.name}', '${p.img}')" class="mt-3 w-full bg-rose-500 hover:bg-rose-600 text-white font-bold py-1.5 rounded-xl text-xs transition shadow-xs cursor-pointer">
                             <i class="fa-solid fa-message mr-1"></i> Say Hello
                         </button>
                     </div>
@@ -118,32 +147,64 @@
             });
         }
 
-        // फॉर्म खोलने/बंद करने का लॉजिक
         function toggleRegisterForm() {
-            const modal = document.getElementById('registerModal');
-            modal.classList.toggle('hidden');
+            document.getElementById('registerModal').classList.toggle('hidden');
         }
 
-        // नया प्रोफाइल जोड़ने का लॉजिक
         function addNewProfile(event) {
-            event.preventDefault(); // पेज रीलोड होने से रोकें
-            
+            event.preventDefault();
             const name = document.getElementById('regName').value;
             const age = document.getElementById('regAge').value;
             const loc = document.getElementById('regLoc').value;
             const img = document.getElementById('regImg').value;
             const bio = document.getElementById('regBio').value;
 
-            // डेटाबेस में नया ऑब्जेक्ट जोड़ना
             initialProfiles.unshift({ name, age, loc, bio, img });
-            
-            // स्क्रीन दोबारा अपडेट करना और फॉर्म बंद करना
             displayProfiles();
             toggleRegisterForm();
             document.getElementById('profileForm').reset();
         }
 
-        // पेज लोड होते ही प्रोफाइल्स दिखाना
+        // चैट बॉक्स ओपन करने का लॉजिक
+        function openChat(name, img) {
+            document.getElementById('chatUserName').innerText = name;
+            document.getElementById('chatUserImg').src = img || "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=400";
+            
+            const chatBox = document.getElementById('chatBox');
+            chatBox.classList.remove('hidden');
+            
+            // मैसेज रिसेट करना
+            document.getElementById('chatMessages').innerHTML = `
+                <div class="bg-white text-gray-700 p-3 rounded-2xl rounded-tl-none max-w-[80%] self-start border border-gray-100 shadow-xs">
+                    हेलो! मैं <b>${name}</b> हूँ। मुझसे बात शुरू करने के लिए शुक्रिया। 😊
+                </div>
+            `;
+        }
+
+        function closeChat() {
+            document.getElementById('chatBox').classList.add('hidden');
+        }
+
+        // मैसेज भेजने का लॉजिक
+        function sendMessage(event) {
+            event.preventDefault();
+            const input = document.getElementById('messageInput');
+            const msgText = input.value.trim();
+            if(!msgText) return;
+
+            const msgContainer = document.getElementById('chatMessages');
+
+            // यूज़र का मैसेज दाईं तरफ (Right Side) जोड़ना
+            msgContainer.innerHTML += `
+                <div class="bg-rose-500 text-white p-3 rounded-2xl rounded-tr-none max-w-[80%] ml-auto text-right shadow-xs">
+                    ${msgText}
+                </div>
+            `;
+
+            input.value = "";
+            msgContainer.scrollTop = msgContainer.scrollHeight; // ऑटो स्क्रॉल नीचे
+        }
+
         displayProfiles();
     </script>
 </body>
