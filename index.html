@@ -62,9 +62,8 @@
         </div>
     </div>
 
-    <!-- 3. लाइव चैट बॉक्स (Zomato Style Chat Window) -->
+    <!-- 3. लाइव चैट बॉक्स -->
     <div id="chatBox" class="fixed inset-x-0 bottom-0 bg-white z-50 rounded-t-3xl shadow-2xl border-t border-rose-100 hidden flex flex-col h-[70vh] md:max-w-md md:left-auto md:right-4 md:rounded-2xl md:bottom-20 md:h-[500px]">
-        <!-- चैट हेडर -->
         <div class="bg-gradient-to-r from-rose-500 to-pink-500 text-white px-4 py-3 rounded-t-3xl md:rounded-t-2xl flex justify-between items-center shadow-md">
             <div class="flex items-center gap-3">
                 <div class="w-9 h-9 rounded-full bg-white/20 overflow-hidden border border-white/40">
@@ -75,25 +74,14 @@
                     <p class="text-[10px] text-green-200 flex items-center gap-1"><span class="w-1.5 h-1.5 bg-green-400 rounded-full animate-ping"></span> Online</p>
                 </div>
             </div>
-            <button onclick="closeChat()" class="text-white hover:text-rose-100 text-xl cursor-pointer p-1">
-                <i class="fa-solid fa-xmark"></i>
-            </button>
+            <button onclick="closeChat()" class="text-white text-xl p-1"><i class="fa-solid fa-xmark"></i></button>
         </div>
 
-        <!-- मैसेज स्क्रीन -->
-        <div id="chatMessages" class="flex-1 p-4 overflow-y-auto space-y-3 bg-gray-50 text-sm">
-            <!-- यहाँ मैसेज दिखेंगे -->
-            <div class="bg-rose-100 text-gray-800 p-3 rounded-2xl rounded-tl-none max-w-[80%] self-start shadow-xs">
-                हेलो! मुझसे दोस्ती करने के लिए शुक्रिया। आप पानीपत में कहाँ से हैं? 😊
-            </div>
-        </div>
+        <div id="chatMessages" class="flex-1 p-4 overflow-y-auto space-y-3 bg-gray-50 text-sm"></div>
 
-        <!-- इनपुट बार -->
         <form onsubmit="sendMessage(event)" class="p-3 border-t bg-white flex gap-2 items-center">
             <input type="text" id="messageInput" required placeholder="Type a message..." class="flex-1 px-4 py-2 bg-gray-100 border border-transparent rounded-full text-sm focus:outline-none focus:bg-white focus:border-rose-500">
-            <button type="submit" class="bg-rose-500 hover:bg-rose-600 text-white w-9 h-9 rounded-full flex items-center justify-center shadow-md transition cursor-pointer">
-                <i class="fa-solid fa-paper-plane text-sm"></i>
-            </button>
+            <button type="submit" class="bg-rose-500 text-white w-9 h-9 rounded-full flex items-center justify-center shadow-md"><i class="fa-solid fa-paper-plane text-sm"></i></button>
         </form>
     </div>
 
@@ -116,18 +104,23 @@
         <button class="flex flex-col items-center gap-1 text-gray-400 hover:text-rose-500"><i class="fa-solid fa-user text-lg"></i><span class="text-[10px] font-medium">Profile</span></button>
     </div>
 
-    <!-- जावास्क्रिप्ट लॉजिक -->
+    <!-- जावास्क्रिप्ट लोकल डेटाबेस लॉजिक -->
     <script>
-        let initialProfiles = [
+        // शुरुआती डमी डेटा (अगर ब्राउज़र में कुछ सेव न हो)
+        const defaultProfiles = [
             { name: "अपेक्षा", age: 22, loc: "Model Town", bio: "चाय और अच्छी बातचीत पसंद है। नए दोस्त बनाने के लिए यहाँ हूँ।", img: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=400" },
             { name: "कोमल", age: 24, loc: "GT Road", bio: "किताबें पढ़ना और संगीत सुनना पसंद है। सिर्फ अच्छे लोगों से दोस्ती।", img: "https://images.unsplash.com/photo-1524504388940-b1c1722653e1?w=400" }
         ];
+
+        // LocalStorage से डेटा लोड करना
+        let storedProfiles = localStorage.getItem('panipat_profiles');
+        let initialProfiles = storedProfiles ? JSON.parse(storedProfiles) : defaultProfiles;
 
         function displayProfiles() {
             const grid = document.getElementById('profileGrid');
             grid.innerHTML = ""; 
             
-            initialProfiles.forEach((p, index) => {
+            initialProfiles.forEach((p) => {
                 grid.innerHTML += `
                     <div class="bg-white rounded-2xl p-3 shadow-xs border border-rose-50 flex flex-col justify-between">
                         <div class="relative rounded-xl overflow-hidden aspect-square bg-gray-100">
@@ -159,21 +152,21 @@
             const img = document.getElementById('regImg').value;
             const bio = document.getElementById('regBio').value;
 
+            // डेटा को एरे में सबसे ऊपर जोड़ना
             initialProfiles.unshift({ name, age, loc, bio, img });
+            
+            // ब्राउज़र की मेमोरी (LocalStorage) में परमानेंट सेव करना
+            localStorage.setItem('panipat_profiles', JSON.stringify(initialProfiles));
+
             displayProfiles();
             toggleRegisterForm();
             document.getElementById('profileForm').reset();
         }
 
-        // चैट बॉक्स ओपन करने का लॉजिक
         function openChat(name, img) {
             document.getElementById('chatUserName').innerText = name;
             document.getElementById('chatUserImg').src = img || "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=400";
-            
-            const chatBox = document.getElementById('chatBox');
-            chatBox.classList.remove('hidden');
-            
-            // मैसेज रिसेट करना
+            document.getElementById('chatBox').classList.remove('hidden');
             document.getElementById('chatMessages').innerHTML = `
                 <div class="bg-white text-gray-700 p-3 rounded-2xl rounded-tl-none max-w-[80%] self-start border border-gray-100 shadow-xs">
                     हेलो! मैं <b>${name}</b> हूँ। मुझसे बात शुरू करने के लिए शुक्रिया। 😊
@@ -185,7 +178,6 @@
             document.getElementById('chatBox').classList.add('hidden');
         }
 
-        // मैसेज भेजने का लॉजिक
         function sendMessage(event) {
             event.preventDefault();
             const input = document.getElementById('messageInput');
@@ -193,16 +185,13 @@
             if(!msgText) return;
 
             const msgContainer = document.getElementById('chatMessages');
-
-            // यूज़र का मैसेज दाईं तरफ (Right Side) जोड़ना
             msgContainer.innerHTML += `
                 <div class="bg-rose-500 text-white p-3 rounded-2xl rounded-tr-none max-w-[80%] ml-auto text-right shadow-xs">
                     ${msgText}
                 </div>
             `;
-
             input.value = "";
-            msgContainer.scrollTop = msgContainer.scrollHeight; // ऑटो स्क्रॉल नीचे
+            msgContainer.scrollTop = msgContainer.scrollHeight;
         }
 
         displayProfiles();
