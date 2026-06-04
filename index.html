@@ -3,179 +3,240 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Panipat Connect | Zomato Style Dating</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <title>Zomato Dating Prototype</title>
     <style>
-        /* जोमैटो का असली लाल रंग */
-        .zomato-red { background-color: #cb202d; }
-        .text-zomato { color: #cb202d; }
-        .border-zomato { border-color: #cb202d; }
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: Arial, sans-serif; }
+        body { background-color: #f8f8f8; display: flex; justify-content: center; padding: 20px; }
+        
+        /* मोबाइल स्क्रीन कंटेनर */
+        .phone-container { width: 360px; background: white; border: 10px solid #333; border-radius: 36px; height: 740px; position: relative; overflow: hidden; display: flex; flex-direction: column; box-shadow: 0 10px 25px rgba(0,0,0,0.2); }
+        
+        /* हेडर और ब्रांडिंग */
+        .header { padding: 15px; border-bottom: 1px solid #eee; text-align: center; background: #fff; }
+        .brand { color: #cb202d; font-size: 24px; font-weight: bold; }
+        .brand span { color: #333; font-size: 14px; font-weight: normal; }
+        
+        /* प्रोफाइल कार्ड एरिया */
+        .main-content { flex: 1; overflow-y: auto; padding: 15px; padding-bottom: 80px; }
+        .profile-card { background: white; border-radius: 16px; overflow: hidden; box-shadow: 0 4px 12px rgba(0,0,0,0.1); position: relative; margin-bottom: 20px; }
+        .profile-img { width: 100%; height: 320px; object-fit: cover; display: block; }
+        
+        /* फूड स्टाइल मैच स्कोर (4.4 स्टार की जगह) */
+        .match-score { position: absolute; top: 15px; right: 15px; background: #257d3d; color: white; padding: 4px 8px; border-radius: 6px; font-weight: bold; font-size: 14px; }
+        
+        .profile-info { padding: 15px; }
+        .profile-location { color: #cb202d; font-weight: bold; font-size: 14px; margin-bottom: 5px; }
+        .profile-bio { font-style: italic; color: #555; margin-bottom: 15px; }
+        
+        /* बटन स्टाइल्स */
+        .btn-chat { width: 100%; background: #cb202d; color: white; border: none; padding: 12px; border-radius: 8px; font-size: 16px; font-weight: bold; cursor: pointer; display: flex; justify-content: center; align-items: center; gap: 8px; }
+        .action-buttons { display: flex; justify-content: space-around; margin-top: 15px; }
+        .btn-action { width: 50px; height: 50px; border-radius: 50%; border: 2px solid #eee; background: white; font-size: 20px; cursor: pointer; transition: 0.2s; }
+        .btn-like:hover { background: #ffebee; border-color: #ff1744; }
+        
+        /* चैट बॉक्स (पॉप-अप विंडो) */
+        .chat-box { position: absolute; bottom: 60px; left: 0; width: 100%; height: 300px; background: white; border-top: 2px solid #eee; display: none; flex-direction: column; z-index: 10; }
+        .chat-header { background: #cb202d; color: white; padding: 10px; font-weight: bold; display: flex; justify-content: space-between; }
+        .chat-messages { flex: 1; padding: 10px; overflow-y: auto; font-size: 14px; background: #f9f9f9; }
+        .chat-input-area { display: flex; border-top: 1px solid #eee; }
+        .chat-input { flex: 1; padding: 10px; border: none; outline: none; }
+        .btn-send { background: #cb202d; color: white; border: none; padding: 10px 15px; cursor: pointer; }
+        
+        /* प्रोफाइल जोड़ने का फॉर्म (पॉप-अप) */
+        .form-box { position: absolute; top: 60px; left: 0; width: 100%; height: calc(100% - 120px); background: white; padding: 20px; display: none; z-index: 10; overflow-y: auto; }
+        .form-group { margin-bottom: 15px; }
+        .form-group label { display: block; margin-bottom: 5px; font-weight: bold; font-size: 14px; }
+        .form-group input, .form-group textarea { width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 6px; }
+        
+        /* बॉटम नेविगेशन बार */
+        .bottom-nav { position: absolute; bottom: 0; left: 0; width: 100%; height: 60px; background: white; border-top: 1px solid #eee; display: flex; justify-content: space-around; align-items: center; }
+        .nav-item { text-align: center; color: #666; cursor: pointer; font-size: 12px; }
+        .nav-item.active { color: #cb202d; font-weight: bold; }
+        .nav-icon { font-size: 20px; display: block; }
     </style>
 </head>
-<body class="bg-gray-100 min-h-screen text-gray-800 pb-24 font-sans">
+<body>
 
-    <!-- 1. जोमैटो स्टाइल टॉप सर्च बार और लोकेशन -->
-    <nav class="bg-white sticky top-0 z-50 px-4 py-3 shadow-xs border-b border-gray-100">
-        <div class="flex items-center justify-between mb-2">
-            <div class="flex items-center gap-1 text-xs font-bold text-gray-700">
-                <i class="fa-solid fa-location-dot text-zomato text-base animate-bounce"></i>
-                <div>
-                    <div>Model Town, Panipat</div>
-                    <div class="text-[10px] text-gray-400 font-normal">Near GT Road, Haryana</div>
-                </div>
-            </div>
-            <div class="text-2xl font-black italic tracking-tighter text-zomato">
-                zomato<span class="text-xs font-bold text-gray-900 not-italic tracking-normal">.dating</span>
-            </div>
-        </div>
-        <!-- नकली सर्च बार जैसे जोमैटो में होता है -->
-        <div class="w-full bg-gray-50 border border-gray-200 rounded-xl px-3 py-2 flex items-center gap-2 shadow-inner text-sm text-gray-400">
-            <i class="fa-solid fa-magnifying-glass text-zomato"></i>
-            <span>Search for new friends, age or location...</span>
-        </div>
-    </nav>
-
-    <!-- 2. जोमैटो कैटगरीज़ (Filters) -->
-    <div class="flex gap-2 px-4 py-3 overflow-x-auto bg-white border-b border-gray-100 text-xs font-medium whitespace-nowrap">
-        <span class="border border-gray-300 px-3 py-1.5 rounded-lg bg-gray-50 flex items-center gap-1 shadow-xs"><i class="fa-solid fa-sliders text-gray-500"></i> Filters</span>
-        <span class="border border-gray-300 px-3 py-1.5 rounded-lg bg-gray-50 flex items-center gap-1 text-zomato border-zomato font-bold">Online Nearby 🟢</span>
-        <span class="border border-gray-300 px-3 py-1.5 rounded-lg bg-gray-50">Rating 4.0+⭐</span>
-        <span class="border border-gray-300 px-3 py-1.5 rounded-lg bg-gray-50">New Profiles ✨</span>
+<div class="phone-container">
+    <div class="header">
+        <div class="brand">zomato<span>.dating</span></div>
     </div>
 
-    <!-- 3. मुख्य बॉडी - रेस्टोरेंट की तरह प्रोफाइल लिस्टिंग -->
-    <main class="max-w-md mx-auto px-4 py-4 space-y-6">
-        <h2 class="text-lg font-black text-gray-900 tracking-tight">50+ Dating Profiles around you in Panipat</h2>
-        
-        <!-- यहाँ जोमैटो जैसे फूड/प्रोफाइल कार्ड्स लोड होंगे -->
-        <div id="zomatoProfileGrid" class="space-y-6"></div>
-    </main>
+    <div class="main-content" id="profile-container">
+        </div>
 
-    <!-- 4. बॉटम ऐप बार (Zomato Style Navigation) -->
-    <div class="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 py-2 flex justify-around items-center z-50 shadow-xl">
-        <button class="flex flex-col items-center gap-0.5 text-zomato"><i class="fa-solid fa-bowl-food text-xl"></i><span class="text-[10px] font-bold">Dating</span></button>
-        <button onclick="toggleRegisterForm()" class="flex flex-col items-center gap-0.5 text-gray-400 hover:text-zomato"><i class="fa-solid fa-plus-minus text-xl"></i><span class="text-[10px] font-medium">Add Profile</span></button>
-        <button onclick="alert('Inboxed Messages are empty!')" class="flex flex-col items-center gap-0.5 text-gray-400 hover:text-zomato"><i class="fa-solid fa-message text-xl"></i><span class="text-[10px] font-medium">Chats</span></button>
-    </div>
-
-    <!-- 5. गुप्त रजिस्ट्रेशन फॉर्म -->
-    <div id="registerModal" class="fixed inset-0 bg-black/60 z-50 flex items-center justify-center hidden p-4">
-        <div class="bg-white w-full max-w-md rounded-2xl p-6 shadow-2xl relative">
-            <button onclick="toggleRegisterForm()" class="absolute top-4 right-4 text-gray-400 text-xl"><i class="fa-solid fa-xmark"></i></button>
-            <h3 class="text-xl font-black text-gray-900 text-center mb-4">जोमैटो डेटिंग पर रजिस्टर करें 🍕</h3>
-            <form id="profileForm" onsubmit="addNewProfile(event)" class="space-y-4">
-                <input type="text" id="regName" required placeholder="नाम" class="w-full px-4 py-2 bg-gray-50 border rounded-xl text-sm focus:border-zomato outline-none">
-                <div class="grid grid-cols-2 gap-4">
-                    <input type="number" id="regAge" required min="18" placeholder="उम्र (Age)" class="w-full px-4 py-2 bg-gray-50 border rounded-xl text-sm focus:border-zomato outline-none">
-                    <input type="text" id="regLoc" required placeholder="इलाका (जैसे: Model Town)" class="w-full px-4 py-2 bg-gray-50 border rounded-xl text-sm focus:border-zomato outline-none">
-                </div>
-                <input type="url" id="regImg" placeholder="फोटो लिंक (URL)" class="w-full px-4 py-2 bg-gray-50 border rounded-xl text-sm focus:border-zomato outline-none">
-                <textarea id="regBio" required rows="2" placeholder="Bio लिखें..." class="w-full px-4 py-2 bg-gray-50 border rounded-xl text-sm focus:border-zomato outline-none"></textarea>
-                <button type="submit" class="w-full text-white font-bold py-2.5 rounded-xl text-sm shadow-md zomato-red transition uppercase cursor-pointer">लाइव करें ✨</button>
-            </form>
+    <div class="chat-box" id="chatBox">
+        <div class="chat-header">
+            <span id="chatTargetName">चैट</span>
+            <span style="cursor:pointer" onclick="closeChat()">✕</span>
+        </div>
+        <div class="chat-messages" id="chatMessages"></div>
+        <div class="chat-input-area">
+            <input type="text" class="chat-input" id="chatInput" placeholder="मैसेज टाइप करें...">
+            <button class="btn-send" onclick="sendMessage()">भेजें</button>
         </div>
     </div>
 
-    <!-- डेटाबेस और जावास्क्रिप्ट लॉजिक -->
-    <script>
-        const defaultProfiles = [
-            { name: "कविता", age: 24, loc: "Model Town", bio: "सच्ची दोस्ती और अच्छी बातचीत के लिए यहाँ हूँ। 🌸", img: "https://images.unsplash.com/photo-1610030469668-93535c17b6b3?w=600", rating: "4.8", time: "10 min away" },
-            { name: "रीना", age: 26, loc: "Sukhdev Nagar", bio: "संगीत सुनना और नई जगहों पर घूमना पसंद है। 🎵", img: "https://images.unsplash.com/photo-1583391733956-3750e0ff4e8b?w=600", rating: "4.5", time: "15 min away" },
-            { name: "पायल", age: 23, loc: "Huda Sector", bio: "सिर्फ संस्कारी और अच्छे दोस्त कनेक्ट करें। 🙏", img: "https://images.unsplash.com/photo-1617627143750-d86bc21e42bb?w=600", rating: "4.9", time: "5 min away" },
-            { name: "अंजली", age: 25, loc: "Asandh Road", bio: "चाय और किताबें मेरी जिंदगी हैं। ☕📖", img: "https://images.unsplash.com/photo-1608963533926-a24a3f0f749c?w=600", rating: "4.2", time: "22 min away" },
-            { name: "आरती", age: 27, loc: "GT Road", bio: "लॉन्ग ड्राइव और अच्छे गानों की शौकीन। 🚗", img: "https://images.unsplash.com/photo-1596244509121-7290eb6ff99d?w=600", rating: "4.6", time: "18 min away" }
-        ];
+    <div class="form-box" id="formBox">
+        <h3 style="margin-bottom:15px; color:#cb202d;">नया प्रोफाइल जोड़ें</h3>
+        <div class="form-group">
+            <label>नाम</label>
+            <input type="text" id="newName" placeholder="जैसे: अंजली शर्मा">
+        </div>
+        <div class="form-group">
+            <label>लोकेशन / पता</label>
+            <input type="text" id="newLocation" placeholder="जैसे: मॉडल टाउन, पानीपत">
+        </div>
+        <div class="form-group">
+            <label>बायो (Bio)</label>
+            <textarea id="newBio" placeholder="अपने बारे में कुछ लिखें..."></textarea>
+        </div>
+        <div class="form-group">
+            <label>फोटो यूआरएल (Image URL)</label>
+            <input type="text" id="newImg" placeholder="https://picsum.photos/400/320 (या कोई भी लिंक)">
+        </div>
+        <button class="btn-chat" onclick="saveProfile()">प्रोफाइल सेव करें</button>
+    </div>
 
-        // 50 प्रोफाइल्स पूरी करने के लिए जोमैटो लूप डेटा
-        const areas = ["Model Town", "Huda", "Sukhdev Nagar", "GT Road", "Sec-11", "Sec-12", "Tehsil Camp", "Samalkha"];
-        const names = ["पिंकी", "शीतल", "सुमन", "तनु", "अंजू", "ममता", "रेनू", "किरण", "बरखा", "सपना", "चंचल", "कोमल", "लक्ष्मी", "दीक्षा", "श्वेता", "पल्लवी", "वर्षा", "निधि", "भावना", "काजल", "शिवानी"];
-        const bios = ["अच्छी बातें और सच्ची दोस्ती। ✨", "पानीपत से हूँ, सिर्फ साफ़-सुथरी बात। 🙏", "चाय और लॉन्ग ड्राइव लवर्स। ☕🚙", "म्यूज़िक सुनना पसंद है। 🎵"];
-        const images = [
-            "https://images.unsplash.com/photo-1610030469668-93535c17b6b3?w=600",
-            "https://images.unsplash.com/photo-1583391733956-3750e0ff4e8b?w=600",
-            "https://images.unsplash.com/photo-1617627143750-d86bc21e42bb?w=600",
-            "https://images.unsplash.com/photo-1608963533926-a24a3f0f749c?w=600"
-        ];
+    <div class="bottom-nav">
+        <div class="nav-item active" onclick="showTab('dating')">
+            <span class="nav-icon">❤️</span>Dating
+        </div>
+        <div class="nav-item" onclick="showTab('add')">
+            <span class="nav-icon">➕</span>Add Profile
+        </div>
+    </div>
+</div>
 
-        for(let i=0; i<45; i++) {
-            defaultProfiles.push({
-                name: names[i % names.length],
-                age: Math.floor(Math.random() * (28 - 21 + 1)) + 21,
-                loc: areas[i % areas.length],
-                bio: bios[i % bios.length],
-                img: images[i % images.length],
-                rating: (Math.random() * (5.0 - 4.0) + 4.0).toFixed(1),
-                time: (Math.floor(Math.random() * 45) + 5) + " min away"
-            });
+<script>
+    // 1. डेटाबेस (डमी प्रोफाइल्स की लिस्ट)
+    let profiles = [
+        {
+            name: "नेहा सिंह",
+            location: "मॉडल टाउन, पानीपत",
+            bio: "“ज़िंदादिल और खाने की शौकीन! चलो कहीं चाय पीते हैं।”",
+            score: "98% Match",
+            img: "https://picsum.photos/id/1025/400/320" // सैंपल फोटो
+        }
+    ];
+
+    let currentProfileIndex = 0;
+
+    // 2. स्क्रीन पर प्रोफाइल दिखाने का फंक्शन
+    function renderProfile() {
+        const container = document.getElementById('profile-container');
+        if (currentProfileIndex >= profiles.length) {
+            container.innerHTML = `<div style="text-align:center; margin-top:50px; color:#666;">
+                                    <h3>आसपास कोई और प्रोफाइल नहीं है!</h3>
+                                    <p>कृपया नया प्रोफाइल जोड़ें।</p>
+                                   </div>`;
+            return;
         }
 
-        let storedProfiles = localStorage.getItem('panipat_profiles');
-        let profiles = storedProfiles ? JSON.parse(storedProfiles) : defaultProfiles;
-
-        function displayZomatoProfiles() {
-            const container = document.getElementById('zomatoProfileGrid');
-            container.innerHTML = "";
-
-            profiles.forEach((p) => {
-                container.innerHTML += `
-                    <!-- जोमैटो स्टाइल रेस्टोरेंट/फूड कार्ड -->
-                    <div class="bg-white rounded-2xl overflow-hidden shadow-md border border-gray-100 hover:shadow-xl transition flex flex-col">
-                        <!-- खाने/लड़की की बड़ी फोटो -->
-                        <div class="relative w-full aspect-[4/3] bg-gray-100">
-                            <img src="${p.img}" class="w-full h-full object-cover">
-                            <!-- प्रो डिस्काउंट टैग की जगह एक्टिव टैग -->
-                            <span class="absolute bottom-3 left-3 bg-blue-600 text-white text-[10px] font-black px-2 py-1 rounded shadow-md uppercase tracking-wider">
-                                <i class="fa-solid fa-bolt"></i> Zomato Verified
-                            </span>
-                            <!-- रेटिंग बैज जोमैटो स्टाइल -->
-                            <span class="absolute top-3 right-3 bg-green-700 text-white text-xs font-bold px-1.5 py-0.5 rounded-md flex items-center gap-0.5 shadow-md">
-                                ${p.rating || '4.4'} <i class="fa-solid fa-star text-[10px]"></i>
-                            </span>
-                        </div>
-
-                        <!-- इन्फो एरिया -->
-                        <div class="p-4 flex-1 flex flex-col justify-between">
-                            <div>
-                                <div class="flex justify-between items-start">
-                                    <h3 class="text-lg font-bold text-gray-900 leading-tight">${p.name}, ${p.age}</h3>
-                                    <span class="text-xs font-bold text-gray-500 bg-gray-100 px-2 py-0.5 rounded-sm">${p.time || '20 min'}</span>
-                                </div>
-                                <p class="text-xs text-rose-600 font-semibold mt-1"><i class="fa-solid fa-location-dot"></i> ${p.loc}, Panipat</p>
-                                <p class="text-xs text-gray-500 italic mt-2 border-l-2 border-gray-200 pl-2">"${p.bio}"</p>
-                            </div>
-
-                            <!-- जोमैटो "Order Now" स्टाइल बटन -->
-                            <button onclick="alert('🔥 Order Placed! ${p.name} के साथ चैट बॉक्स जल्द ही खुलेगा।')" class="mt-4 w-full text-white font-black py-2.5 rounded-xl text-xs transition uppercase shadow-md zomato-red hover:bg-[#b01b26] cursor-pointer tracking-wider text-center block">
-                                <i class="fa-solid fa-fire mr-1"></i> Say Hello & Chat Now
-                            </button>
-                        </div>
+        let p = profiles[currentProfileIndex];
+        container.innerHTML = `
+            <div class="profile-card">
+                <img src="${p.img}" class="profile-img" alt="Profile">
+                <div class="match-score">${p.score}</div>
+                <div class="profile-info">
+                    <h3 style="margin-bottom:5px;">${p.name}</h3>
+                    <div class="profile-location">📍 ${p.location}</div>
+                    <div class="profile-bio">${p.bio}</div>
+                    
+                    <button class="btn-chat" onclick="openChat('${p.name}')">🔥 SAY HELLO & CHAT NOW</button>
+                    
+                    <div class="action-buttons">
+                        <button class="btn-action" onclick="nextProfile()">❌</button>
+                        <button class="btn-action btn-like" onclick="likeProfile('${p.name}')">❤️</button>
                     </div>
-                `;
-            });
+                </div>
+            </div>
+        `;
+    }
+
+    // 3. लाइक और नेक्स्ट लॉजिक
+    function nextProfile() {
+        currentProfileIndex++;
+        renderProfile();
+    }
+
+    function likeProfile(name) {
+        alert(`आपने ${name} को लाइक किया! It's a Match! अब आप चैट कर सकते हैं।`);
+        openChat(name);
+    }
+
+    // 4. चैट सिस्टम लॉजिक
+    function openChat(name) {
+        document.getElementById('chatTargetName').innerText = name;
+        document.getElementById('chatBox').style.display = 'flex';
+        document.getElementById('chatMessages').innerHTML = `<div style="color:#888; text-align:center;">सफलतापूर्वक मैच हुआ! बातचीत शुरू करें।</div>`;
+    }
+
+    function closeChat() {
+        document.getElementById('chatBox').style.display = 'none';
+    }
+
+    function sendMessage() {
+        let input = document.getElementById('chatInput');
+        let msgText = input.value.trim();
+        if(msgText === "") return;
+
+        let msgDiv = document.getElementById('chatMessages');
+        // यूजर का मैसेज
+        msgDiv.innerHTML += `<div style="text-align:right; margin: 5px 0;"><span style="background:#cb202d; color:white; padding:6px 12px; border-radius:12px; display:inline-block;">${msgText}</span></div>`;
+        input.value = "";
+
+        // ऑटोमैटिक जवाब (बॉट लॉजिक)
+        setTimeout(() => {
+            msgDiv.innerHTML += `<div style="text-align:left; margin: 5px 0;"><span style="background:#eee; color:#333; padding:6px 12px; border-radius:12px; display:inline-block;">हेलो! आपसे बात करके अच्छा लगा। 😊</span></div>`;
+            msgDiv.scrollTop = msgDiv.scrollHeight; // स्क्रॉल नीचे करें
+        }, 1000);
+    }
+
+    // 5. टैब बदलना और नया प्रोफाइल सेव करना
+    function showTab(tab) {
+        if(tab === 'dating') {
+            document.getElementById('formBox').style.display = 'none';
+            closeChat();
+        } else if(tab === 'add') {
+            document.getElementById('formBox').style.display = 'block';
+            closeChat();
+        }
+    }
+
+    function saveProfile() {
+        let name = document.getElementById('newName').value;
+        let loc = document.getElementById('newLocation').value;
+        let bio = document.getElementById('newBio').value;
+        let img = document.getElementById('newImg').value || "https://picsum.photos/400/320";
+
+        if(!name || !loc || !bio) {
+            alert("कृपया सभी जानकारियां भरें!");
+            return;
         }
 
-        function toggleRegisterForm() {
-            document.getElementById('registerModal').classList.toggle('hidden');
-        }
+        // लिस्ट में नया प्रोफाइल जोड़ना
+        profiles.push({
+            name: name,
+            location: loc,
+            bio: `“${bio}”`,
+            score: "95% Match",
+            img: img
+        });
 
-        function addNewProfile(event) {
-            event.preventDefault();
-            const name = document.getElementById('regName').value;
-            const age = document.getElementById('regAge').value;
-            const loc = document.getElementById('regLoc').value;
-            const img = document.getElementById('regImg').value || images[0];
-            const bio = document.getElementById('regBio').value;
+        alert("नया प्रोफाइल सफलतापूर्वक जोड़ दिया गया है!");
+        
+        // फॉर्म रीसेट करें और डेटिंग स्क्रीन पर लौटें
+        document.getElementById('newName').value = "";
+        document.getElementById('newLocation').value = "";
+        document.getElementById('newBio').value = "";
+        showTab('dating');
+        renderProfile();
+    }
 
-            profiles.unshift({ name, age, loc, bio, img, rating: "5.0", time: "Just Now" });
-            localStorage.setItem('panipat_profiles', JSON.stringify(profiles));
+    // पहली बार में प्रोफाइल लोड करना
+    renderProfile();
+</script>
 
-            displayZomatoProfiles();
-            toggleRegisterForm();
-            document.getElementById('profileForm').reset();
-        }
-
-        displayZomatoProfiles();
-    </script>
 </body>
 </html>
