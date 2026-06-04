@@ -3,186 +3,156 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Panipat Connect | Tinder Style</title>
+    <title>Panipat Connect | Zomato Style Dating</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        .tinder-gradient {
-            background: linear-gradient(135deg, #fd267d 0%, #ff7854 100%);
-        }
+        /* जोमैटो का असली लाल रंग */
+        .zomato-red { background-color: #cb202d; }
+        .text-zomato { color: #cb202d; }
+        .border-zomato { border-color: #cb202d; }
     </style>
 </head>
-<body class="bg-gray-100 min-h-screen flex flex-col justify-between overflow-hidden font-sans">
+<body class="bg-gray-100 min-h-screen text-gray-800 pb-24 font-sans">
 
-    <!-- 1. टॉप हेडर -->
-    <header class="bg-white shadow-xs px-4 py-3 flex items-center justify-between border-b border-gray-200">
-        <button onclick="toggleRegisterForm()" class="text-gray-400 hover:text-gray-600 text-xl cursor-pointer">
-            <i class="fa-solid fa-user-plus"></i>
-        </button>
-        <div class="text-2xl font-black tracking-tighter text-transparent bg-clip-text tinder-gradient">
-            <i class="fa-solid fa-fire mr-1"></i>tinder<span class="text-xs font-bold text-gray-400 tracking-normal">.panipat</span>
+    <!-- 1. जोमैटो स्टाइल टॉप सर्च बार और लोकेशन -->
+    <nav class="bg-white sticky top-0 z-50 px-4 py-3 shadow-xs border-b border-gray-100">
+        <div class="flex items-center justify-between mb-2">
+            <div class="flex items-center gap-1 text-xs font-bold text-gray-700">
+                <i class="fa-solid fa-location-dot text-zomato text-base animate-bounce"></i>
+                <div>
+                    <div>Model Town, Panipat</div>
+                    <div class="text-[10px] text-gray-400 font-normal">Near GT Road, Haryana</div>
+                </div>
+            </div>
+            <div class="text-2xl font-black italic tracking-tighter text-zomato">
+                zomato<span class="text-xs font-bold text-gray-900 not-italic tracking-normal">.dating</span>
+            </div>
         </div>
-        <button onclick="alert('इनबॉक्स अभी खाली है!')" class="text-gray-400 hover:text-gray-600 text-xl cursor-pointer">
-            <i class="fa-solid fa-comments"></i>
-        </button>
-    </header>
+        <!-- नकली सर्च बार जैसे जोमैटो में होता है -->
+        <div class="w-full bg-gray-50 border border-gray-200 rounded-xl px-3 py-2 flex items-center gap-2 shadow-inner text-sm text-gray-400">
+            <i class="fa-solid fa-magnifying-glass text-zomato"></i>
+            <span>Search for new friends, age or location...</span>
+        </div>
+    </nav>
 
-    <!-- 2. रजिस्ट्रेशन फॉर्म -->
-    <div id="registerModal" class="fixed inset-0 bg-black/70 z-50 flex items-center justify-center hidden p-4">
-        <div class="bg-white w-full max-w-md rounded-3xl p-6 shadow-2xl relative">
-            <button onclick="toggleRegisterForm()" class="absolute top-4 right-4 text-gray-400 hover:text-gray-600 text-xl cursor-pointer">
-                <i class="fa-solid fa-xmark"></i>
-            </button>
-            <h3 class="text-xl font-black text-gray-900 mb-1 text-center">Tinder प्रोफाइल बनाएं 🔥</h3>
-            
-            <form id="profileForm" onsubmit="addNewProfile(event)" class="space-y-4 mt-4">
-                <div>
-                    <label class="block text-xs font-bold text-gray-500 uppercase mb-1">आपका नाम</label>
-                    <input type="text" id="regName" required placeholder="जैसे: अंजली" class="w-full px-4 py-2.5 bg-gray-50 border border-gray-200 rounded-full text-sm focus:outline-none focus:border-[#fd267d]">
-                </div>
+    <!-- 2. जोमैटो कैटगरीज़ (Filters) -->
+    <div class="flex gap-2 px-4 py-3 overflow-x-auto bg-white border-b border-gray-100 text-xs font-medium whitespace-nowrap">
+        <span class="border border-gray-300 px-3 py-1.5 rounded-lg bg-gray-50 flex items-center gap-1 shadow-xs"><i class="fa-solid fa-sliders text-gray-500"></i> Filters</span>
+        <span class="border border-gray-300 px-3 py-1.5 rounded-lg bg-gray-50 flex items-center gap-1 text-zomato border-zomato font-bold">Online Nearby 🟢</span>
+        <span class="border border-gray-300 px-3 py-1.5 rounded-lg bg-gray-50">Rating 4.0+⭐</span>
+        <span class="border border-gray-300 px-3 py-1.5 rounded-lg bg-gray-50">New Profiles ✨</span>
+    </div>
+
+    <!-- 3. मुख्य बॉडी - रेस्टोरेंट की तरह प्रोफाइल लिस्टिंग -->
+    <main class="max-w-md mx-auto px-4 py-4 space-y-6">
+        <h2 class="text-lg font-black text-gray-900 tracking-tight">50+ Dating Profiles around you in Panipat</h2>
+        
+        <!-- यहाँ जोमैटो जैसे फूड/प्रोफाइल कार्ड्स लोड होंगे -->
+        <div id="zomatoProfileGrid" class="space-y-6"></div>
+    </main>
+
+    <!-- 4. बॉटम ऐप बार (Zomato Style Navigation) -->
+    <div class="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 py-2 flex justify-around items-center z-50 shadow-xl">
+        <button class="flex flex-col items-center gap-0.5 text-zomato"><i class="fa-solid fa-bowl-food text-xl"></i><span class="text-[10px] font-bold">Dating</span></button>
+        <button onclick="toggleRegisterForm()" class="flex flex-col items-center gap-0.5 text-gray-400 hover:text-zomato"><i class="fa-solid fa-plus-minus text-xl"></i><span class="text-[10px] font-medium">Add Profile</span></button>
+        <button onclick="alert('Inboxed Messages are empty!')" class="flex flex-col items-center gap-0.5 text-gray-400 hover:text-zomato"><i class="fa-solid fa-message text-xl"></i><span class="text-[10px] font-medium">Chats</span></button>
+    </div>
+
+    <!-- 5. गुप्त रजिस्ट्रेशन फॉर्म -->
+    <div id="registerModal" class="fixed inset-0 bg-black/60 z-50 flex items-center justify-center hidden p-4">
+        <div class="bg-white w-full max-w-md rounded-2xl p-6 shadow-2xl relative">
+            <button onclick="toggleRegisterForm()" class="absolute top-4 right-4 text-gray-400 text-xl"><i class="fa-solid fa-xmark"></i></button>
+            <h3 class="text-xl font-black text-gray-900 text-center mb-4">जोमैटो डेटिंग पर रजिस्टर करें 🍕</h3>
+            <form id="profileForm" onsubmit="addNewProfile(event)" class="space-y-4">
+                <input type="text" id="regName" required placeholder="नाम" class="w-full px-4 py-2 bg-gray-50 border rounded-xl text-sm focus:border-zomato outline-none">
                 <div class="grid grid-cols-2 gap-4">
-                    <div>
-                        <label class="block text-xs font-bold text-gray-500 uppercase mb-1">उम्र (Age)</label>
-                        <input type="number" id="regAge" required min="18" placeholder="22" class="w-full px-4 py-2.5 bg-gray-50 border border-gray-200 rounded-full text-sm focus:outline-none focus:border-[#fd267d]">
-                    </div>
-                    <div>
-                        <label class="block text-xs font-bold text-gray-500 uppercase mb-1">लोकेशन (पानीपत)</label>
-                        <input type="text" id="regLoc" required placeholder="जैसे: Model Town" class="w-full px-4 py-2.5 bg-gray-50 border border-gray-200 rounded-full text-sm focus:outline-none focus:border-[#fd267d]">
-                    </div>
+                    <input type="number" id="regAge" required min="18" placeholder="उम्र (Age)" class="w-full px-4 py-2 bg-gray-50 border rounded-xl text-sm focus:border-zomato outline-none">
+                    <input type="text" id="regLoc" required placeholder="इलाका (जैसे: Model Town)" class="w-full px-4 py-2 bg-gray-50 border rounded-xl text-sm focus:border-zomato outline-none">
                 </div>
-                <div>
-                    <label class="block text-xs font-bold text-gray-500 uppercase mb-1">फोटो लिंक (URL)</label>
-                    <input type="url" id="regImg" placeholder="https://images.unsplash.com/..." class="w-full px-4 py-2.5 bg-gray-50 border border-gray-200 rounded-full text-sm focus:outline-none focus:border-[#fd267d]">
-                </div>
-                <div>
-                    <label class="block text-xs font-bold text-gray-500 uppercase mb-1">आपके बारे में (Bio)</label>
-                    <textarea id="regBio" required rows="2" placeholder="Bio लिखें..." class="w-full px-4 py-2.5 bg-gray-50 border border-gray-200 rounded-2xl text-sm focus:outline-none focus:border-[#fd267d]"></textarea>
-                </div>
-                <button type="submit" class="w-full text-white font-bold py-3 rounded-full text-sm shadow-md tinder-gradient uppercase tracking-wider cursor-pointer">
-                    प्रोफाइल लाइव करें ✨
-                </button>
+                <input type="url" id="regImg" placeholder="फोटो लिंक (URL)" class="w-full px-4 py-2 bg-gray-50 border rounded-xl text-sm focus:border-zomato outline-none">
+                <textarea id="regBio" required rows="2" placeholder="Bio लिखें..." class="w-full px-4 py-2 bg-gray-50 border rounded-xl text-sm focus:border-zomato outline-none"></textarea>
+                <button type="submit" class="w-full text-white font-bold py-2.5 rounded-xl text-sm shadow-md zomato-red transition uppercase cursor-pointer">लाइव करें ✨</button>
             </form>
         </div>
     </div>
 
-    <!-- 3. स्वाइप कार्ड एरिया -->
-    <main class="flex-1 flex items-center justify-center p-4 relative w-full max-w-sm mx-auto">
-        <div id="cardContainer" class="relative w-full aspect-[3/4] max-h-[70vh]"></div>
-    </main>
-
-    <!-- 4. एक्शन बटन्स -->
-    <div class="pb-8 pt-2 flex justify-center items-center gap-4 w-full">
-        <button onclick="resetProfiles()" class="w-12 h-12 rounded-full bg-white shadow-md flex items-center justify-center text-yellow-500 text-lg hover:scale-105 active:scale-95 transition cursor-pointer">
-            <i class="fa-solid fa-rotate-left"></i>
-        </button>
-        <button onclick="handleAction('dislike')" class="w-16 h-16 rounded-full bg-white shadow-lg flex items-center justify-center text-red-500 text-2xl hover:scale-105 active:scale-95 transition border border-gray-100 cursor-pointer">
-            <i class="fa-solid fa-xmark"></i>
-        </button>
-        <button onclick="handleAction('superlike')" class="w-12 h-12 rounded-full bg-white shadow-md flex items-center justify-center text-blue-400 text-lg hover:scale-105 active:scale-95 transition cursor-pointer">
-            <i class="fa-solid fa-star"></i>
-        </button>
-        <button onclick="handleAction('like')" class="w-16 h-16 rounded-full bg-white shadow-lg flex items-center justify-center text-green-500 text-2xl hover:scale-105 active:scale-95 transition border border-gray-100 cursor-pointer">
-            <i class="fa-solid fa-heart"></i>
-        </button>
-    </div>
-
-    <!-- 50 प्रोफाइल्स का जावास्क्रिप्ट डेटाबेस -->
+    <!-- डेटाबेस और जावास्क्रिप्ट लॉजिक -->
     <script>
         const defaultProfiles = [
-            { name: "कविता", age: 24, loc: "Model Town", bio: "सच्ची दोस्ती और अच्छी बातचीत के लिए यहाँ हूँ। 🌸", img: "https://images.unsplash.com/photo-1610030469668-93535c17b6b3?w=500" },
-            { name: "रीना", age: 26, loc: "Sukhdev Nagar", bio: "संगीत सुनना और नई जगहों पर घूमना पसंद है। 🎵", img: "https://images.unsplash.com/photo-1583391733956-3750e0ff4e8b?w=500" },
-            { name: "पायल", age: 23, loc: "Huda Sector", bio: "सिर्फ संस्कारी और अच्छे दोस्त कनेक्ट करें। 🙏", img: "https://images.unsplash.com/photo-1617627143750-d86bc21e42bb?w=500" },
-            { name: "अंजली", age: 25, loc: "Asandh Road", bio: "चाय और किताबें मेरी जिंदगी हैं। ☕📖", img: "https://images.unsplash.com/photo-1608963533926-a24a3f0f749c?w=500" },
-            { name: "आरती", age: 27, loc: "GT Road", bio: "लॉन्ग ड्राइव और अच्छे गानों की शौकीन। 🚗", img: "https://images.unsplash.com/photo-1596244509121-7290eb6ff99d?w=500" },
-            { name: "मोनिका", age: 24, loc: "Tehsil Camp", bio: "पानीपत से हूँ। पॉजिटिव सोच वाले लोग ही मैसेज करें। ✨", img: "https://images.unsplash.com/photo-1604176354204-9268737828e4?w=500" },
-            { name: "दीपिका", age: 26, loc: "Sec-11", bio: "सादगी ही सबसे सुंदर आभूषण है। 💫", img: "https://images.unsplash.com/photo-1614089145366-51969a572a80?w=500" },
-            { name: "संजू", age: 28, loc: "Samalkha", bio: "सिर्फ गंभीर और सम्मानजनक बातचीत पसंद है।", img: "https://images.unsplash.com/photo-1621184455862-c163dfb30e0f?w=500" },
-            { name: "नीलम", age: 25, loc: "Gharaunda", bio: "हँसते रहना और खुशियाँ बाँटना मेरी आदत है। 😊", img: "https://images.unsplash.com/photo-1619551734325-81aaf323686c?w=500" },
-            { name: "ज्योति", age: 22, loc: "Model Town", bio: "नये दोस्त बनाने और गपशप करने के लिए यहाँ हूँ।", img: "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=500" },
-            { name: "पूनम", age: 27, loc: "Industrial Area", bio: "सादा जीवन, उच्च विचार। 🌟", img: "https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=500" },
-            { name: "रूही", age: 24, loc: "Chandni Bagh", bio: "लाइफ में हमेशा खुश रहना चाहिए। 🌸", img: "https://images.unsplash.com/photo-1551836022-d5d88e9218df?w=500" },
-            { name: "मीनाक्षी", age: 26, loc: "Sanjay Chowk", bio: "मुझे खाना बनाना और नए पकवान ट्राई करना पसंद है। 🍳", img: "https://images.unsplash.com/photo-1567532939604-b6b5b0db2604?w=500" },
-            { name: "सोनिया", age: 23, loc: "Sec-12", bio: "डांस और संगीत मेरी आत्मा हैं। 💃🎵", img: "https://images.unsplash.com/photo-1531746020798-e6953c6e8e04?w=500" },
-            { name: "मनीषा", age: 25, loc: "Quilla", bio: "ईमानदार लोग ही दोस्ती के लिए हाथ बढ़ाएं। 👍", img: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=500" },
-            { name: "प्रिया", age: 22, loc: "Bapoli", bio: "नेचर लवर और ट्रेवलर। प्रकृति से प्यार है। 🌲", img: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=500" },
-            { name: "नेहा", age: 24, loc: "Madlauda", bio: "जिंदगी एक खूबसूरत सफर है। 🚲", img: "https://images.unsplash.com/photo-1524504388940-b1c1722653e1?w=500" },
-            { name: "खुशबू", age: 26, loc: "Sec-6", bio: "परफेक्ट फ्रेंडशिप की तलाश में। ✨", img: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=500" },
-            { name: "प्रीति", age: 23, loc: "Sec-25", bio: "हमेशा मुस्कुराते रहो। यही मेरी लाइफ का मंत्र है।", img: "https://images.unsplash.com/photo-1488426862026-3ee34a7d66df?w=500" },
-            { name: "श्वेता", age: 25, loc: "Khatraon", bio: "सिर्फ अच्छे व्यवहार वाले लोगों का स्वागत है।", img: "https://images.unsplash.com/photo-1571513722275-4b41940f54b8?w=500" },
-            // बाकी 30 प्रोफाइल्स भी इसी तरह रैंडम इमेज और डिटेल्स के साथ लूप में सेट हैं ताकि कोड ज्यादा बड़ा न हो
+            { name: "कविता", age: 24, loc: "Model Town", bio: "सच्ची दोस्ती और अच्छी बातचीत के लिए यहाँ हूँ। 🌸", img: "https://images.unsplash.com/photo-1610030469668-93535c17b6b3?w=600", rating: "4.8", time: "10 min away" },
+            { name: "रीना", age: 26, loc: "Sukhdev Nagar", bio: "संगीत सुनना और नई जगहों पर घूमना पसंद है। 🎵", img: "https://images.unsplash.com/photo-1583391733956-3750e0ff4e8b?w=600", rating: "4.5", time: "15 min away" },
+            { name: "पायल", age: 23, loc: "Huda Sector", bio: "सिर्फ संस्कारी और अच्छे दोस्त कनेक्ट करें। 🙏", img: "https://images.unsplash.com/photo-1617627143750-d86bc21e42bb?w=600", rating: "4.9", time: "5 min away" },
+            { name: "अंजली", age: 25, loc: "Asandh Road", bio: "चाय और किताबें मेरी जिंदगी हैं। ☕📖", img: "https://images.unsplash.com/photo-1608963533926-a24a3f0f749c?w=600", rating: "4.2", time: "22 min away" },
+            { name: "आरती", age: 27, loc: "GT Road", bio: "लॉन्ग ड्राइव और अच्छे गानों की शौकीन। 🚗", img: "https://images.unsplash.com/photo-1596244509121-7290eb6ff99d?w=600", rating: "4.6", time: "18 min away" }
         ];
 
-        // 50 प्रोफाइल्स पूरी करने के लिए बाकी 30 रैंडम जनरेटेड डेटा
-        const areas = ["Model Town", "Huda", "Sukhdev Nagar", "GT Road", "Sec-11", "Sec-12", "Tehsil Camp", "Sanoli Road"];
-        const names = ["पिंकी", "शीतल", "सुमन", "तनु", "अंजू", "ममता", "रेनू", "किरण", "बरखा", "सपना", "चंचल", "कोमल", "लक्ष्मी", "दीक्षा", "श्वेता", "पल्लवी", "वर्षा", "निधि", "भावना", "काजल", "शिवानी", "शिवी", "अनु", "रिया", "ईशा", "मुस्कान", "प्रतीक्षा", "साक्षी", "रूपाली", "कोयल"];
-        const bios = ["अच्छी बातें और सच्ची दोस्ती। ✨", "पानीपत से हूँ, सिर्फ साफ़-सुथरी बात। 🙏", "चाय और लॉन्ग ड्राइव लवर्स। ☕🚙", "म्यूज़िक सुनना पसंद है। 🎵", "लाइफ को खुलकर जीना पसंद है। 😊"];
+        // 50 प्रोफाइल्स पूरी करने के लिए जोमैटो लूप डेटा
+        const areas = ["Model Town", "Huda", "Sukhdev Nagar", "GT Road", "Sec-11", "Sec-12", "Tehsil Camp", "Samalkha"];
+        const names = ["पिंकी", "शीतल", "सुमन", "तनु", "अंजू", "ममता", "रेनू", "किरण", "बरखा", "सपना", "चंचल", "कोमल", "लक्ष्मी", "दीक्षा", "श्वेता", "पल्लवी", "वर्षा", "निधि", "भावना", "काजल", "शिवानी"];
+        const bios = ["अच्छी बातें और सच्ची दोस्ती। ✨", "पानीपत से हूँ, सिर्फ साफ़-सुथरी बात। 🙏", "चाय और लॉन्ग ड्राइव लवर्स। ☕🚙", "म्यूज़िक सुनना पसंद है। 🎵"];
         const images = [
-            "https://images.unsplash.com/photo-1610030469668-93535c17b6b3?w=500",
-            "https://images.unsplash.com/photo-1583391733956-3750e0ff4e8b?w=500",
-            "https://images.unsplash.com/photo-1617627143750-d86bc21e42bb?w=500",
-            "https://images.unsplash.com/photo-1608963533926-a24a3f0f749c?w=500"
+            "https://images.unsplash.com/photo-1610030469668-93535c17b6b3?w=600",
+            "https://images.unsplash.com/photo-1583391733956-3750e0ff4e8b?w=600",
+            "https://images.unsplash.com/photo-1617627143750-d86bc21e42bb?w=600",
+            "https://images.unsplash.com/photo-1608963533926-a24a3f0f749c?w=600"
         ];
 
-        for(let i=0; i<30; i++) {
+        for(let i=0; i<45; i++) {
             defaultProfiles.push({
                 name: names[i % names.length],
                 age: Math.floor(Math.random() * (28 - 21 + 1)) + 21,
                 loc: areas[i % areas.length],
                 bio: bios[i % bios.length],
-                img: images[i % images.length]
+                img: images[i % images.length],
+                rating: (Math.random() * (5.0 - 4.0) + 4.0).toFixed(1),
+                time: (Math.floor(Math.random() * 45) + 5) + " min away"
             });
         }
 
         let storedProfiles = localStorage.getItem('panipat_profiles');
         let profiles = storedProfiles ? JSON.parse(storedProfiles) : defaultProfiles;
-        let currentIndex = 0;
 
-        function loadCard() {
-            const container = document.getElementById('cardContainer');
-            if (currentIndex >= profiles.length) {
-                container.innerHTML = `
-                    <div class="absolute inset-0 bg-white rounded-3xl shadow-xl border border-gray-100 flex flex-col items-center justify-center p-6 text-center">
-                        <div class="text-5xl mb-4">🎉</div>
-                        <h3 class="font-black text-xl text-gray-800">सभी 50 प्रोफाइल्स खत्म!</h3>
-                        <p class="text-xs text-gray-400 mt-2">दोबारा देखने के लिए नीचे दिए गए पीले रीवाइंड बटन को दबाएं।</p>
+        function displayZomatoProfiles() {
+            const container = document.getElementById('zomatoProfileGrid');
+            container.innerHTML = "";
+
+            profiles.forEach((p) => {
+                container.innerHTML += `
+                    <!-- जोमैटो स्टाइल रेस्टोरेंट/फूड कार्ड -->
+                    <div class="bg-white rounded-2xl overflow-hidden shadow-md border border-gray-100 hover:shadow-xl transition flex flex-col">
+                        <!-- खाने/लड़की की बड़ी फोटो -->
+                        <div class="relative w-full aspect-[4/3] bg-gray-100">
+                            <img src="${p.img}" class="w-full h-full object-cover">
+                            <!-- प्रो डिस्काउंट टैग की जगह एक्टिव टैग -->
+                            <span class="absolute bottom-3 left-3 bg-blue-600 text-white text-[10px] font-black px-2 py-1 rounded shadow-md uppercase tracking-wider">
+                                <i class="fa-solid fa-bolt"></i> Zomato Verified
+                            </span>
+                            <!-- रेटिंग बैज जोमैटो स्टाइल -->
+                            <span class="absolute top-3 right-3 bg-green-700 text-white text-xs font-bold px-1.5 py-0.5 rounded-md flex items-center gap-0.5 shadow-md">
+                                ${p.rating || '4.4'} <i class="fa-solid fa-star text-[10px]"></i>
+                            </span>
+                        </div>
+
+                        <!-- इन्फो एरिया -->
+                        <div class="p-4 flex-1 flex flex-col justify-between">
+                            <div>
+                                <div class="flex justify-between items-start">
+                                    <h3 class="text-lg font-bold text-gray-900 leading-tight">${p.name}, ${p.age}</h3>
+                                    <span class="text-xs font-bold text-gray-500 bg-gray-100 px-2 py-0.5 rounded-sm">${p.time || '20 min'}</span>
+                                </div>
+                                <p class="text-xs text-rose-600 font-semibold mt-1"><i class="fa-solid fa-location-dot"></i> ${p.loc}, Panipat</p>
+                                <p class="text-xs text-gray-500 italic mt-2 border-l-2 border-gray-200 pl-2">"${p.bio}"</p>
+                            </div>
+
+                            <!-- जोमैटो "Order Now" स्टाइल बटन -->
+                            <button onclick="alert('🔥 Order Placed! ${p.name} के साथ चैट बॉक्स जल्द ही खुलेगा।')" class="mt-4 w-full text-white font-black py-2.5 rounded-xl text-xs transition uppercase shadow-md zomato-red hover:bg-[#b01b26] cursor-pointer tracking-wider text-center block">
+                                <i class="fa-solid fa-fire mr-1"></i> Say Hello & Chat Now
+                            </button>
+                        </div>
                     </div>
                 `;
-                return;
-            }
-
-            const p = profiles[currentIndex];
-            container.innerHTML = `
-                <div class="absolute inset-0 bg-white rounded-3xl shadow-2xl overflow-hidden border border-gray-100 flex flex-col justify-end">
-                    <img src="${p.img}" class="absolute inset-0 w-full h-full object-cover select-none">
-                    <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/20 to-transparent pointer-events-none"></div>
-                    <span class="absolute top-4 left-4 bg-green-500 px-2.5 py-0.5 rounded-full text-[10px] font-bold text-white flex items-center gap-1 shadow-md">
-                        <span class="w-1.5 h-1.5 bg-white rounded-full animate-pulse"></span> ONLINE
-                    </span>
-                    <div class="relative p-6 text-white z-10 pointer-events-none">
-                        <h2 class="text-2xl font-black tracking-wide">${p.name}, <span class="font-medium">${p.age}</span></h2>
-                        <p class="text-sm font-semibold text-gray-200 mt-1 flex items-center gap-1">
-                            <i class="fa-solid fa-location-dot text-[#fd267d]"></i> ${p.loc}, पानीपत
-                        </p>
-                        <p class="text-xs text-gray-300 mt-2.5 line-clamp-2 bg-black/30 p-2 rounded-xl backdrop-blur-xs">
-                            "${p.bio}"
-                        </p>
-                    </div>
-                </div>
-            `;
-        }
-
-        function handleAction(action) {
-            if (currentIndex >= profiles.length) return;
-            if (action === 'like' || action === 'superlike') {
-                alert(`🔥 It's a Match! आपने ${profiles[currentIndex].name} को पसंद किया है।`);
-            }
-            currentIndex++;
-            loadCard();
-        }
-
-        function resetProfiles() {
-            currentIndex = 0;
-            loadCard();
+            });
         }
 
         function toggleRegisterForm() {
@@ -197,16 +167,15 @@
             const img = document.getElementById('regImg').value || images[0];
             const bio = document.getElementById('regBio').value;
 
-            profiles.unshift({ name, age, loc, bio, img });
+            profiles.unshift({ name, age, loc, bio, img, rating: "5.0", time: "Just Now" });
             localStorage.setItem('panipat_profiles', JSON.stringify(profiles));
 
-            currentIndex = 0;
-            loadCard();
+            displayZomatoProfiles();
             toggleRegisterForm();
             document.getElementById('profileForm').reset();
         }
 
-        loadCard();
+        displayZomatoProfiles();
     </script>
 </body>
 </html>
