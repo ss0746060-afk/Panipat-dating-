@@ -344,6 +344,101 @@ function addDarkModeFeature() {
 
 // इस फीचर को तुरंत चालू करें
 addDarkModeFeature();
+// 💬 इंस्टाग्राम चैट रूम और प्रोफेशनल डिज़ाइन फीचर
+function addInstagramChatAndProfileFeature() {
+    // 1. चैट बॉक्स के लिए सुंदर इंस्टाग्राम डिज़ाइन (HTML) स्क्रीन में जोड़ना
+    const mainBody = document.getElementById('future-features-container');
+    if (!mainBody) return;
+
+    const chatContainer = document.createElement('div');
+    chatContainer.id = "insta-chat-box";
+    chatContainer.style.display = "none"; // शुरुआत में बंद रहेगा
+    chatContainer.style.position = "fixed";
+    chatContainer.style.top = "60px";
+    chatContainer.style.left = "0";
+    chatContainer.style.right = "0";
+    chatContainer.style.bottom = "60px";
+    chatContainer.style.background = "white";
+    chatContainer.style.zIndex = "500";
+    chatContainer.style.flexDirection = "column";
+
+    chatContainer.innerHTML = `
+        <div style="padding: 15px; border-bottom: 1px solid #dbdbdb; display: flex; justify-content: space-between; align-items: center; font-weight: bold;">
+            <span>📥 डायरेक्ट मैसेज (Direct)</span>
+            <span onclick="toggleInstaChat(false)" style="cursor: pointer; font-size: 20px;">✕</span>
+        </div>
+        <div id="chat-messages-list" style="flex: 1; padding: 15px; overflow-y: auto; background: #fafafa; font-size: 14px;">
+            <div style="background: #efefef; padding: 8px 12px; border-radius: 15px; max-width: 70%; margin-bottom: 10px; align-self: flex-start;">
+                <b>विकास:</b> पानीपत कनेक्ट के चैट रूम में आपका स्वागत है! 👋
+            </div>
+        </div>
+        <div style="padding: 10px; border-top: 1px solid #dbdbdb; display: flex; gap: 10px; background: white;">
+            <input type="text" id="chat-user-message" style="flex: 1; padding: 10px; border: 1px solid #dbdbdb; border-radius: 20px; outline: none;" placeholder="मैसेज लिखें...">
+            <button onclick="sendInstaMessage()" style="background: #0095f6; color: white; border: none; padding: 0 15px; border-radius: 20px; font-weight: bold; cursor: pointer;">भेजें</button>
+        </div>
+    `;
+    mainBody.appendChild(chatContainer);
+
+    // 2. नीचे वाले चैट बटन (💬) को एक्टिवेट करना
+    const bottomNavButtons = document.querySelectorAll('.bottom-nav div');
+    if (bottomNavButtons[1]) {
+        bottomNavButtons[1].setAttribute('onclick', 'toggleInstaChat(true)');
+    }
+
+    // चैट खोलने और बंद करने का फंक्शन
+    window.toggleInstaChat = function(show) {
+        const chatBox = document.getElementById('insta-chat-box');
+        
+        // डार्क मोड का ध्यान रखते हुए चैट का रंग बदलना
+        const isDark = document.body.classList.contains('dark-theme-active') || document.body.style.backgroundColor === "rgb(18, 18, 18)";
+        chatBox.style.background = isDark ? "#121212" : "white";
+        chatBox.children[0].style.borderColor = isDark ? "#2c2c2e" : "#dbdbdb";
+        chatBox.children[2].style.background = isDark ? "#121212" : "white";
+        chatBox.children[2].style.borderColor = isDark ? "#2c2c2e" : "#dbdbdb";
+        document.getElementById('chat-messages-list').style.background = isDark ? "#1c1c1e" : "#fafafa";
+
+        chatBox.style.display = show ? "flex" : "none";
+    };
+
+    // मैसेज भेजने का लॉजिक
+    window.sendInstaMessage = function() {
+        const input = document.getElementById('chat-user-message');
+        const text = input.value.trim();
+        if (text === "") return;
+
+        let currentUser = document.getElementById('logged-username').innerText;
+        if (currentUser === "@username") currentUser = "@you";
+
+        const msgList = document.getElementById('chat-messages-list');
+        const isDark = document.body.classList.contains('dark-theme-active');
+
+        const newMsg = document.createElement('div');
+        newMsg.style.background = "#0095f6";
+        newMsg.style.color = "white";
+        newMsg.style.padding = "8px 12px";
+        newMsg.style.border_radius = "15px";
+        newMsg.style.maxWidth = "70%;";
+        newMsg.style.marginBottom = "10px";
+        newMsg.style.marginLeft = "auto"; // राइट साइड में दिखेगा
+        newMsg.style.textAlign = "right";
+        newMsg.innerHTML = `<b>${currentUser}:</b> ${text}`;
+
+        msgList.appendChild(newMsg);
+        input.value = "";
+        msgList.scrollTop = msgList.scrollHeight; // ऑटो स्क्रॉल नीचे
+    };
+
+    // 3. प्रोफेशनल ग्रिड लुक (3-Column Layout like Instagram Profile)
+    const feed = document.getElementById('insta-posts-feed');
+    if (feed) {
+        feed.style.display = "grid";
+        feed.style.gridTemplateColumns = "1fr"; // मोबाइल फीड के लिए सिंगल लाइन, पर स्टाइलिंग मजबूत
+        feed.style.gap = "15px";
+    }
+}
+
+// इस फीचर को तुरंत चालू करें
+addInstagramChatAndProfileFeature();
 
     </script>
 
