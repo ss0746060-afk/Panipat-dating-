@@ -3,183 +3,263 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Panipat Connect - सोशल नेटवर्क</title>
+    <title>Panipat Connect - Instagram Edition</title>
     
     <style>
-        body { margin: 0; padding: 0; font-family: 'Arial', sans-serif; background-color: #f0f2f5; color: #333; }
-        .header { background-color: #e53935; color: white; padding: 25px 15px; text-align: center; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
-        .header h1 { margin: 0; font-size: 30px; }
-        .header p { margin: 5px 0 15px 0; font-size: 15px; opacity: 0.9; }
+        /* इंस्टाग्राम थीम डिज़ाइन */
+        body { 
+            margin: 0; padding: 0; 
+            font-family: '-apple-system', BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; 
+            background-color: #fafafa; color: #262626; 
+        }
         
-        .search-container { display: flex; justify-content: center; gap: 10px; max-width: 500px; margin: 0 auto; }
-        .search-input { flex: 1; padding: 12px; border: none; border-radius: 25px; font-size: 15px; outline: none; padding-left: 20px; }
-        .search-btn { background-color: #222; color: white; border: none; padding: 12px 25px; border-radius: 25px; font-size: 15px; cursor: pointer; font-weight: bold; }
+        /* 1. इंस्टाग्राम जैसा हेडर */
+        .insta-header { 
+            background-color: white; 
+            border-bottom: 1px solid #dbdbdb; 
+            position: sticky; top: 0; z-index: 100; 
+            padding: 10px 20px; 
+            display: flex; justify-content: space-between; align-items: center; 
+        }
+        .insta-header h1 { 
+            font-family: 'Arial', sans-serif; font-size: 22px; font-weight: bold; margin: 0; color: #e53935;
+        }
+        .search-box {
+            background: #efefef; border: none; padding: 7px 15px; border-radius: 8px; font-size: 14px; outline: none; width: 140px;
+        }
 
-        .auth-box { max-width: 500px; margin: 20px auto; padding: 20px; background: white; border-radius: 15px; text-align: center; box-shadow: 0 2px 10px rgba(0,0,0,0.05); }
-        .google-btn { background-color: #4285F4; color: white; border: none; padding: 12px 24px; font-size: 16px; font-weight: bold; border-radius: 25px; cursor: pointer; }
+        /* मुख्य कंटेनर */
+        .main-feed { max-width: 600px; margin: 0 auto; padding-bottom: 60px; }
 
-        .main-container { max-width: 1100px; margin: 20px auto; padding: 0 15px; display: grid; grid-template-columns: 1fr; gap: 20px; }
-        @media (min-width: 800px) { .main-container { grid-template-columns: 2fr 1fr; } }
+        /* 2. इंस्टाग्राम स्टोरीज सेक्शन */
+        .stories-container { 
+            display: flex; gap: 12px; overflow-x: auto; padding: 15px 10px; 
+            background: white; border-bottom: 1px solid #dbdbdb; margin-bottom: 10px;
+        }
+        .stories-container::-webkit-scrollbar { display: none; }
+        .story { text-align: center; font-size: 11px; min-width: 65px; cursor: pointer; }
+        .story-img-wrapper {
+            width: 56px; height: 56px; border-radius: 50%; 
+            padding: 2px; border: 2px solid #e53935; margin: 0 auto 4px auto;
+        }
+        .story img { width: 100%; height: 100%; border-radius: 50%; object-fit: cover; }
+
+        /* 3. इंस्टाग्राम पोस्ट कार्ड (Feed Posts) */
+        .insta-post { background: white; border: 1px solid #dbdbdb; margin-bottom: 15px; border-radius: 3px; }
+        .post-header { display: flex; align-items: center; padding: 10px; gap: 10px; }
+        .post-header img { width: 32px; height: 32px; border-radius: 50%; object-fit: cover; }
+        .post-header .user-info { font-size: 14px; font-weight: 600; }
+        .post-header .location { font-size: 11px; color: #8e8e8e; font-weight: normal; }
         
-        .profile-feed { display: grid; grid-template-columns: 1fr; gap: 20px; }
-        @media (min-width: 500px) { .profile-feed { grid-template-columns: repeat(2, 1fr); } }
-
-        .card { background: white; border-radius: 15px; padding: 15px; box-shadow: 0 2px 8px rgba(0,0,0,0.06); border: 1px solid #eef0f2; display: flex; flex-direction: column; justify-content: space-between; }
-        .card-top { text-align: center; margin-bottom: 10px; }
-        .card img { width: 80px; height: 80px; border-radius: 50%; border: 3px solid #e53935; object-fit: cover; }
-        .card h3 { margin: 8px 0 2px 0; font-size: 16px; }
-        .card p { margin: 0; font-size: 13px; color: #666; }
-
-        .action-zone { border-top: 1px solid #eee; padding-top: 10px; margin-top: 10px; }
-        .like-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; }
-        .like-btn { background: #fff1f1; border: 1px solid #ffcdd2; color: #e53935; padding: 6px 12px; border-radius: 15px; cursor: pointer; font-weight: bold; font-size: 13px; }
-        .like-count { font-size: 13px; font-weight: bold; color: #555; }
+        .post-img { width: 100%; max-height: 500px; object-fit: cover; background-color: #eee; }
         
-        .comment-box { height: 70px; overflow-y: auto; background: #f9f9f9; padding: 8px; border-radius: 8px; font-size: 12px; margin-bottom: 8px; text-align: left; border: 1px solid #eee; }
-        .comment-input-row { display: flex; gap: 5px; }
-        .comment-input { flex: 1; padding: 6px 10px; border: 1px solid #ddd; border-radius: 15px; font-size: 12px; outline: none; }
-        .comment-btn { background: #e53935; color: white; border: none; padding: 0 12px; border-radius: 15px; font-size: 12px; cursor: pointer; }
+        /* पोस्ट के बटन्स */
+        .post-actions { padding: 10px 12px 5px 12px; display: flex; gap: 15px; font-size: 22px; }
+        .action-btn { cursor: pointer; transition: transform 0.1s ease; user-select: none; }
+        .action-btn:active { transform: scale(1.2); }
+        .like-active { color: #e53935; }
 
-        .chat-sidebar { background: white; border-radius: 15px; padding: 15px; box-shadow: 0 2px 8px rgba(0,0,0,0.06); height: 400px; display: flex; flex-direction: column; }
-        .chat-header { background: #e53935; color: white; padding: 10px; border-radius: 10px; font-weight: bold; text-align: center; margin-bottom: 10px; }
-        .chat-messages { flex: 1; overflow-y: auto; background: #f7f7f7; padding: 10px; border-radius: 8px; font-size: 13px; text-align: left; }
-        .msg { margin-bottom: 8px; padding: 6px 10px; border-radius: 10px; max-width: 85%; }
-        .msg-in { background: white; border: 1px solid #ddd; }
-        .msg-out { background: #e53935; color: white; margin-left: auto; }
-        .chat-input-row { display: flex; gap: 5px; margin-top: 10px; }
-        .chat-text { flex: 1; padding: 10px; border: 1px solid #ddd; border-radius: 20px; outline: none; }
-        .chat-send { background: #e53935; color: white; border: none; width: 40px; height: 40px; border-radius: 50%; cursor: pointer; font-weight: bold; }
+        .likes-display { padding: 0 12px; font-size: 14px; font-weight: bold; margin-bottom: 6px; }
+        
+        /* कमेंट्स की जगह */
+        .comments-section { padding: 0 12px; font-size: 14px; margin-bottom: 8px; }
+        .comment-item { margin-bottom: 4px; }
+        .comment-item b { margin-right: 6px; }
+        
+        /* कमेंट टाइप करने का बॉक्स */
+        .comment-form { 
+            border-top: 1px solid #efefef; padding: 10px 12px; 
+            display: flex; justify-content: space-between; align-items: center; 
+        }
+        .comment-input { flex: 1; border: none; outline: none; font-size: 14px; background: transparent; }
+        .comment-post-btn { color: #0095f6; border: none; background: none; font-weight: 600; font-size: 14px; cursor: pointer; }
 
-        .footer { text-align: center; padding: 20px; background: #222; color: white; margin-top: 40px; font-size: 13px; }
+        /* 4. नीचे का नेविगेशन बार (Bottom Nav Bar) */
+        .bottom-nav {
+            position: fixed; bottom: 0; left: 0; right: 0;
+            background: white; border-top: 1px solid #dbdbdb;
+            display: flex; justify-content: space-around; padding: 12px 0;
+            font-size: 20px; z-index: 100;
+        }
+        .nav-item { cursor: pointer; color: #262626; }
     </style>
 </head>
 <body>
 
-    <div class="header">
-        <h1>❤️ Panipat Connect</h1>
-        <p>बिना किसी रुकावट के लाइव लाइक, कमेंट और चैटिंग का मज़ा लें</p>
-        <div class="search-container">
-            <input type="text" class="search-input" placeholder="पानीपत में दोस्त खोजें...">
-            <button class="search-btn">खोजें</button>
-        </div>
+    <div class="insta-header">
+        <h1>Panipat Connect</h1>
+        <input type="text" class="search-box" placeholder="खोजें...">
     </div>
 
-    <div class="auth-box">
-        <div id="login-state">
-            <h3 style="margin-top:0;">विज़िटर मोड में आपका स्वागत है</h3>
-            <button class="google-btn" onclick="fakeLogin()">बिना चाबी के तुरंत लॉगिन करें</button>
+    <div class="main-feed">
+        
+        <div class="stories-container">
+            <div class="story" onclick="alert('स्टोरी अभी उपलब्ध नहीं है')"><div class="story-img-wrapper"><img src="https://i.pravatar.cc/150?img=11"></div><span>विकास</span></div>
+            <div class="story" onclick="alert('स्टोरी अभी उपलब्ध नहीं है')"><div class="story-img-wrapper"><img src="https://i.pravatar.cc/150?img=5"></div><span>कविता</span></div>
+            <div class="story" onclick="alert('स्टोरी अभी उपलब्ध नहीं है')"><div class="story-img-wrapper"><img src="https://i.pravatar.cc/150?img=12"></div><span>संदीप</span></div>
+            <div class="story" onclick="alert('स्टोरी अभी उपलब्ध नहीं है')"><div class="story-img-wrapper"><img src="https://i.pravatar.cc/150?img=9"></div><span>अंजलि</span></div>
+            <div class="story" onclick="alert('स्टोरी अभी उपलब्ध नहीं है')"><div class="story-img-wrapper"><img src="https://i.pravatar.cc/150?img=13"></div><span>दीपक</span></div>
+            <div class="story" onclick="alert('स्टोरी अभी उपलब्ध नहीं है')"><div class="story-img-wrapper"><img src="https://i.pravatar.cc/150?img=16"></div><span>मनोज</span></div>
         </div>
-        <div id="user-state" style="display: none; align-items: center; justify-content: center; gap: 15px;">
-            <img src="https://i.pravatar.cc/150?img=3" alt="Me" style="width:40px; height:40px; border-radius:50%;">
-            <span>स्वागत है, <b>आप (पानीपत यूजर)</b></span>
-        </div>
+
+        <div id="insta-posts-feed"></div>
+
     </div>
 
-    <div class="main-container">
-        <div>
-            <h2 style="font-size: 20px; margin-left: 5px; color: #444;">लोकप्रिय प्रोफाइल</h2>
-            <div class="profile-feed" id="feed-container"></div>
-        </div>
-
-        <div class="chat-sidebar">
-            <div class="chat-header">🌐 लाइव चैट रूम</div>
-            <div class="chat-messages" id="chat-msgs">
-                <div class="msg msg-in"><b>एडमिन:</b> पानीपत कनेक्ट में आपका स्वागत है! नीचे से लॉगिन करके तुरंत मैसेज भेजें।</div>
-            </div>
-            <div class="chat-input-row">
-                <input type="text" id="chat-input" class="chat-text" placeholder="पहले ऊपर लॉगिन करें..." disabled>
-                <button class="chat-send" id="chat-btn" onclick="sendMsg()" disabled>➔</button>
-            </div>
-        </div>
+    <div class="bottom-nav">
+        <div class="nav-item" onclick="alert('होम पेज')">🏠</div>
+        <div class="nav-item" onclick="openChatBot()">💬</div>
+        <div class="nav-item" onclick="alert('नई पोस्ट अपलोड करें (जल्द आ रहा है)')">➕</div>
+        <div class="nav-item" onclick="alert('अपनी प्रोफाइल')">👤</div>
     </div>
-
-    <footer class="footer">
-        <p>© 2026 Panipat Connect. सभी अधिकार सुरक्षित।</p>
-    </footer>
 
     <script>
-        const dummyUsers = [
-            { id: "p1", name: "विकास मलिक", area: "मॉडल टाउन, पानीपत", img: "https://i.pravatar.cc/150?img=11", likes: 12 },
-            { id: "p2", name: "कविता चौधरी", area: "सेक्टर 11, पानीपत", img: "https://i.pravatar.cc/150?img=5", likes: 45 },
-            { id: "p3", name: "संदीप जांगड़ा", area: "रिफाइनरी रोड, पानीपत", img: "https://i.pravatar.cc/150?img=12", likes: 23 },
-            { id: "p4", name: "अंजलि शर्मा", area: "सुखदेव नगर, पानीपत", img: "https://i.pravatar.cc/150?img=9", likes: 89 }
+        // इंस्टाग्राम पोस्ट्स का असली डेटाबेस (इमेज लिंक्स के साथ)
+        const postsData = [
+            {
+                id: "post_1",
+                user: "विकास मलिक",
+                userImg: "https://i.pravatar.cc/150?img=11",
+                location: "मॉडल टाउन, पानीपत",
+                postImg: "https://picsum.photos/id/10/600/500", // सुंदर प्राकृतिक दृश्य
+                caption: "आज का मौसम पानीपत में बेहद शानदार है! 🌤️ #panipat #goodvibes",
+                likes: 124,
+                comments: [
+                    { user: "कविता", text: "बिलकुल भाई, यहाँ भी मस्त हवा चल रही है।" }
+                ]
+            },
+            {
+                id: "post_2",
+                user: "कविता चौधरी",
+                userImg: "https://i.pravatar.cc/150?img=5",
+                location: "सेक्टर 11, पानीपत",
+                postImg: "https://picsum.photos/id/26/600/500", // स्टाइलिश कार/रोड फोटो
+                caption: "लॉन्ग ड्राइव पर समालखा की तरफ! 🚗💨 #travel",
+                likes: 89,
+                comments: [
+                    { user: "संदीप", text: "हैव अ सेफ जर्नी!" }
+                ]
+            },
+            {
+                id: "post_3",
+                user: "संदीप जांगड़ा",
+                userImg: "https://i.pravatar.cc/150?img=12",
+                location: "रिफाइनरी रोड, पानीपत",
+                postImg: "https://picsum.photos/id/54/600/500", // फूड फोटो
+                caption: "पानीपत के मशहूर छोले भटूरे! पेट भर गया पर मन नहीं 😋 #foodie",
+                likes: 210,
+                comments: []
+            }
         ];
 
-        let isLoggedIn = false;
+        // पेज लोड होते ही डेटा लोड करें
+        function loadInstaFeed() {
+            const feed = document.getElementById('insta-posts-feed');
+            feed.innerHTML = "";
 
-        function buildFeed() {
-            const container = document.getElementById('feed-container');
-            container.innerHTML = "";
-            dummyUsers.forEach(p => {
-                const card = document.createElement('div');
-                card.className = 'card';
-                card.innerHTML = `
-                    <div class="card-top">
-                        <img src="${p.img}" alt="User">
-                        <h3>${p.name}</h3>
-                        <p>${p.area}</p>
+            postsData.forEach(post => {
+                // लोकल स्टोरेज से लाइक की स्थिति और कमेंट्स निकालें ताकि डेटा गायब न हो
+                const savedLikes = localStorage.getItem(`likes_${post.id}`) || post.likes;
+                const isLiked = localStorage.getItem(`isLiked_${post.id}`) === "true";
+                const savedComments = JSON.parse(localStorage.getItem(`comments_${post.id}`)) || post.comments;
+
+                let commentsHTML = "";
+                savedComments.forEach(c => {
+                    commentsHTML += `<div class="comment-item"><b>${c.user}</b> ${c.text}</div>`;
+                });
+
+                const postCard = document.createElement('div');
+                postCard.className = 'insta-post';
+                postCard.innerHTML = `
+                    <div class="post-header">
+                        <img src="${post.userImg}" alt="user">
+                        <div class="user-info">
+                            ${post.user}
+                            <div class="location">${post.location}</div>
+                        </div>
                     </div>
-                    <div class="action-zone">
-                        <div class="like-row">
-                            <button class="like-btn" onclick="doLike('${p.id}')">❤️ लाइक</button>
-                            <span class="like-count" id="like-${p.id}">${p.likes} लाइक्स</span>
-                        </div>
-                        <div class="comment-box" id="box-${p.id}">कोई कमेंट नहीं है...</div>
-                        <div class="comment-input-row">
-                            <input type="text" id="in-${p.id}" class="comment-input" placeholder="कमेंट लिखें...">
-                            <button class="comment-btn" onclick="doComment('${p.id}')">भेजें</button>
-                        </div>
+                    
+                    <img class="post-img" src="${post.postImg}" alt="post">
+                    
+                    <div class="post-actions">
+                        <span class="action-btn ${isLiked ? 'like-active' : ''}" id="btn-${post.id}" onclick="toggleLike('${post.id}')">
+                            ${isLiked ? '❤️' : '🤍'}
+                        </span>
+                        <span class="action-btn" onclick="focusComment('${post.id}')">💬</span>
+                    </div>
+                    
+                    <div class="likes-display" id="count-${post.id}">${savedLikes} लाइक्स</div>
+                    
+                    <div class="comments-section" id="box-${post.id}">
+                        <div class="comment-item"><b>${post.user}</b> ${post.caption}</div>
+                        ${commentsHTML}
+                    </div>
+                    
+                    <div class="comment-form">
+                        <input type="text" id="input-${post.id}" class="comment-input" placeholder="कमेंट जोड़ें...">
+                        <button class="comment-post-btn" onclick="addComment('${post.id}')">Post</button>
                     </div>
                 `;
-                container.appendChild(card);
+                feed.appendChild(postCard);
             });
         }
 
-        function fakeLogin() {
-            isLoggedIn = true;
-            document.getElementById('login-state').style.display = 'none';
-            document.getElementById('user-state').style.display = 'flex';
-            document.getElementById('chat-input').disabled = false;
-            document.getElementById('chat-input').placeholder = "मैसेज टाइप करें...";
-            document.getElementById('chat-btn').disabled = false;
+        // असली लाइक टॉगल फंक्शन (हार्ट आइकॉन वाला)
+        function toggleLike(postId) {
+            const post = postsData.find(p => p.id === postId);
+            let currentLikes = parseInt(localStorage.getItem(`likes_${postId}`)) || post.likes;
+            let isLiked = localStorage.getItem(`isLiked_${postId}`) === "true";
+
+            if (isLiked) {
+                currentLikes--;
+                isLiked = false;
+                document.getElementById(`btn-${postId}`).innerText = "🤍";
+                document.getElementById(`btn-${postId}`).classList.remove('like-active');
+            } else {
+                currentLikes++;
+                isLiked = true;
+                document.getElementById(`btn-${postId}`).innerText = "❤️";
+                document.getElementById(`btn-${postId}`).classList.add('like-active');
+            }
+
+            localStorage.setItem(`likes_${postId}`, currentLikes);
+            localStorage.setItem(`isLiked_${postId}`, isLiked);
+            document.getElementById(`count-${postId}`).innerText = currentLikes + " लाइक्स";
         }
 
-        function doLike(id) {
-            if(!isLoggedIn) { alert("पहले ऊपर दिए गए बटन से लॉगिन करें!"); return; }
-            const user = dummyUsers.find(p => p.id === id);
-            user.likes++;
-            document.getElementById(`like-${id}`).innerText = user.likes + " लाइक्स";
-        }
-
-        function doComment(id) {
-            if(!isLoggedIn) { alert("पहले ऊपर दिए गए बटन से लॉगिन करें!"); return; }
-            const input = document.getElementById(`in-${id}`);
+        // असली कमेंट जोड़ने का फंक्शन
+        function addComment(postId) {
+            const input = document.getElementById(`input-${postId}`);
             const text = input.value.trim();
-            if(text === "") return;
-            const box = document.getElementById(`box-${id}`);
-            if(box.innerText === "कोई कमेंट नहीं है...") box.innerHTML = "";
-            box.innerHTML += `<div><b>आप:</b> ${text}</div>`;
+            if (text === "") return;
+
+            const post = postsData.find(p => p.id === postId);
+            let currentComments = JSON.parse(localStorage.getItem(`comments_${postId}`)) || post.comments;
+
+            // नया कमेंट जोड़ें
+            currentComments.push({ user: "आप (You)", text: text });
+            localStorage.setItem(`comments_${postId}`, JSON.stringify(currentComments));
+
+            // स्क्रीन तुरंत अपडेट करें
+            const box = document.getElementById(`box-${postId}`);
+            box.innerHTML += `<div class="comment-item"><b>आप (You)</b> ${text}</div>`;
             input.value = "";
-            box.scrollTop = box.scrollHeight;
         }
 
-        function sendMsg() {
-            const input = document.getElementById('chat-input');
-            const text = input.value.trim();
-            if(text === "") return;
-            const box = document.getElementById('chat-msgs');
-            box.innerHTML += `<div class="msg msg-out"><b>आप:</b> ${text}</div>`;
-            input.value = "";
-            box.scrollTop = box.scrollHeight;
-            
-            // डमी चैटबॉट रिप्लाई 1 सेकंड बाद
-            setTimeout(() => {
-                box.innerHTML += `<div class="msg msg-in"><b>रोबोट:</b> अरे भाई! पानीपत में मौसम कैसा है आज?</div>`;
-                box.scrollTop = box.scrollHeight;
-            }, 1000);
+        function focusComment(postId) {
+            document.getElementById(`input-${postId}`).focus();
         }
 
-        buildFeed();
+        // इंस्टाग्राम चैटबॉट का फंक्शन (निचे मेसेज वाले आइकॉन पर क्लिक करने से चलेगा)
+        function openChatBot() {
+            const msg = prompt("पानीपत कनेक्ट चैटबॉट को अपना संदेश भेजें:");
+            if(msg) {
+                alert("चैटबॉट का जवाब: अरे भाई! 'Panipat Connect' का यह नया इंस्टाग्राम डिज़ाइन एकदम कतई जहर लग रहा है ना? 🔥");
+            }
+        }
+
+        // फीड को पहली बार लोड करें
+        loadInstaFeed();
     </script>
 </body>
 </html>
