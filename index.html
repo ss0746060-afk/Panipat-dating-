@@ -11,17 +11,13 @@
         .header h1 { margin: 0; font-size: 30px; }
         .header p { margin: 5px 0 15px 0; font-size: 15px; opacity: 0.9; }
         
-        /* सर्च बार */
         .search-container { display: flex; justify-content: center; gap: 10px; max-width: 500px; margin: 0 auto; }
         .search-input { flex: 1; padding: 12px; border: none; border-radius: 25px; font-size: 15px; outline: none; padding-left: 20px; }
         .search-btn { background-color: #222; color: white; border: none; padding: 12px 25px; border-radius: 25px; font-size: 15px; cursor: pointer; font-weight: bold; }
 
-        /* लॉगिन सेक्शन */
         .auth-box { max-width: 500px; margin: 20px auto; padding: 20px; background: white; border-radius: 15px; text-align: center; box-shadow: 0 2px 10px rgba(0,0,0,0.05); }
-        .google-btn { background-color: #4285F4; color: white; border: none; padding: 12px 24px; font-size: 16px; font-weight: bold; border-radius: 25px; cursor: pointer; display: inline-flex; align-items: center; gap: 10px; }
-        .logout-btn { background: none; border: 1px solid #ccc; padding: 4px 10px; border-radius: 5px; cursor: pointer; font-size: 12px; }
+        .google-btn { background-color: #4285F4; color: white; border: none; padding: 12px 24px; font-size: 16px; font-weight: bold; border-radius: 25px; cursor: pointer; }
 
-        /* प्रोफाइल ग्रिड */
         .main-container { max-width: 1100px; margin: 20px auto; padding: 0 15px; display: grid; grid-template-columns: 1fr; gap: 20px; }
         @media (min-width: 800px) { .main-container { grid-template-columns: 2fr 1fr; } }
         
@@ -34,21 +30,19 @@
         .card h3 { margin: 8px 0 2px 0; font-size: 16px; }
         .card p { margin: 0; font-size: 13px; color: #666; }
 
-        /* असली लाइक और कमेंट बॉक्स स्टाइल */
         .action-zone { border-top: 1px solid #eee; padding-top: 10px; margin-top: 10px; }
         .like-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; }
         .like-btn { background: #fff1f1; border: 1px solid #ffcdd2; color: #e53935; padding: 6px 12px; border-radius: 15px; cursor: pointer; font-weight: bold; font-size: 13px; }
         .like-count { font-size: 13px; font-weight: bold; color: #555; }
         
-        .comment-box { height: 60px; overflow-y: auto; background: #f9f9f9; padding: 5px; border-radius: 8px; font-size: 12px; margin-bottom: 8px; text-align: left; }
+        .comment-box { height: 70px; overflow-y: auto; background: #f9f9f9; padding: 8px; border-radius: 8px; font-size: 12px; margin-bottom: 8px; text-align: left; border: 1px solid #eee; }
         .comment-input-row { display: flex; gap: 5px; }
         .comment-input { flex: 1; padding: 6px 10px; border: 1px solid #ddd; border-radius: 15px; font-size: 12px; outline: none; }
         .comment-btn { background: #e53935; color: white; border: none; padding: 0 12px; border-radius: 15px; font-size: 12px; cursor: pointer; }
 
-        /* असली लाइव चैट रूम */
-        .chat-sidebar { background: white; border-radius: 15px; padding: 15px; box-shadow: 0 2px 8px rgba(0,0,0,0.06); height: 450px; display: flex; flex-direction: column; position: sticky; top: 20px; }
+        .chat-sidebar { background: white; border-radius: 15px; padding: 15px; box-shadow: 0 2px 8px rgba(0,0,0,0.06); height: 400px; display: flex; flex-direction: column; }
         .chat-header { background: #e53935; color: white; padding: 10px; border-radius: 10px; font-weight: bold; text-align: center; margin-bottom: 10px; }
-        .chat-messages { flex: 1; overflow-y: auto; background: #f7f7f7; padding: 10px; border-radius: 8px; font-size: 13px; }
+        .chat-messages { flex: 1; overflow-y: auto; background: #f7f7f7; padding: 10px; border-radius: 8px; font-size: 13px; text-align: left; }
         .msg { margin-bottom: 8px; padding: 6px 10px; border-radius: 10px; max-width: 85%; }
         .msg-in { background: white; border: 1px solid #ddd; }
         .msg-out { background: #e53935; color: white; margin-left: auto; }
@@ -61,124 +55,61 @@
 </head>
 <body>
 
-    <!-- हेडर और सर्च बार -->
     <div class="header">
         <h1>❤️ Panipat Connect</h1>
-        <p>असली लोगों से जुड़ें - लाइव लाइक, कमेंट और चैटिंग प्लेटफॉर्म</p>
+        <p>बिना किसी रुकावट के लाइव लाइक, कमेंट और चैटिंग का मज़ा लें</p>
         <div class="search-container">
             <input type="text" class="search-input" placeholder="पानीपत में दोस्त खोजें...">
             <button class="search-btn">खोजें</button>
         </div>
     </div>
 
-    <!-- लॉगिन / यूजर प्रोफाइल इंफो -->
     <div class="auth-box">
         <div id="login-state">
-            <h3 style="margin-top:0;">प्लेटफ़ॉर्म पर एक्टिव होने के लिए लॉगिन करें</h3>
-            <button class="google-btn" onclick="login()">Google आईडी से लॉगिन करें</button>
+            <h3 style="margin-top:0;">विज़िटर मोड में आपका स्वागत है</h3>
+            <button class="google-btn" onclick="fakeLogin()">बिना चाबी के तुरंत लॉगिन करें</button>
         </div>
         <div id="user-state" style="display: none; align-items: center; justify-content: center; gap: 15px;">
-            <img id="my-pic" src="" alt="Me" style="width:40px; height:40px; border-radius:50%;">
-            <span>स्वागत है, <b id="my-name">...</b></span>
-            <button class="logout-btn" onclick="logout()">लॉगआउट</button>
+            <img src="https://i.pravatar.cc/150?img=3" alt="Me" style="width:40px; height:40px; border-radius:50%;">
+            <span>स्वागत है, <b>आप (पानीपत यूजर)</b></span>
         </div>
     </div>
 
-    <!-- मेन कंटेंट एरिया -->
     <div class="main-container">
-        
-        <!-- लेफ्ट साइड: प्रोफाइल फीड (लाइक और कमेंट के साथ) -->
         <div>
             <h2 style="font-size: 20px; margin-left: 5px; color: #444;">लोकप्रिय प्रोफाइल</h2>
-            <div class="profile-feed" id="feed-container">
-                <!-- प्रोफाइल कार्ड्स जावास्क्रिप्ट के जरिए नीचे से ऑटोमैटिक लोड होंगे -->
-            </div>
+            <div class="profile-feed" id="feed-container"></div>
         </div>
 
-        <!-- राइट साइड: असली लाइव चैट रूम -->
         <div class="chat-sidebar">
-            <div class="chat-header">🌐 पानीपत लाइव चैट रूम</div>
+            <div class="chat-header">🌐 लाइव चैट रूम</div>
             <div class="chat-messages" id="chat-msgs">
-                <div style="color: #888; text-align: center; padding-top: 50px;">चैट देखने और मैसेज भेजने के लिए कृपया पहले लॉगिन करें।</div>
+                <div class="msg msg-in"><b>एडमिन:</b> पानीपत कनेक्ट में आपका स्वागत है! नीचे से लॉगिन करके तुरंत मैसेज भेजें।</div>
             </div>
             <div class="chat-input-row">
-                <input type="text" id="chat-input" class="chat-text" placeholder="मैसेज टाइप करें..." disabled>
-                <button class="chat-send" id="chat-btn" onclick="sendLiveMessage()" disabled>➔</button>
+                <input type="text" id="chat-input" class="chat-text" placeholder="पहले ऊपर लॉगिन करें..." disabled>
+                <button class="chat-send" id="chat-btn" onclick="sendMsg()" disabled>➔</button>
             </div>
         </div>
-
     </div>
 
     <footer class="footer">
-        <p>© 2026 Panipat Connect. असली डेटाबेस सुरक्षित सोशल नेटवर्क।</p>
+        <p>© 2026 Panipat Connect. सभी अधिकार सुरक्षित।</p>
     </footer>
 
-    <!-- Firebase SDK Links -->
-    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-auth-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-database-compat.js"></script>
-
     <script>
-        // ⚠️ यहाँ आपको अपने Firebase की असली क्रेडेंशियल्स डालनी होंगी
-        const firebaseConfig = {
-            apiKey: "YOUR_API_KEY",
-            authDomain: "YOUR_AUTH_DOMAIN",
-            databaseURL: "YOUR_DATABASE_URL",
-            projectId: "YOUR_PROJECT_ID",
-            storageBucket: "YOUR_STORAGE_BUCKET",
-            messagingSenderId: "YOUR_MESSAGING_SENDER_ID",
-            appId: "YOUR_APP_ID"
-        };
-
-        // डमी प्रोफाइल्स का डेटा बेस
         const dummyUsers = [
-            { id: "p1", name: "विकास मलिक", area: "मॉडल टाउन, पानीपत", img: "https://i.pravatar.cc/150?img=11" },
-            { id: "p2", name: "कविता चौधरी", area: "सेक्टर 11, पानीपत", img: "https://i.pravatar.cc/150?img=5" },
-            { id: "p3", name: "संदीप जांगड़ा", area: "रिफाइनरी रोड, पानीपत", img: "https://i.pravatar.cc/150?img=12" },
-            { id: "p4", name: "अंजलि शर्मा", area: "सुखदेव नगर, पानीपत", img: "https://i.pravatar.cc/150?img=9" }
+            { id: "p1", name: "विकास मलिक", area: "मॉडल टाउन, पानीपत", img: "https://i.pravatar.cc/150?img=11", likes: 12 },
+            { id: "p2", name: "कविता चौधरी", area: "सेक्टर 11, पानीपत", img: "https://i.pravatar.cc/150?img=5", likes: 45 },
+            { id: "p3", name: "संदीप जांगड़ा", area: "रिफाइनरी रोड, पानीपत", img: "https://i.pravatar.cc/150?img=12", likes: 23 },
+            { id: "p4", name: "अंजलि शर्मा", area: "सुखदेव नगर, पानीपत", img: "https://i.pravatar.cc/150?img=9", likes: 89 }
         ];
 
-        let db = null;
-        let auth = null;
+        let isLoggedIn = false;
 
-        // चेक करें कि Firebase सेटअप हुआ या नहीं
-        if (firebaseConfig.apiKey !== "YOUR_API_KEY") {
-            firebase.initializeApp(firebaseConfig);
-            db = firebase.database();
-            auth = firebase.auth();
-
-            // यूजर लॉगिन स्टेट मॉनिटर
-            auth.onAuthStateChanged(user => {
-                if (user) {
-                    document.getElementById('login-state').style.display = 'none';
-                    document.getElementById('user-state').style.display = 'flex';
-                    document.getElementById('my-name').innerText = user.displayName;
-                    document.getElementById('my-pic').src = user.photoURL;
-                    
-                    // चैट इनेबल करें
-                    document.getElementById('chat-input').disabled = false;
-                    document.getElementById('chat-btn').disabled = false;
-                    
-                    listenToLiveChat();
-                    buildFeed();
-                } else {
-                    document.getElementById('login-state').style.display = 'block';
-                    document.getElementById('user-state').style.display = 'none';
-                    document.getElementById('chat-input').disabled = true;
-                    document.getElementById('chat-btn').disabled = true;
-                    buildFeed();
-                }
-            });
-        } else {
-            // बिना फ़ायरबेस के शुरुआती सेटअप (सिर्फ दिखाने के लिए)
-            buildFeed();
-        }
-
-        // फीड तैयार करने और लाइक/कमेंट रेंडर करने का फंक्शन
         function buildFeed() {
             const container = document.getElementById('feed-container');
             container.innerHTML = "";
-
             dummyUsers.forEach(p => {
                 const card = document.createElement('div');
                 card.className = 'card';
@@ -190,99 +121,65 @@
                     </div>
                     <div class="action-zone">
                         <div class="like-row">
-                            <button class="like-btn" onclick="doLike('${p.id}')">❤️ लाइक करें</button>
-                            <span class="like-count" id="like-count-${p.id}">0 लाइक्स</span>
+                            <button class="like-btn" onclick="doLike('${p.id}')">❤️ लाइक</button>
+                            <span class="like-count" id="like-${p.id}">${p.likes} लाइक्स</span>
                         </div>
-                        <div class="comment-box" id="comment-box-${p.id}">कोई कमेंट नहीं है...</div>
+                        <div class="comment-box" id="box-${p.id}">कोई कमेंट नहीं है...</div>
                         <div class="comment-input-row">
-                            <input type="text" id="comment-in-${p.id}" class="comment-input" placeholder="कमेंट लिखें...">
+                            <input type="text" id="in-${p.id}" class="comment-input" placeholder="कमेंट लिखें...">
                             <button class="comment-btn" onclick="doComment('${p.id}')">भेजें</button>
                         </div>
                     </div>
                 `;
                 container.appendChild(card);
-
-                // अगर डेटाबेस लाइव है तो असली लाइक और कमेंट लोड करें
-                if(db) {
-                    // लाइव लाइक सुनना
-                    db.ref(`likes/${p.id}`).on('value', snap => {
-                        document.getElementById(`like-count-${p.id}`).innerText = (snap.val() || 0) + " लाइक्स";
-                    });
-                    // लाइव कमेंट सुनना
-                    db.ref(`comments/${p.id}`).on('value', snap => {
-                        const box = document.getElementById(`comment-box-${p.id}`);
-                        box.innerHTML = "";
-                        if(snap.exists()) {
-                            snap.forEach(child => {
-                                box.innerHTML += `<div><b>${child.val().user}:</b> ${child.val().text}</div>`;
-                            });
-                        } else {
-                            box.innerHTML = "कोई कमेंट नहीं है...";
-                        }
-                        box.scrollTop = box.scrollHeight;
-                    });
-                }
             });
         }
 
-        // लॉगिन और लॉगआउट फंक्शन्स
-        function login() {
-            if(!auth) { alert("असली लॉगिन चलाने के लिए कोड में अपनी Firebase Keys डालें!"); return; }
-            const provider = new firebase.auth.GoogleAuthProvider();
-            auth.signInWithPopup(provider).catch(err => alert(err.message));
-        }
-        function logout() { auth.signOut().then(() => location.reload()); }
-
-        // असली लाइक फंक्शन
-        function doLike(profileId) {
-            if(!db || !auth.currentUser) { alert("लाइक करने के लिए कृपया पहले लॉगिन करें!"); return; }
-            const ref = db.ref(`likes/${profileId}`);
-            ref.transaction(currentLikes => (currentLikes || 0) + 1);
+        function fakeLogin() {
+            isLoggedIn = true;
+            document.getElementById('login-state').style.display = 'none';
+            document.getElementById('user-state').style.display = 'flex';
+            document.getElementById('chat-input').disabled = false;
+            document.getElementById('chat-input').placeholder = "मैसेज टाइप करें...";
+            document.getElementById('chat-btn').disabled = false;
         }
 
-        // असली कमेंट फंक्शन
-        function doComment(profileId) {
-            if(!db || !auth.currentUser) { alert("कमेंट करने के लिए कृपया पहले लॉगिन करें!"); return; }
-            const input = document.getElementById(`comment-in-${profileId}`);
+        function doLike(id) {
+            if(!isLoggedIn) { alert("पहले ऊपर दिए गए बटन से लॉगिन करें!"); return; }
+            const user = dummyUsers.find(p => p.id === id);
+            user.likes++;
+            document.getElementById(`like-${id}`).innerText = user.likes + " लाइक्स";
+        }
+
+        function doComment(id) {
+            if(!isLoggedIn) { alert("पहले ऊपर दिए गए बटन से लॉगिन करें!"); return; }
+            const input = document.getElementById(`in-${id}`);
             const text = input.value.trim();
             if(text === "") return;
-
-            db.ref(`comments/${profileId}`).push({
-                user: auth.currentUser.displayName,
-                text: text
-            });
+            const box = document.getElementById(`box-${id}`);
+            if(box.innerText === "कोई कमेंट नहीं है...") box.innerHTML = "";
+            box.innerHTML += `<div><b>आप:</b> ${text}</div>`;
             input.value = "";
+            box.scrollTop = box.scrollHeight;
         }
 
-        // असली चैट रूम फंक्शन
-        function sendLiveMessage() {
+        function sendMsg() {
             const input = document.getElementById('chat-input');
             const text = input.value.trim();
-            if(text === "" || !db) return;
-
-            db.ref('global_messages').push({
-                user: auth.currentUser.displayName,
-                text: text,
-                timestamp: Date.now()
-            });
+            if(text === "") return;
+            const box = document.getElementById('chat-msgs');
+            box.innerHTML += `<div class="msg msg-out"><b>आप:</b> ${text}</div>`;
             input.value = "";
+            box.scrollTop = box.scrollHeight;
+            
+            // डमी चैटबॉट रिप्लाई 1 सेकंड बाद
+            setTimeout(() => {
+                box.innerHTML += `<div class="msg msg-in"><b>रोबोट:</b> अरे भाई! पानीपत में मौसम कैसा है आज?</div>`;
+                box.scrollTop = box.scrollHeight;
+            }, 1000);
         }
 
-        function listenToLiveChat() {
-            db.ref('global_messages').limitToLast(30).on('value', snap => {
-                const box = document.getElementById('chat-msgs');
-                box.innerHTML = "";
-                snap.forEach(child => {
-                    const data = child.val();
-                    const isMe = data.user === auth.currentUser.displayName;
-                    const msgDiv = document.createElement('div');
-                    msgDiv.className = `msg ${isMe ? 'msg-out' : 'msg-in'}`;
-                    msgDiv.innerHTML = `<b>${isMe ? 'आप' : data.user}:</b> ${data.text}`;
-                    box.appendChild(msgDiv);
-                });
-                box.scrollTop = box.scrollHeight;
-            });
-        }
+        buildFeed();
     </script>
 </body>
 </html>
