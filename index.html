@@ -3,264 +3,123 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Panipat Connect</title>
+    <title>Panipat Connect - सोशल नेटवर्क</title>
     
     <style>
-        /* 1. मुख्य वेबसाइट और हेडर का स्टाइल */
-        body {
-            margin: 0;
-            padding: 0;
-            font-family: 'Arial', sans-serif;
-            background-color: #f4f6f9;
-        }
-        .header {
-            background-color: #e53935;
-            color: white;
-            padding: 20px 15px;
-            text-align: center;
-        }
-        .header h1 {
-            margin: 0;
-            font-size: 28px;
-        }
-        .header p {
-            margin: 5px 0 15px 0;
-            font-size: 16px;
-            opacity: 0.9;
-        }
+        body { margin: 0; padding: 0; font-family: 'Arial', sans-serif; background-color: #f0f2f5; color: #333; }
+        .header { background-color: #e53935; color: white; padding: 25px 15px; text-align: center; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
+        .header h1 { margin: 0; font-size: 30px; }
+        .header p { margin: 5px 0 15px 0; font-size: 15px; opacity: 0.9; }
         
-        /* 2. सर्च बार का स्टाइल */
-        .search-container {
-            display: flex;
-            justify-content: center;
-            gap: 10px;
-            max-width: 500px;
-            margin: 0 auto;
-            padding: 0 10px;
-        }
-        .search-input {
-            flex: 1;
-            padding: 12px;
-            border: none;
-            border-radius: 8px;
-            font-size: 16px;
-            outline: none;
-        }
-        .search-btn {
-            background-color: #222;
-            color: white;
-            border: none;
-            padding: 12px 20px;
-            border-radius: 8px;
-            font-size: 16px;
-            cursor: pointer;
-            font-weight: bold;
-        }
+        /* सर्च बार */
+        .search-container { display: flex; justify-content: center; gap: 10px; max-width: 500px; margin: 0 auto; }
+        .search-input { flex: 1; padding: 12px; border: none; border-radius: 25px; font-size: 15px; outline: none; padding-left: 20px; }
+        .search-btn { background-color: #222; color: white; border: none; padding: 12px 25px; border-radius: 25px; font-size: 15px; cursor: pointer; font-weight: bold; }
 
-        /* 3. 10 डमी प्रोफाइल्स का स्टाइल */
-        .profile-section {
-            padding: 30px 10px;
-            text-align: center;
-        }
-        .profile-section h2 {
-            color: #333;
-            font-size: 22px;
-            margin-bottom: 20px;
-            border-bottom: 2px solid #e53935;
-            display: inline-block;
-            padding-bottom: 5px;
-        }
-        .profile-grid {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 12px;
-            max-width: 600px;
-            margin: 0 auto;
-        }
-        @media (min-width: 600px) {
-            .profile-grid {
-                grid-template-columns: repeat(4, 1fr);
-                max-width: 1000px;
-            }
-        }
-        .profile-card {
-            background: #ffffff;
-            border-radius: 12px;
-            padding: 12px;
-            text-align: center;
-            box-shadow: 0 2px 6px rgba(0,0,0,0.08);
-            border: 1px solid #eee;
-        }
-        .profile-card img {
-            width: 70px;
-            height: 70px;
-            border-radius: 50%;
-            object-fit: cover;
-            margin-bottom: 8px;
-            border: 2px solid #e53935;
-        }
-        .profile-card h3 {
-            font-size: 14px;
-            margin: 5px 0 2px 0;
-            color: #222;
-        }
-        .profile-card p {
-            font-size: 12px;
-            color: #666;
-            margin: 0 0 8px 0;
-        }
-        .view-btn {
-            background-color: #e53935;
-            color: white;
-            border: none;
-            padding: 6px 10px;
-            font-size: 11px;
-            border-radius: 4px;
-            cursor: pointer;
-            width: 100%;
-            font-weight: bold;
-        }
+        /* लॉगिन सेक्शन */
+        .auth-box { max-width: 500px; margin: 20px auto; padding: 20px; background: white; border-radius: 15px; text-align: center; box-shadow: 0 2px 10px rgba(0,0,0,0.05); }
+        .google-btn { background-color: #4285F4; color: white; border: none; padding: 12px 24px; font-size: 16px; font-weight: bold; border-radius: 25px; cursor: pointer; display: inline-flex; align-items: center; gap: 10px; }
+        .logout-btn { background: none; border: 1px solid #ccc; padding: 4px 10px; border-radius: 5px; cursor: pointer; font-size: 12px; }
 
-        /* 4. लॉगिन और चैट बॉक्स का स्टाइल */
-        .real-app-container {
-            max-width: 500px;
-            margin: 30px auto;
-            padding: 20px;
-            background: #fff;
-            border-radius: 15px;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-            text-align: center;
-        }
-        .auth-btn {
-            background-color: #4285F4;
-            color: white;
-            border: none;
-            padding: 12px 24px;
-            font-size: 16px;
-            font-weight: bold;
-            border-radius: 25px;
-            cursor: pointer;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
-        }
-        .chat-window {
-            display: none; /* लॉगिन के बाद दिखेगा */
-            border: 1px solid #eee;
-            border-radius: 10px;
-            background: #fdfdfd;
-            overflow: hidden;
-        }
-        .chat-header {
-            background: #e53935;
-            color: white;
-            padding: 12px;
-            font-weight: bold;
-        }
-        .chat-messages {
-            height: 250px;
-            overflow-y: auto;
-            padding: 15px;
-            text-align: left;
-            background: #f7f7f7;
-        }
-        .message {
-            margin-bottom: 10px;
-            padding: 8px 12px;
-            border-radius: 15px;
-            max-width: 75%;
-            font-size: 14px;
-        }
-        .msg-received { background: #fff; border: 1px solid #ddd; }
-        .msg-sent { background: #e53935; color: white; margin-left: auto; }
-        .chat-input-area {
-            display: flex;
-            padding: 10px;
-            border-top: 1px solid #eee;
-        }
-        .chat-input {
-            flex: 1;
-            padding: 10px;
-            border: 1px solid #ddd;
-            border-radius: 20px;
-            outline: none;
-        }
-        .send-btn {
-            background: #e53935;
-            color: white;
-            border: none;
-            padding: 0 15px;
-            margin-left: 8px;
-            border-radius: 50%;
-            cursor: pointer;
-        }
-        .site-footer {
-            background-color: #333;
-            color: white;
-            text-align: center;
-            padding: 15px;
-            font-size: 14px;
-            margin-top: 40px;
-        }
+        /* प्रोफाइल ग्रिड */
+        .main-container { max-width: 1100px; margin: 20px auto; padding: 0 15px; display: grid; grid-template-columns: 1fr; gap: 20px; }
+        @media (min-width: 800px) { .main-container { grid-template-columns: 2fr 1fr; } }
+        
+        .profile-feed { display: grid; grid-template-columns: 1fr; gap: 20px; }
+        @media (min-width: 500px) { .profile-feed { grid-template-columns: repeat(2, 1fr); } }
+
+        .card { background: white; border-radius: 15px; padding: 15px; box-shadow: 0 2px 8px rgba(0,0,0,0.06); border: 1px solid #eef0f2; display: flex; flex-direction: column; justify-content: space-between; }
+        .card-top { text-align: center; margin-bottom: 10px; }
+        .card img { width: 80px; height: 80px; border-radius: 50%; border: 3px solid #e53935; object-fit: cover; }
+        .card h3 { margin: 8px 0 2px 0; font-size: 16px; }
+        .card p { margin: 0; font-size: 13px; color: #666; }
+
+        /* असली लाइक और कमेंट बॉक्स स्टाइल */
+        .action-zone { border-top: 1px solid #eee; padding-top: 10px; margin-top: 10px; }
+        .like-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; }
+        .like-btn { background: #fff1f1; border: 1px solid #ffcdd2; color: #e53935; padding: 6px 12px; border-radius: 15px; cursor: pointer; font-weight: bold; font-size: 13px; }
+        .like-count { font-size: 13px; font-weight: bold; color: #555; }
+        
+        .comment-box { height: 60px; overflow-y: auto; background: #f9f9f9; padding: 5px; border-radius: 8px; font-size: 12px; margin-bottom: 8px; text-align: left; }
+        .comment-input-row { display: flex; gap: 5px; }
+        .comment-input { flex: 1; padding: 6px 10px; border: 1px solid #ddd; border-radius: 15px; font-size: 12px; outline: none; }
+        .comment-btn { background: #e53935; color: white; border: none; padding: 0 12px; border-radius: 15px; font-size: 12px; cursor: pointer; }
+
+        /* असली लाइव चैट रूम */
+        .chat-sidebar { background: white; border-radius: 15px; padding: 15px; box-shadow: 0 2px 8px rgba(0,0,0,0.06); height: 450px; display: flex; flex-direction: column; position: sticky; top: 20px; }
+        .chat-header { background: #e53935; color: white; padding: 10px; border-radius: 10px; font-weight: bold; text-align: center; margin-bottom: 10px; }
+        .chat-messages { flex: 1; overflow-y: auto; background: #f7f7f7; padding: 10px; border-radius: 8px; font-size: 13px; }
+        .msg { margin-bottom: 8px; padding: 6px 10px; border-radius: 10px; max-width: 85%; }
+        .msg-in { background: white; border: 1px solid #ddd; }
+        .msg-out { background: #e53935; color: white; margin-left: auto; }
+        .chat-input-row { display: flex; gap: 5px; margin-top: 10px; }
+        .chat-text { flex: 1; padding: 10px; border: 1px solid #ddd; border-radius: 20px; outline: none; }
+        .chat-send { background: #e53935; color: white; border: none; width: 40px; height: 40px; border-radius: 50%; cursor: pointer; font-weight: bold; }
+
+        .footer { text-align: center; padding: 20px; background: #222; color: white; margin-top: 40px; font-size: 13px; }
     </style>
 </head>
 <body>
 
+    <!-- हेडर और सर्च बार -->
     <div class="header">
         <h1>❤️ Panipat Connect</h1>
-        <p>अपने आसपास नए लोगों से जुड़ें, बातचीत करें, दोस्ती करें</p>
+        <p>असली लोगों से जुड़ें - लाइव लाइक, कमेंट और चैटिंग प्लेटफॉर्म</p>
         <div class="search-container">
-            <input type="text" class="search-input" placeholder="नाम या इलाका खोजें...">
+            <input type="text" class="search-input" placeholder="पानीपत में दोस्त खोजें...">
             <button class="search-btn">खोजें</button>
         </div>
     </div>
 
-    <div class="profile-section">
-        <h2>लोकप्रिय प्रोफाइल (आसपास के लोग)</h2>
-        <div class="profile-grid">
-            <div class="profile-card"><img src="https://i.pravatar.cc/150?img=11" alt="User"><h3>विकास मलिक</h3><p>मॉडल टाउन, पानीपत</p><button class="view-btn" onclick="alert('चैट करने के लिए नीचे लॉगिन करें!')">प्रोفाइल देखें</button></div>
-            <div class="profile-card"><img src="https://i.pravatar.cc/150?img=5" alt="User"><h3>कविता चौधरी</h3><p>सेक्टर 11, पानीपत</p><button class="view-btn" onclick="alert('चैट करने के लिए नीचे लॉगिन करें!')">प्रोفाइल देखें</button></div>
-            <div class="profile-card"><img src="https://i.pravatar.cc/150?img=12" alt="User"><h3>संदीप जांगड़ा</h3><p>रिफाइनरी रोड, पानीपत</p><button class="view-btn" onclick="alert('चैट करने के लिए नीचे लॉगिन करें!')">प्रोफाइल देखें</button></div>
-            <div class="profile-card"><img src="https://i.pravatar.cc/150?img=9" alt="User"><h3>अंजलि शर्मा</h3><p>सुखदेव नगर, पानीपत</p><button class="view-btn" onclick="alert('चैट करने के लिए नीचे लॉगिन करें!')">प्रोफाइल देखें</button></div>
-            <div class="profile-card"><img src="https://i.pravatar.cc/150?img=13" alt="User"><h3>दीपक अहलवात</h3><p>समालखा, पानीपत</p><button class="view-btn" onclick="alert('चैट करने के लिए नीचे लॉगिन करें!')">प्रोफाइल देखें</button></div>
-            <div class="profile-card"><img src="https://i.pravatar.cc/150?img=16" alt="User"><h3>मनोज पांचाल</h3><p>तहसील कैंप, पानीपत</p><button class="view-btn" onclick="alert('चैट करने के लिए नीचे लॉगिन करें!')">प्रोफाइल देखें</button></div>
-            <div class="profile-card"><img src="https://i.pravatar.cc/150?img=21" alt="User"><h3>पूजा राठी</h3><p>अंसल एपीआई, पानीपत</p><button class="view-btn" onclick="alert('चैट करने के लिए नीचे लॉगिन करें!')">प्रोफाइल देखें</button></div>
-            <div class="profile-card"><img src="https://i.pravatar.cc/150?img=33" alt="User"><h3>रोहित वर्मा</h3><p>किला चौक, पानीपत</p><button class="view-btn" onclick="alert('चैट करने के लिए नीचे लॉगिन करें!')">प्रोफाइल देखें</button></div>
-            <div class="profile-card"><img src="https://i.pravatar.cc/150?img=32" alt="User"><h3>सोनिया धीमान</h3><p>बाबरपुर, पानीपत</p><button class="view-btn" onclick="alert('चैट करने के लिए नीचे लॉगिन करें!')">प्रोफाइल देखें</button></div>
-            <div class="profile-card"><img src="https://i.pravatar.cc/150?img=58" alt="User"><h3>सुमित गुज्जर</h3><p>इसराना, पानीपत</p><button class="view-btn" onclick="alert('चैट करने के लिए नीचे लॉगिन करें!')">प्रोफाइल देखें</button></div>
+    <!-- लॉगिन / यूजर प्रोफाइल इंफो -->
+    <div class="auth-box">
+        <div id="login-state">
+            <h3 style="margin-top:0;">प्लेटफ़ॉर्म पर एक्टिव होने के लिए लॉगिन करें</h3>
+            <button class="google-btn" onclick="login()">Google आईडी से लॉगिन करें</button>
+        </div>
+        <div id="user-state" style="display: none; align-items: center; justify-content: center; gap: 15px;">
+            <img id="my-pic" src="" alt="Me" style="width:40px; height:40px; border-radius:50%;">
+            <span>स्वागत है, <b id="my-name">...</b></span>
+            <button class="logout-btn" onclick="logout()">लॉगआउट</button>
         </div>
     </div>
 
-    <div class="real-app-container">
-        <div id="login-section">
-            <h3 style="color: #333; margin-bottom: 15px;">लाइव चैटिंग शुरू करने के लिए लॉगिन करें</h3>
-            <button class="auth-btn" onclick="loginWithGoogle()">Google के साथ लॉगिन करें</button>
+    <!-- मेन कंटेंट एरिया -->
+    <div class="main-container">
+        
+        <!-- लेफ्ट साइड: प्रोफाइल फीड (लाइक और कमेंट के साथ) -->
+        <div>
+            <h2 style="font-size: 20px; margin-left: 5px; color: #444;">लोकप्रिय प्रोफाइल</h2>
+            <div class="profile-feed" id="feed-container">
+                <!-- प्रोफाइल कार्ड्स जावास्क्रिप्ट के जरिए नीचे से ऑटोमैटिक लोड होंगे -->
+            </div>
         </div>
 
-        <div id="chat-section" class="chat-window">
-            <div class="chat-header">Panipat Connect लाइव चैट रूम</div>
-            <div style="padding: 10px; background: #eee; font-size: 14px;">
-                स्वागत है, <span id="user-name" style="font-weight: bold;">...</span>! 
-                <button onclick="logout()" style="float: right; font-size: 11px;">लॉगआउट</button>
+        <!-- राइट साइड: असली लाइव चैट रूम -->
+        <div class="chat-sidebar">
+            <div class="chat-header">🌐 पानीपत लाइव चैट रूम</div>
+            <div class="chat-messages" id="chat-msgs">
+                <div style="color: #888; text-align: center; padding-top: 50px;">चैट देखने और मैसेज भेजने के लिए कृपया पहले लॉगिन करें।</div>
             </div>
-            <div class="chat-messages" id="msg-container">
-                <div class="message msg-received"><b>एडमिन:</b> पानीपत कनेक्ट चैट रूम में आपका स्वागत है!</div>
-            </div>
-            <div class="chat-input-area">
-                <input type="text" id="msg-input" class="chat-input" placeholder="अपना संदेश लिखें...">
-                <button class="send-btn" onclick="sendMessage()">➔</button>
+            <div class="chat-input-row">
+                <input type="text" id="chat-input" class="chat-text" placeholder="मैसेज टाइप करें..." disabled>
+                <button class="chat-send" id="chat-btn" onclick="sendLiveMessage()" disabled>➔</button>
             </div>
         </div>
+
     </div>
 
-    <footer class="site-footer">
-        <p>© 2026 Panipat Connect. सभी अधिकार सुरक्षित।</p>
+    <footer class="footer">
+        <p>© 2026 Panipat Connect. असली डेटाबेस सुरक्षित सोशल नेटवर्क।</p>
     </footer>
 
+    <!-- Firebase SDK Links -->
     <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-auth-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-database-compat.js"></script>
 
     <script>
-        // ⚠️ Firebase प्रोजेक्ट की डिटेल्स यहाँ डालें
+        // ⚠️ यहाँ आपको अपने Firebase की असली क्रेडेंशियल्स डालनी होंगी
         const firebaseConfig = {
             apiKey: "YOUR_API_KEY",
             authDomain: "YOUR_AUTH_DOMAIN",
@@ -271,64 +130,157 @@
             appId: "YOUR_APP_ID"
         };
 
-        // अगर आपने Firebase सेटअप कर लिया है तो ये कोड एक्टिवेट हो जाएगा
-        if(firebaseConfig.apiKey !== "YOUR_API_KEY") {
-            firebase.initializeApp(firebaseConfig);
-            const auth = firebase.auth();
-            const db = firebase.database();
+        // डमी प्रोफाइल्स का डेटा बेस
+        const dummyUsers = [
+            { id: "p1", name: "विकास मलिक", area: "मॉडल टाउन, पानीपत", img: "https://i.pravatar.cc/150?img=11" },
+            { id: "p2", name: "कविता चौधरी", area: "सेक्टर 11, पानीपत", img: "https://i.pravatar.cc/150?img=5" },
+            { id: "p3", name: "संदीप जांगड़ा", area: "रिफाइनरी रोड, पानीपत", img: "https://i.pravatar.cc/150?img=12" },
+            { id: "p4", name: "अंजलि शर्मा", area: "सुखदेव नगर, पानीपत", img: "https://i.pravatar.cc/150?img=9" }
+        ];
 
+        let db = null;
+        let auth = null;
+
+        // चेक करें कि Firebase सेटअप हुआ या नहीं
+        if (firebaseConfig.apiKey !== "YOUR_API_KEY") {
+            firebase.initializeApp(firebaseConfig);
+            db = firebase.database();
+            auth = firebase.auth();
+
+            // यूजर लॉगिन स्टेट मॉनिटर
             auth.onAuthStateChanged(user => {
                 if (user) {
-                    document.getElementById('login-section').style.display = 'none';
-                    document.getElementById('chat-section').style.display = 'block';
-                    document.getElementById('user-name').innerText = user.displayName;
-                    loadMessages();
+                    document.getElementById('login-state').style.display = 'none';
+                    document.getElementById('user-state').style.display = 'flex';
+                    document.getElementById('my-name').innerText = user.displayName;
+                    document.getElementById('my-pic').src = user.photoURL;
+                    
+                    // चैट इनेबल करें
+                    document.getElementById('chat-input').disabled = false;
+                    document.getElementById('chat-btn').disabled = false;
+                    
+                    listenToLiveChat();
+                    buildFeed();
                 } else {
-                    document.getElementById('login-section').style.display = 'block';
-                    document.getElementById('chat-section').style.display = 'none';
+                    document.getElementById('login-state').style.display = 'block';
+                    document.getElementById('user-state').style.display = 'none';
+                    document.getElementById('chat-input').disabled = true;
+                    document.getElementById('chat-btn').disabled = true;
+                    buildFeed();
                 }
             });
         } else {
-            // सेटअप न होने पर अलर्ट दिखाएगा
-            function loginWithGoogle() { alert("गूगल लॉगिन चालू करने के लिए आपको Firebase सेटअप की चाबियां (Keys) इस कोड में डालनी होंगी।"); }
+            // बिना फ़ायरबेस के शुरुआती सेटअप (सिर्फ दिखाने के लिए)
+            buildFeed();
         }
 
-        function loginWithGoogle() {
+        // फीड तैयार करने और लाइक/कमेंट रेंडर करने का फंक्शन
+        function buildFeed() {
+            const container = document.getElementById('feed-container');
+            container.innerHTML = "";
+
+            dummyUsers.forEach(p => {
+                const card = document.createElement('div');
+                card.className = 'card';
+                card.innerHTML = `
+                    <div class="card-top">
+                        <img src="${p.img}" alt="User">
+                        <h3>${p.name}</h3>
+                        <p>${p.area}</p>
+                    </div>
+                    <div class="action-zone">
+                        <div class="like-row">
+                            <button class="like-btn" onclick="doLike('${p.id}')">❤️ लाइक करें</button>
+                            <span class="like-count" id="like-count-${p.id}">0 लाइक्स</span>
+                        </div>
+                        <div class="comment-box" id="comment-box-${p.id}">कोई कमेंट नहीं है...</div>
+                        <div class="comment-input-row">
+                            <input type="text" id="comment-in-${p.id}" class="comment-input" placeholder="कमेंट लिखें...">
+                            <button class="comment-btn" onclick="doComment('${p.id}')">भेजें</button>
+                        </div>
+                    </div>
+                `;
+                container.appendChild(card);
+
+                // अगर डेटाबेस लाइव है तो असली लाइक और कमेंट लोड करें
+                if(db) {
+                    // लाइव लाइक सुनना
+                    db.ref(`likes/${p.id}`).on('value', snap => {
+                        document.getElementById(`like-count-${p.id}`).innerText = (snap.val() || 0) + " लाइक्स";
+                    });
+                    // लाइव कमेंट सुनना
+                    db.ref(`comments/${p.id}`).on('value', snap => {
+                        const box = document.getElementById(`comment-box-${p.id}`);
+                        box.innerHTML = "";
+                        if(snap.exists()) {
+                            snap.forEach(child => {
+                                box.innerHTML += `<div><b>${child.val().user}:</b> ${child.val().text}</div>`;
+                            });
+                        } else {
+                            box.innerHTML = "कोई कमेंट नहीं है...";
+                        }
+                        box.scrollTop = box.scrollHeight;
+                    });
+                }
+            });
+        }
+
+        // लॉगिन और लॉगआउट फंक्शन्स
+        function login() {
+            if(!auth) { alert("असली लॉगिन चलाने के लिए कोड में अपनी Firebase Keys डालें!"); return; }
             const provider = new firebase.auth.GoogleAuthProvider();
-            firebase.auth().signInWithPopup(provider).catch(err => alert(err.message));
+            auth.signInWithPopup(provider).catch(err => alert(err.message));
+        }
+        function logout() { auth.signOut().then(() => location.reload()); }
+
+        // असली लाइक फंक्शन
+        function doLike(profileId) {
+            if(!db || !auth.currentUser) { alert("लाइक करने के लिए कृपया पहले लॉगिन करें!"); return; }
+            const ref = db.ref(`likes/${profileId}`);
+            ref.transaction(currentLikes => (currentLikes || 0) + 1);
         }
 
-        function logout() { firebase.auth().signOut(); }
-
-        function sendMessage() {
-            const input = document.getElementById('msg-input');
+        // असली कमेंट फंक्शन
+        function doComment(profileId) {
+            if(!db || !auth.currentUser) { alert("कमेंट करने के लिए कृपया पहले लॉगिन करें!"); return; }
+            const input = document.getElementById(`comment-in-${profileId}`);
             const text = input.value.trim();
             if(text === "") return;
-            const user = firebase.auth().currentUser;
-            if(user) {
-                firebase.database().ref('chats').push({
-                    name: user.displayName,
-                    text: text,
-                    timestamp: Date.now()
-                });
-                input.value = "";
-            }
+
+            db.ref(`comments/${profileId}`).push({
+                user: auth.currentUser.displayName,
+                text: text
+            });
+            input.value = "";
         }
 
-        function loadMessages() {
-            firebase.database().ref('chats').limitToLast(20).on('value', snapshot => {
-                const container = document.getElementById('msg-container');
-                container.innerHTML = "";
-                snapshot.forEach(child => {
+        // असली चैट रूम फंक्शन
+        function sendLiveMessage() {
+            const input = document.getElementById('chat-input');
+            const text = input.value.trim();
+            if(text === "" || !db) return;
+
+            db.ref('global_messages').push({
+                user: auth.currentUser.displayName,
+                text: text,
+                timestamp: Date.now()
+            });
+            input.value = "";
+        }
+
+        function listenToLiveChat() {
+            db.ref('global_messages').limitToLast(30).on('value', snap => {
+                const box = document.getElementById('chat-msgs');
+                box.innerHTML = "";
+                snap.forEach(child => {
                     const data = child.val();
-                    const user = firebase.auth().currentUser;
-                    const isMe = user && data.name === user.displayName;
+                    const isMe = data.user === auth.currentUser.displayName;
                     const msgDiv = document.createElement('div');
-                    msgDiv.className = `message ${isMe ? 'msg-sent' : 'msg-received'}`;
-                    msgDiv.innerHTML = `<b>${isMe ? 'आप' : data.name}:</b> ${data.text}`;
-                    container.appendChild(msgDiv);
+                    msgDiv.className = `msg ${isMe ? 'msg-out' : 'msg-in'}`;
+                    msgDiv.innerHTML = `<b>${isMe ? 'आप' : data.user}:</b> ${data.text}`;
+                    box.appendChild(msgDiv);
                 });
-                container.scrollTop = container.scrollHeight;
+                box.scrollTop = box.scrollHeight;
             });
         }
     </script>
