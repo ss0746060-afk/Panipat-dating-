@@ -3,29 +3,28 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Panipat Connect - Modular Instagram</title>
+    <title>Panipat Connect - Permanent Instagram</title>
     
     <style>
-        /* ─── मुख्य डिज़ाइन (Instagram Theme) ─── */
         body { 
             margin: 0; padding: 0; 
             font-family: '-apple-system', BlinkMacSystemFont, sans-serif; 
-            background-color: #fafafa; color: #262626; 
+            background-color: #fafafa; color: #262626; transition: background 0.3s;
         }
-        
         .insta-header { 
             background-color: white; border-bottom: 1px solid #dbdbdb; 
             position: sticky; top: 0; z-index: 100; padding: 10px 15px; 
             display: flex; justify-content: space-between; align-items: center; 
         }
         .insta-header h1 { font-size: 22px; font-weight: bold; margin: 0; color: #e53935; }
+        .header-right { display: flex; align-items: center; gap: 15px; }
         
         .header-auth-btn {
             background-color: #0095f6; color: white; border: none; padding: 6px 14px;
             border-radius: 4px; font-weight: 600; font-size: 13px; cursor: pointer;
         }
-        .user-badge { font-size: 13px; font-weight: bold; display: none; gap: 10px; align-items: center; }
-        .logout-btn { color: #e53935; cursor: pointer; font-size: 12px; }
+        .user-badge { font-size: 13px; font-weight: bold; display: none; gap: 8px; align-items: center; }
+        .logout-btn { color: #e53935; cursor: pointer; font-weight: bold; font-size: 14px; }
 
         .main-container { max-width: 600px; margin: 0 auto; padding-bottom: 80px; }
 
@@ -36,9 +35,7 @@
         }
         .stories-container::-webkit-scrollbar { display: none; }
         .story { text-align: center; font-size: 11px; min-width: 65px; }
-        .story-img-wrapper {
-            width: 56px; height: 56px; border-radius: 50%; padding: 2px; border: 2px solid #e53935; margin: 0 auto 4px auto;
-        }
+        .story-img-wrapper { width: 56px; height: 56px; border-radius: 50%; padding: 2px; border: 2px solid #e53935; margin: 0 auto 4px auto; }
         .story img { width: 100%; height: 100%; border-radius: 50%; object-fit: cover; }
 
         /* पोस्ट्स */
@@ -51,396 +48,230 @@
         .action-btn { cursor: pointer; user-select: none; }
         .likes-display { padding: 0 12px; font-size: 14px; font-weight: bold; margin-bottom: 6px; }
         .comments-section { padding: 0 12px; font-size: 14px; margin-bottom: 8px; }
-        .comment-item { margin-bottom: 4px; }
-        .comment-form { border-top: 1px solid #efefef; padding: 10px 12px; display: flex; justify-content: space-between; }
-        .comment-input { flex: 1; border: none; outline: none; font-size: 14px; }
-        .comment-post-btn { color: #0095f6; border: none; background: none; font-weight: 600; cursor: pointer; }
 
-        /* पॉप-अप */
+        /* पॉप-अप फॉर्म */
         .modal-overlay {
             position: fixed; top: 0; left: 0; right: 0; bottom: 0;
             background: rgba(0,0,0,0.5); display: none; justify-content: center; align-items: center; z-index: 1000;
         }
-        .auth-popup { background: white; padding: 30px; border-radius: 8px; width: 320px; text-align: center; position: relative; }
+        .auth-popup { background: white; padding: 30px; border-radius: 8px; width: 320px; text-align: center; position: relative; color: #262626; }
         .close-popup { position: absolute; top: 10px; right: 15px; font-size: 20px; cursor: pointer; }
         .auth-input { width: 100%; padding: 10px; margin-bottom: 10px; border: 1px solid #dbdbdb; border-radius: 4px; box-sizing: border-box; }
         .auth-btn { width: 100%; padding: 8px; background-color: #0095f6; color: white; border: none; border-radius: 4px; font-weight: bold; cursor: pointer; }
-        .toggle-text { font-size: 13px; color: #8e8e8e; cursor: pointer; }
+        .toggle-text { font-size: 13px; color: #8e8e8e; cursor: pointer; margin-top: 10px; }
+        .toggle-text span { color: #0095f6; font-weight: bold; }
 
         .bottom-nav {
             position: fixed; bottom: 0; left: 0; right: 0; background: white; border-top: 1px solid #dbdbdb;
             display: flex; justify-content: space-around; padding: 12px 0; font-size: 20px; z-index: 100;
         }
     </style>
-    
-    <style id="new-styles-holder"></style>
 </head>
 <body>
 
+    <!-- हेडर -->
     <div class="insta-header">
         <h1>Panipat Connect</h1>
-        <button class="header-auth-btn" id="login-trigger-btn" onclick="openAuthModal()">लॉग इन करें</button>
-        <div class="user-badge" id="user-profile-badge">
-            <span id="logged-username">@username</span>
-            <span class="logout-btn" onclick="handleLogout()">✕</span>
+        <div class="header-right">
+            <!-- ➕ फोटो अपलोड बटन -->
+            <input type="file" id="insta-file-input" accept="image/*" style="display:none;">
+            <button onclick="triggerFileSelect()" style="background:none; border:none; font-size:24px; cursor:pointer; padding:0;">➕</button>
+            
+            <!-- लॉगिन/यूजर इंफो -->
+            <button class="header-auth-btn" id="login-trigger-btn" onclick="openAuthModal()">लॉग इन करें</button>
+            <div class="user-badge" id="user-profile-badge">
+                <span id="logged-username">@username</span>
+                <span class="logout-btn" onclick="handleLogout()">✕</span>
+            </div>
         </div>
     </div>
 
-    <div class="main-container" id="app-main-body">
-        
+    <!-- मुख्य कंटेनर -->
+    <div class="main-container">
+        <!-- स्टोरीज़ -->
         <div class="stories-container">
             <div class="story"><div class="story-img-wrapper"><img src="https://i.pravatar.cc/150?img=11"></div><span>विकास</span></div>
             <div class="story"><div class="story-img-wrapper"><img src="https://i.pravatar.cc/150?img=5"></div><span>कविता</span></div>
             <div class="story"><div class="story-img-wrapper"><img src="https://i.pravatar.cc/150?img=12"></div><span>संदीप</span></div>
         </div>
 
+        <!-- यहाँ पोस्ट्स दिखेंगी -->
         <div id="insta-posts-feed"></div>
-
-        <div id="future-features-container">
+        
+        <!-- रील्स सेक्शन -->
+        <div style="margin-top: 30px; border-top: 1px solid #dbdbdb; padding-top: 20px;">
+            <h2 style="font-size: 18px; padding: 0 10px;">🎬 रील्स (Reels)</h2>
+            <div class="insta-post">
+                <div class="post-header">
+                    <img src="https://i.pravatar.cc/150?img=13">
+                    <div class="user-info">दीपक हुड्डा</div>
+                </div>
+                <video src="https://www.w3schools.com/html/mov_bbb.mp4" controls loop muted style="width:100%; max-height:500px; background:black;"></video>
             </div>
-
+        </div>
     </div>
 
+    <!-- लॉगिन/साइनअप पॉप-अप -->
     <div class="modal-overlay" id="auth-modal">
         <div class="auth-popup">
             <span class="close-popup" onclick="closeAuthModal()">&times;</span>
+            
+            <!-- लॉगिन बॉक्स -->
             <div id="login-box">
                 <h2>लॉग इन</h2>
-                <input type="email" id="login-email" class="auth-input" placeholder="ईमेल आईडी">
+                <input type="text" id="login-user" class="auth-input" placeholder="यूज़रनेम">
                 <input type="password" id="login-pass" class="auth-input" placeholder="पासवर्ड">
                 <button class="auth-btn" onclick="handleLogin()">लॉग इन करें</button>
                 <p class="toggle-text" onclick="toggleForm(true)">अकाउंट नहीं है? <span>साइन अप</span></p>
             </div>
+
+            <!-- साइनअप बॉक्स -->
             <div id="signup-box" style="display: none;">
-                <h2>साइन अप</h2>
-                <input type="email" id="sign-email" class="auth-input" placeholder="Gmail आईडी">
-                <input type="text" id="sign-username" class="auth-input" placeholder="यूज़रनेम बनाएं">
-                <input type="password" id="sign-pass" class="auth-input" placeholder="पासवर्ड बनाएं">
+                <h2>साइन अप (नया अकाउंट)</h2>
+                <input type="text" id="sign-username" class="auth-input" placeholder="नया यूज़रनेम बनाएं">
+                <input type="password" id="sign-pass" class="auth-input" placeholder="एक मजबूत पासवर्ड चुनें">
                 <button class="auth-btn" onclick="handleSignup()">अकाउंट बनाएं</button>
                 <p class="toggle-text" onclick="toggleForm(false)">पहले से खाता है? <span>लॉग इन</span></p>
             </div>
         </div>
     </div>
 
+    <!-- नीचे का मेनू बार -->
     <div class="bottom-nav">
-        <div style="cursor:pointer;">🏠</div>
-        <div style="cursor:pointer;" onclick="alert('फीचर जल्द आ रहा है!')">💬</div>
-        <div style="cursor:pointer;" onclick="openAuthModal()">👤</div>
+        <div style="cursor:pointer;" onclick="window.scrollTo({top:0, behavior:'smooth'});">🏠</div>
+        <div style="cursor:pointer;" onclick="alert('चैट रूम चालू है!')">💬</div>
+        <div style="cursor:pointer;" id="dark-mode-btn">🌙</div>
     </div>
 
     <script>
-        const postsData = [
-            { id: "post_1", user: "विकास मलिक", userImg: "https://i.pravatar.cc/150?img=11", location: "पानीपत", postImg: "https://picsum.photos/id/10/600/500", caption: "शानदार मौसम! 🌤️", likes: 124, comments: [] }
+        // 💾 लोकल स्टोरेज से डेटा लोड करना ताकि रिफ्रेश पर डिलीट न हो
+        let usersDatabase = JSON.parse(localStorage.getItem('usersDatabase')) || {};
+        let loggedInUser = localStorage.getItem('loggedInUser') || null;
+        let localPosts = JSON.parse(localStorage.getItem('localPosts')) || [];
+
+        // डिफ़ॉल्ट डमी पोस्ट्स
+        const defaultPosts = [
+            { id: "p1", user: "विकास मलिक", userImg: "https://i.pravatar.cc/150?img=11", postImg: "https://picsum.photos/id/10/600/500", caption: "पानीपत का मौसम! 🌤️" }
         ];
 
+        // 🛠️ फीड लोड करने का असली फंक्शन
         function loadFeed() {
             const feed = document.getElementById('insta-posts-feed');
             feed.innerHTML = "";
-            postsData.forEach(post => {
-                const savedLikes = localStorage.getItem(`likes_${post.id}`) || post.likes;
-                const isLiked = localStorage.getItem(`isLiked_${post.id}`) === "true";
+            
+            // दोनों डिफ़ॉल्ट और यूजर द्वारा अपलोड की गई पोस्ट्स को जोड़ना
+            const allPosts = [...localPosts, ...defaultPosts];
+            
+            allPosts.forEach(post => {
                 const card = document.createElement('div');
                 card.className = 'insta-post';
                 card.innerHTML = `
-                    <div class="post-header"><img src="${post.userImg}"><div class="user-info">${post.user}</div></div>
+                    <div class="post-header">
+                        <img src="${post.userImg || 'https://i.pravatar.cc/150?img=3'}">
+                        <div class="user-info">${post.user}</div>
+                    </div>
                     <img class="post-img" src="${post.postImg}">
-                    <div class="post-actions"><span class="action-btn" id="btn-${post.id}" onclick="toggleLike('${post.id}')">${isLiked ? '❤️' : '🤍'}</span></div>
-                    <div class="likes-display" id="count-${post.id}">${savedLikes} लाइक्स</div>
-                    <div class="comment-form"><input type="text" id="input-${post.id}" class="comment-input" placeholder="कमेंट जोड़ें..."><button class="comment-post-btn" onclick="alert('कमेंट पोस्ट हुआ!')">Post</button></div>
+                    <div class="post-actions"><span class="action-btn" onclick="toggleLike(this)">🤍</span></div>
+                    <div class="likes-display">0 लाइक्स</div>
+                    <div class="comments-section"><b>${post.user}</b> ${post.caption}</div>
                 `;
                 feed.appendChild(card);
             });
         }
 
+        // 📝 असली साइनअप (डेटाबेस में हमेशा के लिए सेव)
+        function handleSignup() {
+            const user = document.getElementById('sign-username').value.trim().toLowerCase();
+            const pass = document.getElementById('sign-pass').value;
+
+            if(!user || !pass) { alert("कृपया दोनों फ़ील्ड भरें!"); return; }
+            if(usersDatabase[user]) { alert("यह यूज़रनेम पहले से बुक है!"); return; }
+
+            usersDatabase[user] = pass;
+            localStorage.setItem('usersDatabase', JSON.stringify(usersDatabase)); // ब्राउज़र में सेव
+            
+            logInTheUser(user);
+            alert("🎉 आपका अकाउंट सफलतापूर्वक बन गया है!");
+        }
+
+        // 🔑 असली लॉगिन सिस्टम
+        function handleLogin() {
+            const user = document.getElementById('login-user').value.trim().toLowerCase();
+            const pass = document.getElementById('login-pass').value;
+
+            if(usersDatabase[user] && usersDatabase[user] === pass) {
+                logInTheUser(user);
+            } else {
+                alert("गलत यूज़रनेम या पासवर्ड! पहले साइन अप करें।");
+            }
+        }
+
+        function logInTheUser(user) {
+            loggedInUser = user;
+            localStorage.setItem('loggedInUser', user);
+            document.getElementById('login-trigger-btn').style.display = 'none';
+            const badge = document.getElementById('user-profile-badge');
+            badge.style.display = 'flex';
+            document.getElementById('logged-username').innerText = "@" + user;
+            closeAuthModal();
+            loadFeed();
+        }
+
+        function handleLogout() {
+            localStorage.removeItem('loggedInUser');
+            loggedInUser = null;
+            document.getElementById('login-trigger-btn').style.display = 'block';
+            document.getElementById('user-profile-badge').style.display = 'none';
+            loadFeed();
+        }
+
+        // 📸 असली फोटो अपलोड (रिफ्रेश करने पर भी नहीं उड़ेगी)
+        function triggerFileSelect() { document.getElementById('insta-file-input').click(); }
+        
+        document.getElementById('insta-file-input').addEventListener('change', function(e) {
+            const file = e.target.files[0];
+            if (!file) return;
+
+            const caption = prompt("अपनी पोस्ट का कैप्शन लिखें:");
+            if (caption === null) return;
+
+            const reader = new FileReader();
+            reader.onload = function(event) {
+                const newPost = {
+                    id: "custom_" + Date.now(),
+                    user: loggedInUser ? "@" + loggedInUser : "अतिथि_यूजर",
+                    userImg: "https://i.pravatar.cc/150?img=3",
+                    postImg: event.target.result,
+                    caption: caption
+                };
+
+                localPosts.unshift(newPost); // लिस्ट में सबसे ऊपर जोड़ें
+                localStorage.setItem('localPosts', JSON.stringify(localPosts)); // लोकल स्टोरेज में सेव!
+                loadFeed(); // फीड रीलोड करें
+            };
+            reader.readAsDataURL(file);
+        });
+
+        // बाकी यूटिलिटी फंक्शन्स
         function openAuthModal() { document.getElementById('auth-modal').style.display = 'flex'; }
         function closeAuthModal() { document.getElementById('auth-modal').style.display = 'none'; }
         function toggleForm(showSignup) {
             document.getElementById('login-box').style.display = showSignup ? 'none' : 'block';
             document.getElementById('signup-box').style.display = showSignup ? 'block' : 'none';
         }
-        function updateHeaderUI(username) {
-            document.getElementById('login-trigger-btn').style.display = 'none';
-            const badge = document.getElementById('user-profile-badge');
-            badge.style.display = 'flex';
-            document.getElementById('logged-username').innerText = "@" + username.toLowerCase();
-            closeAuthModal();
-        }
-        function handleSignup() { updateHeaderUI(document.getElementById('sign-username').value || "user"); }
-        function handleLogin() { updateHeaderUI(document.getElementById('login-email').value.split('@')[0] || "user"); }
-        function handleLogout() { document.getElementById('login-trigger-btn').style.display = 'block'; document.getElementById('user-profile-badge').style.display = 'none'; }
-        function toggleLike(id) {
-            const post = postsData.find(p => p.id === id);
-            let likes = parseInt(localStorage.getItem(`likes_${id}`)) || post.likes;
-            let isLiked = localStorage.getItem(`isLiked_${id}`) === "true";
-            if (isLiked) { likes--; isLiked = false; document.getElementById(`btn-${id}`).innerText = "🤍"; } 
-            else { likes++; isLiked = true; document.getElementById(`btn-${id}`).innerText = "❤️"; }
-            localStorage.setItem(`likes_${id}`, likes); localStorage.setItem(`isLiked_${id}`, isLiked);
-            document.getElementById(`count-${id}`).innerText = likes + " लाइक्स";
-        }
-        loadFeed();
+        function toggleLike(el) { el.innerText = el.innerText === '🤍' ? '❤️' : '🤍'; }
+
+        // डार्क मोड ऑन/ऑफ बटन
+        document.getElementById('dark-mode-btn').addEventListener('click', function() {
+            if (document.body.style.backgroundColor === 'rgb(18, 18, 18)') {
+                document.body.style.backgroundColor = '#fafafa'; document.body.style.color = '#262626'; this.innerText = "🌙";
+            } else {
+                document.body.style.backgroundColor = '#121212'; document.body.style.color = '#f5f5f5'; this.innerText = "☀️";
+            }
+        });
+
+        // पेज लोड होते ही चेक करें कि क्या यूजर पहले से लॉग इन है
+        if (loggedInUser) { logInTheUser(loggedInUser); } else { loadFeed(); }
     </script>
-
-    <script id="new-scripts-holder">
-    // 🎬 इंस्टाग्राम रील्स का नया डेटाबेस और लॉजिक
-const reelsData = [
-    {
-        id: "reel_1",
-        user: "दीपक हुड्डा",
-        userImg: "https://i.pravatar.cc/150?img=13",
-        videoUrl: "https://www.w3schools.com/html/mov_bbb.mp4", // सैंपल वीडियो
-        caption: "पानीपत का नया हाईवे! 🛣️🔥 #panipat #reels"
-    }
-];
-
-// रील्स को स्क्रीन पर जोड़ने का फंक्शन
-function addNewReelsFeature() {
-    // 1. सबसे पहले मुख्य कंटेनर में रील्स के लिए एक नया बॉक्स (HTML) जोड़ेंगे
-    const mainBody = document.getElementById('future-features-container');
-    
-    const reelsSection = document.createElement('div');
-    reelsSection.style.marginTop = "30px";
-    reelsSection.style.borderTop = "2px dashed #dbdbdb";
-    reelsSection.style.paddingTop = "20px";
-    
-    reelsSection.innerHTML = `
-        <h2 style="font-size: 18px; padding: 0 10px; color: #e53935;">🎬 ट्रेंडिंग रील्स (Reels)</h2>
-        <div id="insta-reels-feed"></div>
-    `;
-    mainBody.appendChild(reelsSection);
-
-    // 2. अब रील्स का डेटा लोड करेंगे
-    const reelsFeed = document.getElementById('insta-reels-feed');
-    reelsData.forEach(reel => {
-        const reelCard = document.createElement('div');
-        reelCard.className = 'insta-post'; // पुरानी स्टाइल इस्तेमाल करेंगे
-        reelCard.innerHTML = `
-            <div class="post-header">
-                <img src="${reel.userImg}">
-                <div class="user-info">${reel.user} <span style="color:#0095f6; font-size:12px; margin-left:5px;">• Follow</span></div>
-            </div>
-            <video src="${reel.videoUrl}" controls loop muted style="width:100%; max-height:600px; background:black;"></video>
-            <div class="comments-section" style="padding: 10px 12px;">
-                <b>${reel.user}</b> ${reel.caption}
-            </div>
-        `;
-        reelsFeed.appendChild(reelCard);
-    });
-}
-
-// इस नए फीचर को तुरंत चालू करें
-addNewReelsFeature();
-// 📸 इंस्टाग्राम स्टाइल फोटो अपलोड फीचर
-function addNewPostUploadFeature() {
-    const header = document.querySelector('.header') || document.querySelector('.insta-header');
-    if (!header) return;
-    
-    const uploadBtnContainer = document.createElement('div');
-    uploadBtnContainer.style.display = "inline-block";
-    uploadBtnContainer.style.marginLeft = "15px";
-    
-    uploadBtnContainer.innerHTML = `
-        <input type="file" id="insta-file-input" accept="image/*" style="display:none;">
-        <button onclick="triggerFileSelect()" style="background:#222; color:white; border:none; padding:8px 15px; border-radius:20px; font-size:14px; cursor:pointer; font-weight:bold;">➕ फोटो अपलोड करें</button>
-    `;
-    
-    header.appendChild(uploadBtnContainer);
-
-    window.triggerFileSelect = function() {
-        document.getElementById('insta-file-input').click();
-    };
-
-    document.getElementById('insta-file-input').addEventListener('change', function(e) {
-        const file = e.target.files[0];
-        if (!file) return;
-
-        const caption = prompt("अपनी पोस्ट के लिए सुंदर सा कैप्शन लिखें:");
-        if (caption === null) return;
-
-        const reader = new FileReader();
-        reader.onload = function(event) {
-            const newPostImage = event.target.result;
-            const feed = document.getElementById('feed-container') || document.getElementById('insta-posts-feed');
-            if (!feed) return;
-
-            const newPostCard = document.createElement('div');
-            newPostCard.className = 'card';
-            newPostCard.style.gridColumn = "1 / -1"; 
-            newPostCard.style.marginBottom = "20px";
-            
-            newPostCard.innerHTML = `
-                <div class="card-top" style="text-align:left; padding:10px; display:flex; align-items:center; gap:10px;">
-                    <img src="https://i.pravatar.cc/150?img=3" style="width:40px; height:40px; border-radius:50%;">
-                    <div>
-                        <h3 style="margin:0; font-size:15px;">आप (You)</h3>
-                        <p style="margin:0; font-size:12px; color:#666;">पानीपत, हरियाणा</p>
-                    </div>
-                </div>
-                <img src="${newPostImage}" style="width:100%; max-height:45px0px; object-fit:cover; border-radius:8px; margin-bottom:10px;">
-                <div class="action-zone" style="padding:10px;">
-                    <p style="margin:0 0 10px 0; font-size:14px;"><b>आप:</b> ${caption}</p>
-                    <button class="like-btn" onclick="this.innerText = this.innerText === '❤️ लाइक' ? '🤍 अनलाइक' : '❤️ लाइक'">❤️ लाइक</button>
-                </div>
-            `;
-            
-            feed.insertBefore(newPostCard, feed.firstChild);
-            alert("🚀 आपकी फोटो सबसे ऊपर लाइव हो चुकी है!");
-        };
-        reader.readAsDataURL(file);
-    });
-}
-
-// इस फीचर को तुरंत चालू करें
-addNewPostUploadFeature();
-// 🌙 इंस्टाग्राम डार्क मोड (ब्लैक थीम) फीचर
-function addDarkModeFeature() {
-    // 1. नीचे वाले मेनू बार (Bottom Nav) में चाँद का बटन जोड़ना
-    const bottomNav = document.querySelector('.bottom-nav');
-    if (!bottomNav) return;
-
-    const darkBtn = document.createElement('div');
-    darkBtn.style.cursor = "pointer";
-    darkBtn.id = "dark-mode-toggle-btn";
-    darkBtn.innerText = "🌙"; // चाँद का इमोजी
-    darkBtn.title = "डार्क मोड ऑन/ऑफ करें";
-    
-    // इसे नीचे के मेनू में जोड़ देते हैं
-    bottomNav.appendChild(darkBtn);
-
-    // 2. बटन पर क्लिक होने पर ब्लैक थीम चालू या बंद करने का लॉजिक
-    darkBtn.addEventListener('click', function() {
-        const currentBg = document.body.style.backgroundColor;
-
-        if (currentBg === "rgb(18, 18, 18)" || currentBg === "sharp121212" || document.body.classList.contains('dark-theme-active')) {
-            // डार्क मोड बंद करें (लाइट मोड चालू करें)
-            document.body.classList.remove('dark-theme-active');
-            document.body.style.backgroundColor = "#fafafa";
-            document.body.style.color = "#262626";
-            
-            // सभी पोस्ट्स को वापस सफ़ेद करें
-            document.querySelectorAll('.insta-post, .card, .insta-header, .bottom-nav, .stories-container').forEach(el => {
-                el.style.backgroundColor = "white";
-                el.style.color = "#262626";
-                el.style.borderColor = "#dbdbdb";
-            });
-            
-            darkBtn.innerText = "🌙"; // चाँद वापस दिखाओ
-        } else {
-            // डार्क मोड चालू करें (ब्लैक थीम चालू करें)
-            document.body.classList.add('dark-theme-active');
-            document.body.style.backgroundColor = "#121212";
-            document.body.style.color = "#f5f5f5";
-            
-            // सभी पोस्ट्स और हेडर को काला (इंस्टाग्राम डार्क स्टाइल) करें
-            document.querySelectorAll('.insta-post, .card, .insta-header, .bottom-nav, .stories-container').forEach(el => {
-                el.style.backgroundColor = "#1c1c1e";
-                el.style.color = "#f5f5f5";
-                el.style.borderColor = "#2c2c2e";
-            });
-            
-            darkBtn.innerText = "☀️"; // सूरज दिखाओ (लाइट मोड के लिए)
-        }
-    });
-}
-
-// इस फीचर को तुरंत चालू करें
-addDarkModeFeature();
-// 💬 इंस्टाग्राम चैट रूम और प्रोफेशनल डिज़ाइन फीचर
-function addInstagramChatAndProfileFeature() {
-    // 1. चैट बॉक्स के लिए सुंदर इंस्टाग्राम डिज़ाइन (HTML) स्क्रीन में जोड़ना
-    const mainBody = document.getElementById('future-features-container');
-    if (!mainBody) return;
-
-    const chatContainer = document.createElement('div');
-    chatContainer.id = "insta-chat-box";
-    chatContainer.style.display = "none"; // शुरुआत में बंद रहेगा
-    chatContainer.style.position = "fixed";
-    chatContainer.style.top = "60px";
-    chatContainer.style.left = "0";
-    chatContainer.style.right = "0";
-    chatContainer.style.bottom = "60px";
-    chatContainer.style.background = "white";
-    chatContainer.style.zIndex = "500";
-    chatContainer.style.flexDirection = "column";
-
-    chatContainer.innerHTML = `
-        <div style="padding: 15px; border-bottom: 1px solid #dbdbdb; display: flex; justify-content: space-between; align-items: center; font-weight: bold;">
-            <span>📥 डायरेक्ट मैसेज (Direct)</span>
-            <span onclick="toggleInstaChat(false)" style="cursor: pointer; font-size: 20px;">✕</span>
-        </div>
-        <div id="chat-messages-list" style="flex: 1; padding: 15px; overflow-y: auto; background: #fafafa; font-size: 14px;">
-            <div style="background: #efefef; padding: 8px 12px; border-radius: 15px; max-width: 70%; margin-bottom: 10px; align-self: flex-start;">
-                <b>विकास:</b> पानीपत कनेक्ट के चैट रूम में आपका स्वागत है! 👋
-            </div>
-        </div>
-        <div style="padding: 10px; border-top: 1px solid #dbdbdb; display: flex; gap: 10px; background: white;">
-            <input type="text" id="chat-user-message" style="flex: 1; padding: 10px; border: 1px solid #dbdbdb; border-radius: 20px; outline: none;" placeholder="मैसेज लिखें...">
-            <button onclick="sendInstaMessage()" style="background: #0095f6; color: white; border: none; padding: 0 15px; border-radius: 20px; font-weight: bold; cursor: pointer;">भेजें</button>
-        </div>
-    `;
-    mainBody.appendChild(chatContainer);
-
-    // 2. नीचे वाले चैट बटन (💬) को एक्टिवेट करना
-    const bottomNavButtons = document.querySelectorAll('.bottom-nav div');
-    if (bottomNavButtons[1]) {
-        bottomNavButtons[1].setAttribute('onclick', 'toggleInstaChat(true)');
-    }
-
-    // चैट खोलने और बंद करने का फंक्शन
-    window.toggleInstaChat = function(show) {
-        const chatBox = document.getElementById('insta-chat-box');
-        
-        // डार्क मोड का ध्यान रखते हुए चैट का रंग बदलना
-        const isDark = document.body.classList.contains('dark-theme-active') || document.body.style.backgroundColor === "rgb(18, 18, 18)";
-        chatBox.style.background = isDark ? "#121212" : "white";
-        chatBox.children[0].style.borderColor = isDark ? "#2c2c2e" : "#dbdbdb";
-        chatBox.children[2].style.background = isDark ? "#121212" : "white";
-        chatBox.children[2].style.borderColor = isDark ? "#2c2c2e" : "#dbdbdb";
-        document.getElementById('chat-messages-list').style.background = isDark ? "#1c1c1e" : "#fafafa";
-
-        chatBox.style.display = show ? "flex" : "none";
-    };
-
-    // मैसेज भेजने का लॉजिक
-    window.sendInstaMessage = function() {
-        const input = document.getElementById('chat-user-message');
-        const text = input.value.trim();
-        if (text === "") return;
-
-        let currentUser = document.getElementById('logged-username').innerText;
-        if (currentUser === "@username") currentUser = "@you";
-
-        const msgList = document.getElementById('chat-messages-list');
-        const isDark = document.body.classList.contains('dark-theme-active');
-
-        const newMsg = document.createElement('div');
-        newMsg.style.background = "#0095f6";
-        newMsg.style.color = "white";
-        newMsg.style.padding = "8px 12px";
-        newMsg.style.border_radius = "15px";
-        newMsg.style.maxWidth = "70%;";
-        newMsg.style.marginBottom = "10px";
-        newMsg.style.marginLeft = "auto"; // राइट साइड में दिखेगा
-        newMsg.style.textAlign = "right";
-        newMsg.innerHTML = `<b>${currentUser}:</b> ${text}`;
-
-        msgList.appendChild(newMsg);
-        input.value = "";
-        msgList.scrollTop = msgList.scrollHeight; // ऑटो स्क्रॉल नीचे
-    };
-
-    // 3. प्रोफेशनल ग्रिड लुक (3-Column Layout like Instagram Profile)
-    const feed = document.getElementById('insta-posts-feed');
-    if (feed) {
-        feed.style.display = "grid";
-        feed.style.gridTemplateColumns = "1fr"; // मोबाइल फीड के लिए सिंगल लाइन, पर स्टाइलिंग मजबूत
-        feed.style.gap = "15px";
-    }
-}
-
-// इस फीचर को तुरंत चालू करें
-addInstagramChatAndProfileFeature();
-
-    </script>
-
 </body>
 </html>
