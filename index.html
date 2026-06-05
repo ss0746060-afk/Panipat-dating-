@@ -291,6 +291,59 @@ function addNewPostUploadFeature() {
 
 // इस फीचर को तुरंत चालू करें
 addNewPostUploadFeature();
+// 🌙 इंस्टाग्राम डार्क मोड (ब्लैक थीम) फीचर
+function addDarkModeFeature() {
+    // 1. नीचे वाले मेनू बार (Bottom Nav) में चाँद का बटन जोड़ना
+    const bottomNav = document.querySelector('.bottom-nav');
+    if (!bottomNav) return;
+
+    const darkBtn = document.createElement('div');
+    darkBtn.style.cursor = "pointer";
+    darkBtn.id = "dark-mode-toggle-btn";
+    darkBtn.innerText = "🌙"; // चाँद का इमोजी
+    darkBtn.title = "डार्क मोड ऑन/ऑफ करें";
+    
+    // इसे नीचे के मेनू में जोड़ देते हैं
+    bottomNav.appendChild(darkBtn);
+
+    // 2. बटन पर क्लिक होने पर ब्लैक थीम चालू या बंद करने का लॉजिक
+    darkBtn.addEventListener('click', function() {
+        const currentBg = document.body.style.backgroundColor;
+
+        if (currentBg === "rgb(18, 18, 18)" || currentBg === "sharp121212" || document.body.classList.contains('dark-theme-active')) {
+            // डार्क मोड बंद करें (लाइट मोड चालू करें)
+            document.body.classList.remove('dark-theme-active');
+            document.body.style.backgroundColor = "#fafafa";
+            document.body.style.color = "#262626";
+            
+            // सभी पोस्ट्स को वापस सफ़ेद करें
+            document.querySelectorAll('.insta-post, .card, .insta-header, .bottom-nav, .stories-container').forEach(el => {
+                el.style.backgroundColor = "white";
+                el.style.color = "#262626";
+                el.style.borderColor = "#dbdbdb";
+            });
+            
+            darkBtn.innerText = "🌙"; // चाँद वापस दिखाओ
+        } else {
+            // डार्क मोड चालू करें (ब्लैक थीम चालू करें)
+            document.body.classList.add('dark-theme-active');
+            document.body.style.backgroundColor = "#121212";
+            document.body.style.color = "#f5f5f5";
+            
+            // सभी पोस्ट्स और हेडर को काला (इंस्टाग्राम डार्क स्टाइल) करें
+            document.querySelectorAll('.insta-post, .card, .insta-header, .bottom-nav, .stories-container').forEach(el => {
+                el.style.backgroundColor = "#1c1c1e";
+                el.style.color = "#f5f5f5";
+                el.style.borderColor = "#2c2c2e";
+            });
+            
+            darkBtn.innerText = "☀️"; // सूरज दिखाओ (लाइट मोड के लिए)
+        }
+    });
+}
+
+// इस फीचर को तुरंत चालू करें
+addDarkModeFeature();
 
     </script>
 
