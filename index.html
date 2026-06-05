@@ -229,6 +229,68 @@ function addNewReelsFeature() {
 
 // इस नए फीचर को तुरंत चालू करें
 addNewReelsFeature();
+// 📸 इंस्टाग्राम स्टाइल फोटो अपलोड फीचर
+function addNewPostUploadFeature() {
+    const header = document.querySelector('.header') || document.querySelector('.insta-header');
+    if (!header) return;
+    
+    const uploadBtnContainer = document.createElement('div');
+    uploadBtnContainer.style.display = "inline-block";
+    uploadBtnContainer.style.marginLeft = "15px";
+    
+    uploadBtnContainer.innerHTML = `
+        <input type="file" id="insta-file-input" accept="image/*" style="display:none;">
+        <button onclick="triggerFileSelect()" style="background:#222; color:white; border:none; padding:8px 15px; border-radius:20px; font-size:14px; cursor:pointer; font-weight:bold;">➕ फोटो अपलोड करें</button>
+    `;
+    
+    header.appendChild(uploadBtnContainer);
+
+    window.triggerFileSelect = function() {
+        document.getElementById('insta-file-input').click();
+    };
+
+    document.getElementById('insta-file-input').addEventListener('change', function(e) {
+        const file = e.target.files[0];
+        if (!file) return;
+
+        const caption = prompt("अपनी पोस्ट के लिए सुंदर सा कैप्शन लिखें:");
+        if (caption === null) return;
+
+        const reader = new FileReader();
+        reader.onload = function(event) {
+            const newPostImage = event.target.result;
+            const feed = document.getElementById('feed-container') || document.getElementById('insta-posts-feed');
+            if (!feed) return;
+
+            const newPostCard = document.createElement('div');
+            newPostCard.className = 'card';
+            newPostCard.style.gridColumn = "1 / -1"; 
+            newPostCard.style.marginBottom = "20px";
+            
+            newPostCard.innerHTML = `
+                <div class="card-top" style="text-align:left; padding:10px; display:flex; align-items:center; gap:10px;">
+                    <img src="https://i.pravatar.cc/150?img=3" style="width:40px; height:40px; border-radius:50%;">
+                    <div>
+                        <h3 style="margin:0; font-size:15px;">आप (You)</h3>
+                        <p style="margin:0; font-size:12px; color:#666;">पानीपत, हरियाणा</p>
+                    </div>
+                </div>
+                <img src="${newPostImage}" style="width:100%; max-height:45px0px; object-fit:cover; border-radius:8px; margin-bottom:10px;">
+                <div class="action-zone" style="padding:10px;">
+                    <p style="margin:0 0 10px 0; font-size:14px;"><b>आप:</b> ${caption}</p>
+                    <button class="like-btn" onclick="this.innerText = this.innerText === '❤️ लाइक' ? '🤍 अनलाइक' : '❤️ लाइक'">❤️ लाइक</button>
+                </div>
+            `;
+            
+            feed.insertBefore(newPostCard, feed.firstChild);
+            alert("🚀 आपकी फोटो सबसे ऊपर लाइव हो चुकी है!");
+        };
+        reader.readAsDataURL(file);
+    });
+}
+
+// इस फीचर को तुरंत चालू करें
+addNewPostUploadFeature();
 
     </script>
 
