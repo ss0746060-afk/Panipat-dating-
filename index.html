@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Panipat Connect - Instagram Custom Auth</title>
+    <title>Panipat Connect - Ultimate Instagram Edition</title>
     
     <style>
         body { 
@@ -12,115 +12,153 @@
             background-color: #fafafa; color: #262626; 
         }
         
-        /* 1. इंस्टाग्राम स्टाइल लॉगिन/साइनअप स्क्रीन */
-        .auth-container {
-            max-width: 350px; margin: 50px auto; padding: 30px;
-            background: white; border: 1px solid #dbdbdb; border-radius: 4px;
-            text-align: center; box-shadow: 0 4px 12px rgba(0,0,0,0.05);
-        }
-        .auth-container h1 { font-size: 28px; margin-bottom: 25px; color: #e53935; }
-        .auth-input {
-            width: 100%; padding: 10px; margin-bottom: 8px;
-            border: 1px solid #dbdbdb; border-radius: 4px; background: #fafafa;
-            font-size: 12px; box-sizing: border-box; outline: none;
-        }
-        .auth-input:focus { border-color: #a8a8a8; }
-        .auth-btn {
-            width: 100%; padding: 7px; background-color: #0095f6; color: white;
-            border: none; border-radius: 4px; font-weight: bold; font-size: 14px;
-            cursor: pointer; margin-top: 10px; margin-bottom: 15px;
-        }
-        .auth-btn:disabled { opacity: 0.5; }
-        .toggle-text { font-size: 14px; color: #8e8e8e; cursor: pointer; }
-        .toggle-text span { color: #0095f6; font-weight: 600; }
-
-        /* 2. मुख्य इंस्टाग्राम फीड (लॉगिन के बाद दिखेगी) */
-        #main-app { display: none; }
+        /* इंस्टाग्राम हेडर */
         .insta-header { 
             background-color: white; border-bottom: 1px solid #dbdbdb; 
-            position: sticky; top: 0; z-index: 100; padding: 10px 20px; 
+            position: sticky; top: 0; z-index: 100; padding: 10px 15px; 
             display: flex; justify-content: space-between; align-items: center; 
         }
-        .insta-header h1 { font-size: 22px; margin: 0; color: #e53935; }
-        .logout-link { color: #0095f6; cursor: pointer; font-size: 14px; font-weight: bold; }
+        .insta-header h1 { font-size: 22px; font-weight: bold; margin: 0; color: #e53935; }
+        
+        /* हेडर लॉगिन बटन */
+        .header-auth-btn {
+            background-color: #0095f6; color: white; border: none; padding: 6px 14px;
+            border-radius: 4px; font-weight: 600; font-size: 13px; cursor: pointer;
+        }
+        .user-badge { font-size: 13px; font-weight: bold; color: #262626; display: none; gap: 10px; align-items: center; }
+        .logout-btn { color: #e53935; cursor: pointer; font-size: 12px; font-weight: normal; }
 
-        .main-feed { max-width: 600px; margin: 0 auto; padding-top: 20px; padding-bottom: 60px; }
-        .insta-post { background: white; border: 1px solid #dbdbdb; margin-bottom: 15px; border-radius: 3px; }
+        .main-container { max-width: 600px; margin: 0 auto; padding-bottom: 60px; }
+
+        /* स्टोरीज़ सेक्शन */
+        .stories-container { 
+            display: flex; gap: 12px; overflow-x: auto; padding: 15px 10px; 
+            background: white; border-bottom: 1px solid #dbdbdb; margin-bottom: 10px;
+        }
+        .stories-container::-webkit-scrollbar { display: none; }
+        .story { text-align: center; font-size: 11px; min-width: 65px; }
+        .story-img-wrapper {
+            width: 56px; height: 56px; border-radius: 50%; padding: 2px; border: 2px solid #e53935; margin: 0 auto 4px auto;
+        }
+        .story img { width: 100%; height: 100%; border-radius: 50%; object-fit: cover; }
+
+        /* इंस्टाग्राम फीड पोस्ट */
+        .insta-post { background: white; border: 1px solid #dbdbdb; margin-bottom: 15px; border-radius: 4px; }
         .post-header { display: flex; align-items: center; padding: 10px; gap: 10px; }
         .post-header img { width: 32px; height: 32px; border-radius: 50%; object-fit: cover; }
         .post-header .user-info { font-size: 14px; font-weight: 600; }
+        .post-header .location { font-size: 11px; color: #8e8e8e; font-weight: normal; }
+        
         .post-img { width: 100%; max-height: 500px; object-fit: cover; }
         
         .post-actions { padding: 10px 12px 5px 12px; display: flex; gap: 15px; font-size: 22px; }
-        .action-btn { cursor: pointer; }
+        .action-btn { cursor: pointer; user-select: none; }
+        .like-active { color: #e53935; }
         .likes-display { padding: 0 12px; font-size: 14px; font-weight: bold; margin-bottom: 6px; }
+        
         .comments-section { padding: 0 12px; font-size: 14px; margin-bottom: 8px; }
         .comment-item { margin-bottom: 4px; }
-        .comment-form { border-top: 1px solid #efefef; padding: 10px 12px; display: flex; }
-        .comment-input { flex: 1; border: none; outline: none; font-size: 14px; }
-        .comment-post-btn { color: #0095f6; border: none; background: none; font-weight: 600; cursor: pointer; }
+        .comment-item b { margin-right: 6px; }
+        
+        .comment-form { border-top: 1px solid #efefef; padding: 10px 12px; display: flex; justify-content: space-between; }
+        .comment-input { flex: 1; border: none; outline: none; font-size: 14px; background: transparent; }
+        .comment-post-btn { color: #0095f6; border: none; background: none; font-weight: 600; font-size: 14px; cursor: pointer; }
+
+        /* सुंदर लॉगिन पॉप-अप (Modal) */
+        .modal-overlay {
+            position: fixed; top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(0,0,0,0.5); display: none; justify-content: center; align-items: center; z-index: 1000;
+        }
+        .auth-popup {
+            background: white; padding: 30px; border-radius: 8px; width: 320px; text-align: center; position: relative;
+        }
+        .close-popup { position: absolute; top: 10px; right: 15px; font-size: 20px; cursor: pointer; color: #999; }
+        .auth-popup h2 { font-size: 24px; margin-bottom: 20px; color: #e53935; }
+        .auth-input {
+            width: 100%; padding: 10px; margin-bottom: 10px; border: 1px solid #dbdbdb;
+            border-radius: 4px; background: #fafafa; font-size: 13px; box-sizing: border-box; outline: none;
+        }
+        .auth-btn {
+            width: 100%; padding: 8px; background-color: #0095f6; color: white; border: none;
+            border-radius: 4px; font-weight: bold; font-size: 14px; cursor: pointer; margin-top: 5px; margin-bottom: 15px;
+        }
+        .toggle-text { font-size: 13px; color: #8e8e8e; cursor: pointer; }
+        .toggle-text span { color: #0095f6; font-weight: 600; }
+
+        /* बॉटम नेविगेशन बार */
+        .bottom-nav {
+            position: fixed; bottom: 0; left: 0; right: 0; background: white; border-top: 1px solid #dbdbdb;
+            display: flex; justify-content: space-around; padding: 12px 0; font-size: 20px; z-index: 100;
+        }
     </style>
 </head>
 <body>
 
-    <!-- स्क्रीन 1: असली इंस्टाग्राम जैसा लॉगिन / साइनअप फॉर्म -->
-    <div id="auth-screen">
-        <!-- लॉगिन फॉर्म -->
-        <div class="auth-container" id="login-box">
-            <h1>Panipat Connect</h1>
-            <input type="email" id="login-email" class="auth-input" placeholder="मोबाइल नंबर या ईमेल आईडी">
-            <input type="password" id="login-pass" class="auth-input" placeholder="पासवर्ड">
-            <button class="auth-btn" onclick="handleLogin()">लॉग इन करें</button>
-            <div class="toggle-text" onclick="toggleAuth(true)">खाता नहीं है? <span>साइन अप करें</span></div>
-        </div>
-
-        <!-- साइनअप फॉर्म -->
-        <div class="auth-container" id="signup-box" style="display: none;">
-            <h1>Panipat Connect</h1>
-            <p style="color: #8e8e8e; font-size: 14px; font-weight: 600; margin-bottom: 15px;">दोस्तों की तस्वीरें और वीडियो देखने के लिए साइन अप करें।</p>
-            <input type="email" id="sign-email" class="auth-input" placeholder="ईमेल आईडी (Gmail)">
-            <input type="text" id="sign-name" class="auth-input" placeholder="पूरा नाम">
-            <input type="text" id="sign-username" class="auth-input" placeholder="यूज़रनेम (username)">
-            <input type="password" id="sign-pass" class="auth-input" placeholder="पासवर्ड बनाएं">
-            <button class="auth-btn" onclick="handleSignup()">साइन अप करें</button>
-            <div class="toggle-text" onclick="toggleAuth(false)">पहले से खाता है? <span>लॉग इन करें</span></div>
+    <!-- इंस्टाग्राम हेडर -->
+    <div class="insta-header">
+        <h1>Panipat Connect</h1>
+        <!-- लॉगिन बटन या यूजरनेम यहाँ दिखेगा -->
+        <button class="header-auth-btn" id="login-trigger-btn" onclick="openAuthModal()">लॉग इन करें</button>
+        <div class="user-badge" id="user-profile-badge">
+            <span id="logged-username">@username</span>
+            <span class="logout-btn" onclick="handleLogout()">✕</span>
         </div>
     </div>
 
-    <!-- स्क्रीन 2: मुख्य ऐप (लॉगिन के बाद ही खुलेगा) -->
-    <div id="main-app">
-        <div class="insta-header">
-            <h1>Panipat Connect</h1>
-            <span id="display-user" style="font-size:14px; font-weight:bold;">@username</span>
-            <span class="logout-link" onclick="handleLogout()">लॉगआउट</span>
+    <!-- मुख्य इंस्टाग्राम फीड (यह हमेशा खुले आम दिखेगी) -->
+    <div class="main-container">
+        
+        <!-- स्टोरीज रो -->
+        <div class="stories-container">
+            <div class="story"><div class="story-img-wrapper"><img src="https://i.pravatar.cc/150?img=11"></div><span>विकास</span></div>
+            <div class="story"><div class="story-img-wrapper"><img src="https://i.pravatar.cc/150?img=5"></div><span>कविता</span></div>
+            <div class="story"><div class="story-img-wrapper"><img src="https://i.pravatar.cc/150?img=12"></div><span>संदीप</span></div>
+            <div class="story"><div class="story-img-wrapper"><img src="https://i.pravatar.cc/150?img=9"></div><span>अंजलि</span></div>
         </div>
 
-        <div class="main-feed">
-            <div class="insta-post">
-                <div class="post-header">
-                    <img src="https://i.pravatar.cc/150?img=11" alt="user">
-                    <div class="user-info">विकास मलिक <div style="font-size:11px; color:#8e8e8e; font-weight:normal;">मॉडल टाउन, पानीपत</div></div>
-                </div>
-                <img class="post-img" src="https://picsum.photos/id/10/600/500" alt="post">
-                <div class="post-actions"><span class="action-btn" onclick="alert('लाइक किया!')">🤍</span></div>
-                <div class="likes-display">124 लाइक्स</div>
-                <div class="comments-section">
-                    <div class="comment-item"><b>विकास</b> आज का मौसम पानीपत में बेहद शानदार है! 🌤️</div>
-                </div>
-                <div class="comment-form">
-                    <input type="text" class="comment-input" placeholder="कमेंट जोड़ें...">
-                    <button class="comment-post-btn" onclick="alert('कमेंट पोस्ट हुआ!')">Post</button>
-                </div>
+        <!-- पोस्ट फीड -->
+        <div id="insta-posts-feed"></div>
+    </div>
+
+    <!-- इन-ऐप लॉगिन पॉप-अप विंडो -->
+    <div class="modal-overlay" id="auth-modal">
+        <div class="auth-popup">
+            <span class="close-popup" onclick="closeAuthModal()">&times;</span>
+            
+            <!-- लॉगिन बॉक्स -->
+            <div id="login-box">
+                <h2>Panipat Connect</h2>
+                <input type="email" id="login-email" class="auth-input" placeholder="ईमेल आईडी (Gmail)">
+                <input type="password" id="login-pass" class="auth-input" placeholder="पासवर्ड">
+                <button class="auth-btn" onclick="handleLogin()">लॉग इन करें</button>
+                <div class="toggle-text" onclick="toggleForm(true)">खाता नहीं है? <span>साइन अप करें</span></div>
+            </div>
+
+            <!-- साइनअप बॉक्स -->
+            <div id="signup-box" style="display: none;">
+                <h2>Panipat Connect</h2>
+                <input type="email" id="sign-email" class="auth-input" placeholder="Gmail आईडी">
+                <input type="text" id="sign-username" class="auth-input" placeholder="यूज़रनेम बनाएं (e.g. malik_01)">
+                <input type="password" id="sign-pass" class="auth-input" placeholder="पासवर्ड बनाएं">
+                <button class="auth-btn" onclick="handleSignup()">अकाउंट बनाएं</button>
+                <div class="toggle-text" onclick="toggleForm(false)">पहले से खाता है? <span>लॉग इन करें</span></div>
             </div>
         </div>
     </div>
 
-    <!-- Firebase SDK (वजन में हल्की और फ़ास्ट स्क्रिप्ट) -->
+    <!-- नीचे का इंस्टाग्राम मेनू बार -->
+    <div class="bottom-nav">
+        <div style="cursor:pointer;">🏠</div>
+        <div style="cursor:pointer;" onclick="alert('चैट रूम जल्द आ रहा है!')">💬</div>
+        <div style="cursor:pointer;" onclick="openAuthModal()">👤</div>
+    </div>
+
+    <!-- Firebase SDK (असली बैकएंड के लिए) -->
     <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-auth-compat.js"></script>
 
     <script>
-        // ⚠️ यहाँ आपको अपने Firebase प्रोजेक्ट की असली क्रेडेंशियल्स डालनी होंगी
+        // ⚠️ फ़ायरबेस की चाबियाँ यहाँ डालें (नहीं डालने पर भी कोड डमी मोड में असली जैसा काम करेगा)
         const firebaseConfig = {
             apiKey: "YOUR_API_KEY",
             authDomain: "YOUR_AUTH_DOMAIN",
@@ -131,92 +169,174 @@
         };
 
         let auth = null;
-        
-        // चेक करें कि चाबियां डाली गई हैं या नहीं (बिना चाबी एरर नहीं आएगा, सीधा डमी लॉगिन होगा)
         const isFirebaseReady = firebaseConfig.apiKey !== "YOUR_API_KEY";
 
         if (isFirebaseReady) {
             firebase.initializeApp(firebaseConfig);
             auth = firebase.auth();
-
-            // लाइव चेक करें कि यूजर लॉग इन है या नहीं
             auth.onAuthStateChanged(user => {
-                if (user) {
-                    showMainApp(user.displayName || user.email);
-                } else {
-                    showAuthScreen();
-                }
+                if (user) { updateHeaderUI(user.displayName || user.email); } 
+                else { resetHeaderUI(); }
             });
         }
 
-        // स्क्रीन बदलने का फंक्शन
-        function toggleAuth(showSignup) {
+        // पोस्ट्स का डेटाबेस
+        const postsData = [
+            {
+                id: "post_1",
+                user: "विकास मलिक",
+                userImg: "https://i.pravatar.cc/150?img=11",
+                location: "मॉडल टाउन, पानीपत",
+                postImg: "https://picsum.photos/id/10/600/500",
+                caption: "आज का मौसम पानीपत में बेहद शानदार है! 🌤️ #panipat",
+                likes: 124,
+                comments: [{ user: "कविता", text: "मस्त हवा चल रही है भाई!" }]
+            },
+            {
+                id: "post_2",
+                user: "कविता चौधरी",
+                userImg: "https://i.pravatar.cc/150?img=5",
+                location: "सेक्टर 11, पानीपत",
+                postImg: "https://picsum.photos/id/26/600/500",
+                caption: "लॉन्ग ड्राइव पर समालखा की तरफ! 🚗💨",
+                likes: 89,
+                comments: []
+            }
+        ];
+
+        // फीड रेंडर करना (यह हमेशा दिखेगी)
+        function loadFeed() {
+            const feed = document.getElementById('insta-posts-feed');
+            feed.innerHTML = "";
+            postsData.forEach(post => {
+                const savedLikes = localStorage.getItem(`likes_${post.id}`) || post.likes;
+                const isLiked = localStorage.getItem(`isLiked_${post.id}`) === "true";
+                const savedComments = JSON.parse(localStorage.getItem(`comments_${post.id}`)) || post.comments;
+
+                let commentsHTML = "";
+                savedComments.forEach(c => { commentsHTML += `<div class="comment-item"><b>${c.user}</b> ${c.text}</div>`; });
+
+                const card = document.createElement('div');
+                card.className = 'insta-post';
+                card.innerHTML = `
+                    <div class="post-header">
+                        <img src="${post.userImg}">
+                        <div class="user-info">${post.user}<div class="location">${post.location}</div></div>
+                    </div>
+                    <img class="post-img" src="${post.postImg}">
+                    <div class="post-actions">
+                        <span class="action-btn ${isLiked ? 'like-active' : ''}" id="btn-${post.id}" onclick="toggleLike('${post.id}')">${isLiked ? '❤️' : '🤍'}</span>
+                    </div>
+                    <div class="likes-display" id="count-${post.id}">${savedLikes} लाइक्स</div>
+                    <div class="comments-section" id="box-${post.id}">
+                        <div class="comment-item"><b>${post.user}</b> ${post.caption}</div>
+                        ${commentsHTML}
+                    </div>
+                    <div class="comment-form">
+                        <input type="text" id="input-${post.id}" class="comment-input" placeholder="कमेंट जोड़ें...">
+                        <button class="comment-post-btn" onclick="addComment('${post.id}')">Post</button>
+                    </div>
+                `;
+                feed.appendChild(card);
+            });
+        }
+
+        // पॉप-अप खोलने/बंद करने के फंक्शन्स
+        function openAuthModal() { document.getElementById('auth-modal').style.display = 'flex'; }
+        function closeAuthModal() { document.getElementById('auth-modal').style.display = 'none'; }
+        function toggleForm(showSignup) {
             document.getElementById('login-box').style.display = showSignup ? 'none' : 'block';
             document.getElementById('signup-box').style.display = showSignup ? 'block' : 'none';
         }
 
-        function showMainApp(username) {
-            document.getElementById('auth-screen').style.display = 'none';
-            document.getElementById('main-app').style.display = 'block';
-            document.getElementById('display-user').innerText = "@" + username.replace(/\s+/g, '').toLowerCase();
+        // लॉगिन के बाद हेडर बदलना
+        function updateHeaderUI(username) {
+            const cleanName = username.replace(/\s+/g, '').toLowerCase();
+            document.getElementById('login-trigger-btn').style.display = 'none';
+            const badge = document.getElementById('user-profile-badge');
+            badge.style.display = 'flex';
+            document.getElementById('logged-username').innerText = "@" + cleanName;
+            closeAuthModal();
         }
 
-        function showAuthScreen() {
-            document.getElementById('auth-screen').style.display = 'block';
-            document.getElementById('main-app').style.display = 'none';
+        function resetHeaderUI() {
+            document.getElementById('login-trigger-btn').style.display = 'block';
+            document.getElementById('user-profile-badge').style.display = 'none';
         }
 
-        // असली साइनअप प्रोसेस
+        // असली साइनअप एक्शन
         function handleSignup() {
             const email = document.getElementById('sign-email').value.trim();
-            const password = document.getElementById('sign-pass').value;
             const username = document.getElementById('sign-username').value.trim();
+            const pass = document.getElementById('sign-pass').value;
 
-            if(!email || !password || !username) { alert("सभी कॉलम भरना ज़रूरी है!"); return; }
+            if(!email || !username || !pass) { alert("सब कुछ भरिए!"); return; }
 
             if (isFirebaseReady) {
-                auth.createUserWithEmailAndPassword(email, password)
-                    .then((result) => {
-                        // यूजरनेम को प्रोफाइल में अपडेट करना
-                        result.user.updateProfile({ displayName: username }).then(() => {
-                            showMainApp(username);
-                        });
-                    })
-                    .catch(err => alert("एरर: " + err.message));
+                auth.createUserWithEmailAndPassword(email, pass).then(res => {
+                    res.user.updateProfile({ displayName: username }).then(() => { updateHeaderUI(username); });
+                }).catch(err => alert(err.message));
             } else {
-                // डमी मोड (अगर फ़ायरबेस सेट नहीं है)
-                alert("बिना डेटाबेस चाबी के टेस्ट मोड में अकाउंट बन गया!");
-                showMainApp(username);
+                updateHeaderUI(username); // डमी मोड में तुरंत लॉगिन
             }
         }
 
-        // असली लॉगिन प्रोसेस
+        // असली लॉगिन एक्शन
         function handleLogin() {
             const email = document.getElementById('login-email').value.trim();
-            const password = document.getElementById('login-pass').value;
+            const pass = document.getElementById('login-pass').value;
 
-            if(!email || !password) { alert("ईमेल और पासवर्ड डालें!"); return; }
+            if(!email || !pass) { alert("ईमेल और पासवर्ड भरें!"); return; }
 
             if (isFirebaseReady) {
-                auth.signInWithEmailAndPassword(email, password)
-                    .then((result) => {
-                        showMainApp(result.user.displayName || result.user.email);
-                    })
-                    .catch(err => alert("लॉगइन फेल: " + err.message));
+                auth.signInWithEmailAndPassword(email, pass).then(res => {
+                    updateHeaderUI(res.user.displayName || res.user.email);
+                }).catch(err => alert(err.message));
             } else {
-                // डमी मोड
-                showMainApp(email.split('@')[0]);
+                updateHeaderUI(email.split('@')[0]); // डमी मोड
             }
         }
 
-        // लॉगआउट प्रोसेस
         function handleLogout() {
-            if (isFirebaseReady) {
-                auth.signOut().then(() => showAuthScreen());
-            } else {
-                showAuthScreen();
-            }
+            if (isFirebaseReady) { auth.signOut().then(() => resetHeaderUI()); } 
+            else { resetHeaderUI(); }
         }
+
+        // लाइक और कमेंट फंक्शन्स
+        function toggleLike(id) {
+            const post = postsData.find(p => p.id === id);
+            let likes = parseInt(localStorage.getItem(`likes_${id}`)) || post.likes;
+            let isLiked = localStorage.getItem(`isLiked_${id}`) === "true";
+
+            if (isLiked) { likes--; isLiked = false; document.getElementById(`btn-${id}`).innerText = "🤍"; document.getElementById(`btn-${id}`).classList.remove('like-active'); } 
+            else { likes++; isLiked = true; document.getElementById(`btn-${id}`).innerText = "❤️"; document.getElementById(`btn-${id}`).classList.add('like-active'); }
+
+            localStorage.setItem(`likes_${id}`, likes);
+            localStorage.setItem(`isLiked_${id}`, isLiked);
+            document.getElementById(`count-${id}`).innerText = likes + " लाइक्स";
+        }
+
+        function addComment(id) {
+            const input = document.getElementById(`input-${id}`);
+            const text = input.value.trim();
+            if (text === "") return;
+
+            const post = postsData.find(p => p.id === id);
+            let comments = JSON.parse(localStorage.getItem(`comments_${id}`)) || post.comments;
+            
+            // वर्तमान में एक्टिव यूजर का नाम लें
+            let activeUser = document.getElementById('logged-username').innerText;
+            if(activeUser === "@username") activeUser = "आप (You)";
+
+            comments.push({ user: activeUser, text: text });
+            localStorage.setItem(`comments_${id}`, JSON.stringify(comments));
+
+            document.getElementById(`box-${id}`).innerHTML += `<div class="comment-item"><b>${activeUser}</b> ${text}</div>`;
+            input.value = "";
+        }
+
+        // पहली बार फीड लोड करें
+        loadFeed();
     </script>
 </body>
 </html>
