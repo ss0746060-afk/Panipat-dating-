@@ -1,242 +1,179 @@
 <!DOCTYPE html>
 <html lang="hi">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Zomato Dating Prototype</title>
-    <style>
-        * { box-sizing: border-box; margin: 0; padding: 0; font-family: Arial, sans-serif; }
-        body { background-color: #f8f8f8; display: flex; justify-content: center; padding: 20px; }
-        
-        /* मोबाइल स्क्रीन कंटेनर */
-        .phone-container { width: 360px; background: white; border: 10px solid #333; border-radius: 36px; height: 740px; position: relative; overflow: hidden; display: flex; flex-direction: column; box-shadow: 0 10px 25px rgba(0,0,0,0.2); }
-        
-        /* हेडर और ब्रांडिंग */
-        .header { padding: 15px; border-bottom: 1px solid #eee; text-align: center; background: #fff; }
-        .brand { color: #cb202d; font-size: 24px; font-weight: bold; }
-        .brand span { color: #333; font-size: 14px; font-weight: normal; }
-        
-        /* प्रोफाइल कार्ड एरिया */
-        .main-content { flex: 1; overflow-y: auto; padding: 15px; padding-bottom: 80px; }
-        .profile-card { background: white; border-radius: 16px; overflow: hidden; box-shadow: 0 4px 12px rgba(0,0,0,0.1); position: relative; margin-bottom: 20px; }
-        .profile-img { width: 100%; height: 320px; object-fit: cover; display: block; }
-        
-        /* फूड स्टाइल मैच स्कोर (4.4 स्टार की जगह) */
-        .match-score { position: absolute; top: 15px; right: 15px; background: #257d3d; color: white; padding: 4px 8px; border-radius: 6px; font-weight: bold; font-size: 14px; }
-        
-        .profile-info { padding: 15px; }
-        .profile-location { color: #cb202d; font-weight: bold; font-size: 14px; margin-bottom: 5px; }
-        .profile-bio { font-style: italic; color: #555; margin-bottom: 15px; }
-        
-        /* बटन स्टाइल्स */
-        .btn-chat { width: 100%; background: #cb202d; color: white; border: none; padding: 12px; border-radius: 8px; font-size: 16px; font-weight: bold; cursor: pointer; display: flex; justify-content: center; align-items: center; gap: 8px; }
-        .action-buttons { display: flex; justify-content: space-around; margin-top: 15px; }
-        .btn-action { width: 50px; height: 50px; border-radius: 50%; border: 2px solid #eee; background: white; font-size: 20px; cursor: pointer; transition: 0.2s; }
-        .btn-like:hover { background: #ffebee; border-color: #ff1744; }
-        
-        /* चैट बॉक्स (पॉप-अप विंडो) */
-        .chat-box { position: absolute; bottom: 60px; left: 0; width: 100%; height: 300px; background: white; border-top: 2px solid #eee; display: none; flex-direction: column; z-index: 10; }
-        .chat-header { background: #cb202d; color: white; padding: 10px; font-weight: bold; display: flex; justify-content: space-between; }
-        .chat-messages { flex: 1; padding: 10px; overflow-y: auto; font-size: 14px; background: #f9f9f9; }
-        .chat-input-area { display: flex; border-top: 1px solid #eee; }
-        .chat-input { flex: 1; padding: 10px; border: none; outline: none; }
-        .btn-send { background: #cb202d; color: white; border: none; padding: 10px 15px; cursor: pointer; }
-        
-        /* प्रोफाइल जोड़ने का फॉर्म (पॉप-अप) */
-        .form-box { position: absolute; top: 60px; left: 0; width: 100%; height: calc(100% - 120px); background: white; padding: 20px; display: none; z-index: 10; overflow-y: auto; }
-        .form-group { margin-bottom: 15px; }
-        .form-group label { display: block; margin-bottom: 5px; font-weight: bold; font-size: 14px; }
-        .form-group input, .form-group textarea { width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 6px; }
-        
-        /* बॉटम नेविगेशन बार */
-        .bottom-nav { position: absolute; bottom: 0; left: 0; width: 100%; height: 60px; background: white; border-top: 1px solid #eee; display: flex; justify-content: space-around; align-items: center; }
-        .nav-item { text-align: center; color: #666; cursor: pointer; font-size: 12px; }
-        .nav-item.active { color: #cb202d; font-weight: bold; }
-        .nav-icon { font-size: 20px; display: block; }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Panipat Connect</title>
+
+<script src="https://cdn.tailwindcss.com"></script>
+
+<style>
+body{
+    background:#f8f8f8;
+}
+.hero{
+    background:linear-gradient(rgba(0,0,0,.4),rgba(0,0,0,.4)),
+    url('https://images.unsplash.com/photo-1517841905240-472988babdf9');
+    background-size:cover;
+    background-position:center;
+}
+</style>
+
 </head>
 <body>
 
-<div class="phone-container">
-    <div class="header">
-        <div class="brand">zomato<span>.dating</span></div>
-    </div>
+<!-- Header -->
+<header class="bg-white shadow-md fixed top-0 w-full z-50">
+<div class="max-w-7xl mx-auto px-4 py-4 flex justify-between items-center">
+<h1 class="text-2xl font-bold text-red-500">Panipat Connect</h1>
 
-    <div class="main-content" id="profile-container">
-        </div>
+<nav class="space-x-6">
+<a href="#" class="hover:text-red-500">Home</a>
+<a href="#" class="hover:text-red-500">Profiles</a>
+<a href="#" class="hover:text-red-500">Messages</a>
+<a href="#" class="hover:text-red-500">Login</a>
+</nav>
+</div>
+</header>
 
-    <div class="chat-box" id="chatBox">
-        <div class="chat-header">
-            <span id="chatTargetName">चैट</span>
-            <span style="cursor:pointer" onclick="closeChat()">✕</span>
-        </div>
-        <div class="chat-messages" id="chatMessages"></div>
-        <div class="chat-input-area">
-            <input type="text" class="chat-input" id="chatInput" placeholder="मैसेज टाइप करें...">
-            <button class="btn-send" onclick="sendMessage()">भेजें</button>
-        </div>
-    </div>
+<!-- Hero -->
+<section class="hero h-[500px] flex items-center justify-center text-center text-white mt-16">
+<div>
+<h2 class="text-5xl font-bold mb-4">
+Find New People Near You
+</h2>
 
-    <div class="form-box" id="formBox">
-        <h3 style="margin-bottom:15px; color:#cb202d;">नया प्रोफाइल जोड़ें</h3>
-        <div class="form-group">
-            <label>नाम</label>
-            <input type="text" id="newName" placeholder="जैसे: अंजली शर्मा">
-        </div>
-        <div class="form-group">
-            <label>लोकेशन / पता</label>
-            <input type="text" id="newLocation" placeholder="जैसे: मॉडल टाउन, पानीपत">
-        </div>
-        <div class="form-group">
-            <label>बायो (Bio)</label>
-            <textarea id="newBio" placeholder="अपने बारे में कुछ लिखें..."></textarea>
-        </div>
-        <div class="form-group">
-            <label>फोटो यूआरएल (Image URL)</label>
-            <input type="text" id="newImg" placeholder="https://picsum.photos/400/320 (या कोई भी लिंक)">
-        </div>
-        <button class="btn-chat" onclick="saveProfile()">प्रोफाइल सेव करें</button>
-    </div>
+<p class="text-xl mb-8">
+Meet, Chat & Connect
+</p>
 
-    <div class="bottom-nav">
-        <div class="nav-item active" onclick="showTab('dating')">
-            <span class="nav-icon">❤️</span>Dating
-        </div>
-        <div class="nav-item" onclick="showTab('add')">
-            <span class="nav-icon">➕</span>Add Profile
-        </div>
-    </div>
+<div class="bg-white p-3 rounded-xl flex max-w-2xl mx-auto">
+<input
+type="text"
+placeholder="Search by city or name..."
+class="flex-1 outline-none text-black px-4">
+
+<button class="bg-red-500 text-white px-8 py-2 rounded-lg">
+Search
+</button>
+</div>
+</div>
+</section>
+
+<!-- Profile Section -->
+<section class="max-w-7xl mx-auto px-4 py-12">
+
+<h2 class="text-3xl font-bold mb-8">
+Popular Profiles
+</h2>
+
+<div class="grid md:grid-cols-3 lg:grid-cols-4 gap-6">
+
+<!-- Card 1 -->
+<div class="bg-white rounded-xl overflow-hidden shadow hover:shadow-xl transition">
+<img src="https://picsum.photos/400/300?1">
+
+<div class="p-4">
+<div class="flex justify-between">
+<h3 class="font-bold text-lg">Priya</h3>
+<span class="bg-green-100 px-2 rounded">
+Online
+</span>
 </div>
 
-<script>
-    // 1. डेटाबेस (डमी प्रोफाइल्स की लिस्ट)
-    let profiles = [
-        {
-            name: "नेहा सिंह",
-            location: "मॉडल टाउन, पानीपत",
-            bio: "“ज़िंदादिल और खाने की शौकीन! चलो कहीं चाय पीते हैं।”",
-            score: "98% Match",
-            img: "https://picsum.photos/id/1025/400/320" // सैंपल फोटो
-        }
-    ];
+<p class="text-gray-500">24 Years • Delhi</p>
 
-    let currentProfileIndex = 0;
+<p class="mt-2 text-sm">
+Travel • Music • Fitness
+</p>
 
-    // 2. स्क्रीन पर प्रोफाइल दिखाने का फंक्शन
-    function renderProfile() {
-        const container = document.getElementById('profile-container');
-        if (currentProfileIndex >= profiles.length) {
-            container.innerHTML = `<div style="text-align:center; margin-top:50px; color:#666;">
-                                    <h3>आसपास कोई और प्रोफाइल नहीं है!</h3>
-                                    <p>कृपया नया प्रोफाइल जोड़ें।</p>
-                                   </div>`;
-            return;
-        }
+<button class="mt-4 w-full bg-red-500 text-white py-2 rounded">
+View Profile
+</button>
+</div>
+</div>
 
-        let p = profiles[currentProfileIndex];
-        container.innerHTML = `
-            <div class="profile-card">
-                <img src="${p.img}" class="profile-img" alt="Profile">
-                <div class="match-score">${p.score}</div>
-                <div class="profile-info">
-                    <h3 style="margin-bottom:5px;">${p.name}</h3>
-                    <div class="profile-location">📍 ${p.location}</div>
-                    <div class="profile-bio">${p.bio}</div>
-                    
-                    <button class="btn-chat" onclick="openChat('${p.name}')">🔥 SAY HELLO & CHAT NOW</button>
-                    
-                    <div class="action-buttons">
-                        <button class="btn-action" onclick="nextProfile()">❌</button>
-                        <button class="btn-action btn-like" onclick="likeProfile('${p.name}')">❤️</button>
-                    </div>
-                </div>
-            </div>
-        `;
-    }
+<!-- Card 2 -->
+<div class="bg-white rounded-xl overflow-hidden shadow hover:shadow-xl transition">
+<img src="https://picsum.photos/400/300?2">
 
-    // 3. लाइक और नेक्स्ट लॉजिक
-    function nextProfile() {
-        currentProfileIndex++;
-        renderProfile();
-    }
+<div class="p-4">
+<div class="flex justify-between">
+<h3 class="font-bold text-lg">Neha</h3>
+<span class="bg-green-100 px-2 rounded">
+Online
+</span>
+</div>
 
-    function likeProfile(name) {
-        alert(`आपने ${name} को लाइक किया! It's a Match! अब आप चैट कर सकते हैं।`);
-        openChat(name);
-    }
+<p class="text-gray-500">23 Years • Chandigarh</p>
 
-    // 4. चैट सिस्टम लॉजिक
-    function openChat(name) {
-        document.getElementById('chatTargetName').innerText = name;
-        document.getElementById('chatBox').style.display = 'flex';
-        document.getElementById('chatMessages').innerHTML = `<div style="color:#888; text-align:center;">सफलतापूर्वक मैच हुआ! बातचीत शुरू करें।</div>`;
-    }
+<p class="mt-2 text-sm">
+Food • Movies • Travel
+</p>
 
-    function closeChat() {
-        document.getElementById('chatBox').style.display = 'none';
-    }
+<button class="mt-4 w-full bg-red-500 text-white py-2 rounded">
+View Profile
+</button>
+</div>
+</div>
 
-    function sendMessage() {
-        let input = document.getElementById('chatInput');
-        let msgText = input.value.trim();
-        if(msgText === "") return;
+<!-- Card 3 -->
+<div class="bg-white rounded-xl overflow-hidden shadow hover:shadow-xl transition">
+<img src="https://picsum.photos/400/300?3">
 
-        let msgDiv = document.getElementById('chatMessages');
-        // यूजर का मैसेज
-        msgDiv.innerHTML += `<div style="text-align:right; margin: 5px 0;"><span style="background:#cb202d; color:white; padding:6px 12px; border-radius:12px; display:inline-block;">${msgText}</span></div>`;
-        input.value = "";
+<div class="p-4">
+<div class="flex justify-between">
+<h3 class="font-bold text-lg">Simran</h3>
+<span class="bg-green-100 px-2 rounded">
+Online
+</span>
+</div>
 
-        // ऑटोमैटिक जवाब (बॉट लॉजिक)
-        setTimeout(() => {
-            msgDiv.innerHTML += `<div style="text-align:left; margin: 5px 0;"><span style="background:#eee; color:#333; padding:6px 12px; border-radius:12px; display:inline-block;">हेलो! आपसे बात करके अच्छा लगा। 😊</span></div>`;
-            msgDiv.scrollTop = msgDiv.scrollHeight; // स्क्रॉल नीचे करें
-        }, 1000);
-    }
+<p class="text-gray-500">26 Years • Panipat</p>
 
-    // 5. टैब बदलना और नया प्रोफाइल सेव करना
-    function showTab(tab) {
-        if(tab === 'dating') {
-            document.getElementById('formBox').style.display = 'none';
-            closeChat();
-        } else if(tab === 'add') {
-            document.getElementById('formBox').style.display = 'block';
-            closeChat();
-        }
-    }
+<p class="mt-2 text-sm">
+Reading • Music • Cafe
+</p>
 
-    function saveProfile() {
-        let name = document.getElementById('newName').value;
-        let loc = document.getElementById('newLocation').value;
-        let bio = document.getElementById('newBio').value;
-        let img = document.getElementById('newImg').value || "https://picsum.photos/400/320";
+<button class="mt-4 w-full bg-red-500 text-white py-2 rounded">
+View Profile
+</button>
+</div>
+</div>
 
-        if(!name || !loc || !bio) {
-            alert("कृपया सभी जानकारियां भरें!");
-            return;
-        }
+<!-- Card 4 -->
+<div class="bg-white rounded-xl overflow-hidden shadow hover:shadow-xl transition">
+<img src="https://picsum.photos/400/300?4">
 
-        // लिस्ट में नया प्रोफाइल जोड़ना
-        profiles.push({
-            name: name,
-            location: loc,
-            bio: `“${bio}”`,
-            score: "95% Match",
-            img: img
-        });
+<div class="p-4">
+<div class="flex justify-between">
+<h3 class="font-bold text-lg">Riya</h3>
+<span class="bg-green-100 px-2 rounded">
+Online
+</span>
+</div>
 
-        alert("नया प्रोफाइल सफलतापूर्वक जोड़ दिया गया है!");
-        
-        // फॉर्म रीसेट करें और डेटिंग स्क्रीन पर लौटें
-        document.getElementById('newName').value = "";
-        document.getElementById('newLocation').value = "";
-        document.getElementById('newBio').value = "";
-        showTab('dating');
-        renderProfile();
-    }
+<p class="text-gray-500">22 Years • Jaipur</p>
 
-    // पहली बार में प्रोफाइल लोड करना
-    renderProfile();
-</script>
+<p class="mt-2 text-sm">
+Dance • Travel • Fashion
+</p>
+
+<button class="mt-4 w-full bg-red-500 text-white py-2 rounded">
+View Profile
+</button>
+</div>
+</div>
+
+</div>
+
+</section>
+
+<footer class="bg-white py-8 mt-10">
+<div class="text-center text-gray-500">
+© 2026 Panipat Connect
+</div>
+</footer>
 
 </body>
 </html>
