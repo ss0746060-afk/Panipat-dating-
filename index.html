@@ -4,164 +4,132 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Panipat Connect</title>
-
 <script src="https://cdn.tailwindcss.com"></script>
-
-<style>
-body{
-    background:#f8f8f8;
-}
-.hero{
-    background:linear-gradient(rgba(0,0,0,.4),rgba(0,0,0,.4)),
-    url('https://images.unsplash.com/photo-1517841905240-472988babdf9');
-    background-size:cover;
-    background-position:center;
-}
-</style>
-
 </head>
-<body>
+
+<body class="bg-gray-100">
 
 <!-- Header -->
-<header class="bg-white shadow-md fixed top-0 w-full z-50">
-<div class="max-w-7xl mx-auto px-4 py-4 flex justify-between items-center">
+<header class="bg-white shadow sticky top-0 z-50">
+<div class="max-w-7xl mx-auto px-4 py-4 flex justify-between">
 <h1 class="text-2xl font-bold text-red-500">Panipat Connect</h1>
 
-<nav class="space-x-6">
-<a href="#" class="hover:text-red-500">Home</a>
-<a href="#" class="hover:text-red-500">Profiles</a>
-<a href="#" class="hover:text-red-500">Messages</a>
-<a href="#" class="hover:text-red-500">Login</a>
-</nav>
+<div class="space-x-4">
+<button class="hover:text-red-500">होम</button>
+<button class="hover:text-red-500">प्रोफाइल</button>
+<button class="hover:text-red-500">मैसेज</button>
+<button onclick="openLogin()" class="bg-red-500 text-white px-4 py-2 rounded">
+लॉगिन
+</button>
+</div>
 </div>
 </header>
 
 <!-- Hero -->
-<section class="hero h-[500px] flex items-center justify-center text-center text-white mt-16">
-<div>
+<section class="bg-red-500 text-white text-center py-20">
 <h2 class="text-5xl font-bold mb-4">
-Find New People Near You
+अपने आसपास नए लोगों से जुड़ें
 </h2>
 
 <p class="text-xl mb-8">
-Meet, Chat & Connect
+मिलें • बातचीत करें • दोस्ती करें
 </p>
 
-<div class="bg-white p-3 rounded-xl flex max-w-2xl mx-auto">
+<div class="max-w-xl mx-auto flex bg-white rounded overflow-hidden">
 <input
+id="search"
 type="text"
-placeholder="Search by city or name..."
-class="flex-1 outline-none text-black px-4">
+placeholder="नाम खोजें..."
+class="flex-1 p-3 text-black">
 
-<button class="bg-red-500 text-white px-8 py-2 rounded-lg">
-Search
+<button onclick="searchProfiles()" class="bg-black text-white px-6">
+खोजें
 </button>
-</div>
 </div>
 </section>
 
-<!-- Profile Section -->
-<section class="max-w-7xl mx-auto px-4 py-12">
+<!-- Profiles -->
+<section class="max-w-7xl mx-auto p-6">
 
-<h2 class="text-3xl font-bold mb-8">
-Popular Profiles
+<h2 class="text-3xl font-bold mb-6">
+लोकप्रिय प्रोफाइल
 </h2>
 
-<div class="grid md:grid-cols-3 lg:grid-cols-4 gap-6">
+<div id="profiles" class="grid md:grid-cols-3 lg:grid-cols-4 gap-6">
 
-<!-- Card 1 -->
-<div class="bg-white rounded-xl overflow-hidden shadow hover:shadow-xl transition">
+<div class="profile bg-white rounded-xl shadow overflow-hidden">
 <img src="https://picsum.photos/400/300?1">
-
 <div class="p-4">
-<div class="flex justify-between">
-<h3 class="font-bold text-lg">Priya</h3>
-<span class="bg-green-100 px-2 rounded">
-Online
-</span>
-</div>
+<h3 class="font-bold text-xl">आरती</h3>
+<p class="text-gray-500">दिल्ली • 24 वर्ष</p>
+<p class="my-2">🎵 संगीत • ✈ यात्रा</p>
 
-<p class="text-gray-500">24 Years • Delhi</p>
+<div class="flex gap-2">
+<button class="flex-1 bg-pink-500 text-white py-2 rounded">
+❤️ पसंद
+</button>
 
-<p class="mt-2 text-sm">
-Travel • Music • Fitness
-</p>
-
-<button class="mt-4 w-full bg-red-500 text-white py-2 rounded">
-View Profile
+<button class="flex-1 bg-blue-500 text-white py-2 rounded">
+💬 चैट
 </button>
 </div>
 </div>
+</div>
 
-<!-- Card 2 -->
-<div class="bg-white rounded-xl overflow-hidden shadow hover:shadow-xl transition">
+<div class="profile bg-white rounded-xl shadow overflow-hidden">
 <img src="https://picsum.photos/400/300?2">
-
 <div class="p-4">
-<div class="flex justify-between">
-<h3 class="font-bold text-lg">Neha</h3>
-<span class="bg-green-100 px-2 rounded">
-Online
-</span>
-</div>
+<h3 class="font-bold text-xl">कविता</h3>
+<p class="text-gray-500">पानीपत • 25 वर्ष</p>
+<p class="my-2">📚 किताबें • ☕ कैफे</p>
 
-<p class="text-gray-500">23 Years • Chandigarh</p>
+<div class="flex gap-2">
+<button class="flex-1 bg-pink-500 text-white py-2 rounded">
+❤️ पसंद
+</button>
 
-<p class="mt-2 text-sm">
-Food • Movies • Travel
-</p>
-
-<button class="mt-4 w-full bg-red-500 text-white py-2 rounded">
-View Profile
+<button class="flex-1 bg-blue-500 text-white py-2 rounded">
+💬 चैट
 </button>
 </div>
 </div>
+</div>
 
-<!-- Card 3 -->
-<div class="bg-white rounded-xl overflow-hidden shadow hover:shadow-xl transition">
+<div class="profile bg-white rounded-xl shadow overflow-hidden">
 <img src="https://picsum.photos/400/300?3">
-
 <div class="p-4">
-<div class="flex justify-between">
-<h3 class="font-bold text-lg">Simran</h3>
-<span class="bg-green-100 px-2 rounded">
-Online
-</span>
-</div>
+<h3 class="font-bold text-xl">पूजा</h3>
+<p class="text-gray-500">जयपुर • 23 वर्ष</p>
+<p class="my-2">🎬 फिल्में • 🎨 कला</p>
 
-<p class="text-gray-500">26 Years • Panipat</p>
+<div class="flex gap-2">
+<button class="flex-1 bg-pink-500 text-white py-2 rounded">
+❤️ पसंद
+</button>
 
-<p class="mt-2 text-sm">
-Reading • Music • Cafe
-</p>
-
-<button class="mt-4 w-full bg-red-500 text-white py-2 rounded">
-View Profile
+<button class="flex-1 bg-blue-500 text-white py-2 rounded">
+💬 चैट
 </button>
 </div>
 </div>
+</div>
 
-<!-- Card 4 -->
-<div class="bg-white rounded-xl overflow-hidden shadow hover:shadow-xl transition">
+<div class="profile bg-white rounded-xl shadow overflow-hidden">
 <img src="https://picsum.photos/400/300?4">
-
 <div class="p-4">
-<div class="flex justify-between">
-<h3 class="font-bold text-lg">Riya</h3>
-<span class="bg-green-100 px-2 rounded">
-Online
-</span>
-</div>
+<h3 class="font-bold text-xl">सिमरन</h3>
+<p class="text-gray-500">करनाल • 26 वर्ष</p>
+<p class="my-2">🏋 फिटनेस • 🎵 संगीत</p>
 
-<p class="text-gray-500">22 Years • Jaipur</p>
-
-<p class="mt-2 text-sm">
-Dance • Travel • Fashion
-</p>
-
-<button class="mt-4 w-full bg-red-500 text-white py-2 rounded">
-View Profile
+<div class="flex gap-2">
+<button class="flex-1 bg-pink-500 text-white py-2 rounded">
+❤️ पसंद
 </button>
+
+<button class="flex-1 bg-blue-500 text-white py-2 rounded">
+💬 चैट
+</button>
+</div>
 </div>
 </div>
 
@@ -169,11 +137,65 @@ View Profile
 
 </section>
 
-<footer class="bg-white py-8 mt-10">
-<div class="text-center text-gray-500">
-© 2026 Panipat Connect
+<!-- Login Modal -->
+<div id="loginBox"
+class="hidden fixed inset-0 bg-black/60 flex items-center justify-center">
+
+<div class="bg-white p-6 rounded-xl w-80">
+<h2 class="text-2xl font-bold mb-4">
+लॉगिन करें
+</h2>
+
+<input type="text"
+placeholder="मोबाइल नंबर"
+class="border w-full p-2 mb-3 rounded">
+
+<input type="password"
+placeholder="पासवर्ड"
+class="border w-full p-2 mb-3 rounded">
+
+<button class="w-full bg-red-500 text-white py-2 rounded">
+लॉगिन
+</button>
+
+<button onclick="closeLogin()"
+class="w-full mt-2 bg-gray-300 py-2 rounded">
+बंद करें
+</button>
 </div>
+
+</div>
+
+<footer class="bg-white mt-10 py-6 text-center">
+© 2026 Panipat Connect
 </footer>
+
+<script>
+
+function openLogin(){
+document.getElementById("loginBox").classList.remove("hidden");
+}
+
+function closeLogin(){
+document.getElementById("loginBox").classList.add("hidden");
+}
+
+function searchProfiles(){
+let value=document.getElementById("search").value.toLowerCase();
+let profiles=document.querySelectorAll(".profile");
+
+profiles.forEach(card=>{
+let text=card.innerText.toLowerCase();
+
+if(text.includes(value)){
+card.style.display="block";
+}else{
+card.style.display="none";
+}
+});
+}
+
+</script>
 
 </body>
 </html>
