@@ -80,3 +80,161 @@ class="p-3 rounded-lg text-black w-72">
 
 <div class="p-5">
 <h3 class="text-2xl font-bold">कविता
+
+<!-- ─── यहाँ से 10 डमी प्रोफाइल का कोड शुरू ─── -->
+<style>
+    .profile-section {
+        font-family: 'Arial', sans-serif;
+        padding: 20px 10px;
+        background-color: #f4f6f9;
+        text-align: center;
+    }
+    .profile-section h2 {
+        color: #333;
+        font-size: 22px;
+        margin-bottom: 20px;
+        border-bottom: 2px solid #e53935;
+        display: inline-block;
+        padding-bottom: 5px;
+    }
+    .profile-grid {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr); /* मोबाइल पर एक लाइन में 2 प्रोफाइल दिखेंगी */
+        gap: 12px;
+        max-width: 600px;
+        margin: 0 auto;
+        padding: 0 10px;
+    }
+    /* अगर कोई कंप्यूटर पर देखेगा तो एक लाइन में 4 दिखेंगी */
+    @media (min-width: 600px) {
+        .profile-grid {
+            grid-template-columns: repeat(4, 1fr);
+            max-width: 1000px;
+        }
+    }
+    .profile-card {
+        background: #ffffff;
+        border-radius: 12px;
+        padding: 12px;
+        text-align: center;
+        box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+        border: 1px solid #eee;
+    }
+    .profile-card img {
+        width: 70px;
+        height: 70px;
+        border-radius: 50%;
+        object-fit: cover;
+        margin-bottom: 8px;
+        border: 2px solid #e53935;
+    }
+    .profile-card h3 {
+        font-size: 14px;
+        margin: 5px 0 2px 0;
+        color: #222;
+    }
+    .profile-card p {
+        font-size: 12px;
+        color: #666;
+        margin: 0 0 8px 0;
+    }
+    .view-btn {
+        background-color: #e53935;
+        color: white;
+        border: none;
+        padding: 5px 10px;
+        font-size: 11px;
+        border-radius: 4px;
+        cursor: pointer;
+        width: 100%;
+        font-weight: bold;
+    }
+</style>
+
+<div class="profile-section">
+    <h2>आसपास के अन्य लोग</h2>
+    
+    <div class="profile-grid">
+        <!-- प्रोफाइल 1 -->
+        <div class="profile-card">
+            <img src="https://i.pravatar.cc/150?img=11" alt="User">
+            <h3>विकास मलिक</h3>
+            <p>मॉडल टाउन, पानीपत</p>
+            <button class="view-btn">प्रोफाइल देखें</button>
+        </div>
+
+        <!-- प्रोफाइल 2 -->
+        <div class="profile-card">
+            <img src="https://i.pravatar.cc/150?img=5" alt="User">
+            <h3>कविता चौधरी</h3>
+            <p>सेक्टर 11, पानीपत</p>
+            <button class="view-btn">प्रोफाइल देखें</button>
+        </div>
+
+        <!-- प्रोफाइल 3 -->
+        <div class="profile-card">
+            <img src="https://i.pravatar.cc/150?img=12" alt="User">
+            <h3>संदीप जांगड़ा</h3>
+            <p>रिफाइनरी रोड, पानीपत</p>
+            <button class="view-btn">प्रोफाइल देखें</button>
+        </div>
+
+        <!-- प्रोफाइल 4 -->
+        <div class="profile-card">
+            <img src="https://i.pravatar.cc/150?img=9" alt="User">
+            <h3>अंजलि शर्मा</h3>
+            <p>सुखदेव नगर, पानीपत</p>
+            <button class="view-btn">प्रोफाइल देखें</button>
+        </div>
+
+        <!-- प्रोफाइल 5 -->
+        <div class="profile-card">
+            <img src="https://i.pravatar.cc/150?img=13" alt="User">
+            <h3>दीपक अहलवात</h3>
+            <p>समालखा, पानीपत</p>
+            <button class="view-btn">प्रोफाइल देखें</button>
+        </div>
+
+        <!-- प्रोफाइल 6 -->
+        <div class="profile-card">
+            <img src="https://i.pravatar.cc/150?img=16" alt="User">
+            <h3>मनोज पांचाल</h3>
+            <p>तहसील कैंप, पानीपत</p>
+            <button class="view-btn">प्रोफाइल देखें</button>
+        </div>
+
+        <!-- प्रोफाइल 7 -->
+        <div class="profile-card">
+            <img src="https://i.pravatar.cc/150?img=21" alt="User">
+            <h3>पूजा राठी</h3>
+            <p>अंसल एपीआई, पानीपत</p>
+            <button class="view-btn">प्रोफाइल देखें</button>
+        </div>
+
+        <!-- प्रोफाइल 8 -->
+        <div class="profile-card">
+            <img src="https://i.pravatar.cc/150?img=33" alt="User">
+            <h3>रोहित वर्मा</h3>
+            <p>किला चौक, पानीपत</p>
+            <button class="view-btn">प्रोफाइल देखें</button>
+        </div>
+
+        <!-- प्रोफाइल 9 -->
+        <div class="profile-card">
+            <img src="https://i.pravatar.cc/150?img=32" alt="User">
+            <h3>सोनिया धीमान</h3>
+            <p>बाबरपुर, पानीपत</p>
+            <button class="view-btn">प्रोफाइल देखें</button>
+        </div>
+
+        <!-- प्रोफाइल 10 -->
+        <div class="profile-card">
+            <img src="https://i.pravatar.cc/150?img=58" alt="User">
+            <h3>सुमित गुज्जर</h3>
+            <p>इसराना, पानीपत</p>
+            <button class="view-btn">प्रोफाइल देखें</button>
+        </div>
+    </div>
+</div>
+<!-- ─── 10 डमी प्रोफाइल का कोड समाप्त ─── -->
+  
