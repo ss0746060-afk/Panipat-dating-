@@ -181,7 +181,55 @@
     </script>
 
     <script id="new-scripts-holder">
-        // भविष्य के कोड की एंट्री यहाँ होगी...
+    // 🎬 इंस्टाग्राम रील्स का नया डेटाबेस और लॉजिक
+const reelsData = [
+    {
+        id: "reel_1",
+        user: "दीपक हुड्डा",
+        userImg: "https://i.pravatar.cc/150?img=13",
+        videoUrl: "https://www.w3schools.com/html/mov_bbb.mp4", // सैंपल वीडियो
+        caption: "पानीपत का नया हाईवे! 🛣️🔥 #panipat #reels"
+    }
+];
+
+// रील्स को स्क्रीन पर जोड़ने का फंक्शन
+function addNewReelsFeature() {
+    // 1. सबसे पहले मुख्य कंटेनर में रील्स के लिए एक नया बॉक्स (HTML) जोड़ेंगे
+    const mainBody = document.getElementById('future-features-container');
+    
+    const reelsSection = document.createElement('div');
+    reelsSection.style.marginTop = "30px";
+    reelsSection.style.borderTop = "2px dashed #dbdbdb";
+    reelsSection.style.paddingTop = "20px";
+    
+    reelsSection.innerHTML = `
+        <h2 style="font-size: 18px; padding: 0 10px; color: #e53935;">🎬 ट्रेंडिंग रील्स (Reels)</h2>
+        <div id="insta-reels-feed"></div>
+    `;
+    mainBody.appendChild(reelsSection);
+
+    // 2. अब रील्स का डेटा लोड करेंगे
+    const reelsFeed = document.getElementById('insta-reels-feed');
+    reelsData.forEach(reel => {
+        const reelCard = document.createElement('div');
+        reelCard.className = 'insta-post'; // पुरानी स्टाइल इस्तेमाल करेंगे
+        reelCard.innerHTML = `
+            <div class="post-header">
+                <img src="${reel.userImg}">
+                <div class="user-info">${reel.user} <span style="color:#0095f6; font-size:12px; margin-left:5px;">• Follow</span></div>
+            </div>
+            <video src="${reel.videoUrl}" controls loop muted style="width:100%; max-height:600px; background:black;"></video>
+            <div class="comments-section" style="padding: 10px 12px;">
+                <b>${reel.user}</b> ${reel.caption}
+            </div>
+        `;
+        reelsFeed.appendChild(reelCard);
+    });
+}
+
+// इस नए फीचर को तुरंत चालू करें
+addNewReelsFeature();
+
     </script>
 
 </body>
