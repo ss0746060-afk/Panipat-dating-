@@ -37,8 +37,12 @@
             text-shadow: 0 0 15px rgba(255, 0, 127, 0.3); cursor: pointer;
         }
 
-        .header-icons { display: flex; gap: 20px; font-size: 1.3rem; cursor: pointer; }
-        .header-icons a { color: white; text-decoration: none; }
+        .header-icons { display: flex; gap: 20px; font-size: 1.3rem; align-items: center; }
+        .header-icons i { cursor: pointer; }
+        
+        /* लॉगआउट बटन स्टाइल */
+        .logout-btn { color: #ff3b30; transition: transform 0.2s; }
+        .logout-btn:hover { transform: scale(1.1); }
 
         .stories-container {
             display: flex; gap: 15px; padding: 15px; overflow-x: auto;
@@ -65,14 +69,12 @@
         .post-image { width: 100%; max-height: 450px; object-fit: cover; }
         .post-video { width: 100%; max-height: 450px; background: #000; }
         
-        /* रील स्टाइल पोस्ट (9:16 रेश्यो) */
         .post.reel-style .post-media-wrapper { aspect-ratio: 9 / 16; max-height: 600px; }
         .post.reel-style .post-video { height: 100%; max-height: 600px; object-fit: cover; }
 
         .post-actions { padding: 12px 15px; display: flex; justify-content: space-between; font-size: 1.35rem; }
         .left-actions { display: flex; gap: 20px; }
         .action-btn { cursor: pointer; transition: transform 0.2s; }
-        .action-btn:active { transform: scale(1.2); }
         .fa-heart.liked { color: #ff007f; }
 
         .post-likes { padding: 0 15px; font-size: 0.9rem; font-weight: bold; margin-bottom: 5px; }
@@ -100,7 +102,6 @@
         .modal-header { padding: 15px 20px; border-bottom: 1px solid rgba(255, 255, 255, 0.1); display: flex; justify-content: space-between; align-items: center; font-weight: bold; }
         .modal-close { background: none; border: none; color: white; font-size: 1.5rem; cursor: pointer; }
 
-        /* अपलोड बटन ऑप्शंस */
         .upload-option-btn {
             background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.1);
             color: white; padding: 15px; margin: 10px 0; border-radius: 12px; font-weight: bold;
@@ -108,8 +109,14 @@
             transition: 0.2s;
         }
         .upload-option-btn:hover { background: rgba(255, 0, 127, 0.15); border-color: #ff007f; }
-        .upload-option-btn i { font-size: 1.4rem; }
     </style>
+    
+    <script>
+        // 🔒 सुरक्षा कवच: पेज लोड होने से पहले चेक करेगा कि यूजर लॉगिन है या नहीं
+        if (!localStorage.getItem('current_logged_in_user')) {
+            window.location.href = 'login.html'; // लॉगिन नहीं है तो सीधे बाहर भगाओ
+        }
+    </script>
 </head>
 <body>
 
@@ -121,7 +128,7 @@
             <div class="brand-logo" onclick="location.href='index.html'">Zomato Dating</div>
             <div class="header-icons">
                 <i class="fa-regular fa-heart" onclick="alert('VIP नोटिफिकेशन अभी खाली हैं!')"></i>
-                <a href="chat.html"><i class="fa-regular fa-paper-plane"></i></a>
+                <i class="fa-solid fa-right-from-bracket logout-btn" onclick="processLogout()" title="लॉगआउट करें"></i>
             </div>
         </header>
 
@@ -157,7 +164,7 @@
                     </div>
                 </div>
                 <div class="post-likes">1,248 लाइक्स</div>
-                <div class="post-caption"><span>प्रिया शर्मा</span>लॉन्ग ड्राइव और अच्छे संगीत का शौक रखने वाला कोई है यहाँ? 🚘✨</div>
+                <div class="post-caption"><span>प्रिया शर्मा</span>लॉन्ग驱动 और अच्छे संगीत का शौक रखने वाला कोई है यहाँ? 🚘✨</div>
             </div>
         </div>
 
@@ -165,7 +172,7 @@
             <a href="index.html" class="nav-item active"><i class="fa-solid fa-house"></i></a>
             <i class="fa-solid fa-magnifying-glass nav-item" onclick="alert('खोज जारी है...')"></i>
             <i class="fa-regular fa-square-plus nav-item" onclick="openModal('instagramUploadModal')"></i>
-            <a href="chat.html" class="nav-item"><i class="fa-regular fa-message"></i></a>
+            <i class="fa-regular fa-message nav-item" onclick="alert('चैट बॉक्स जल्द आ रहा है!')"></i>
             <a href="profile.html" class="nav-item"><i class="fa-regular fa-user"></i></a>
         </nav>
     </div>
@@ -177,26 +184,20 @@
                 <button class="modal-close" onclick="closeModal('instagramUploadModal')"><i class="fa-solid fa-xmark"></i></button>
             </div>
             <div style="padding: 20px;">
-                <button class="upload-option-btn" onclick="triggerUpload('photo')">
-                    <i class="fa-regular fa-image" style="color: #00f0ff;"></i> फोटो अपलोड करें (Post Photo)
-                </button>
-                <button class="upload-option-btn" onclick="triggerUpload('video')">
-                    <i class="fa-regular fa-file-video" style="color: #ffc107;"></i> वीडियो अपलोड करें (Post Video)
-                </button>
-                <button class="upload-option-btn" onclick="triggerUpload('reel')">
-                    <i class="fa-solid fa-film" style="color: #ff007f;"></i> रील अपलोड करें (Upload Reel 🎬)
-                </button>
+                <button class="upload-option-btn" onclick="triggerUpload('photo')">💾 फोटो अपलोड करें</button>
+                <button class="upload-option-btn" onclick="triggerUpload('video')">📹 वीडियो अपलोड करें</button>
+                <button class="upload-option-btn" onclick="triggerUpload('reel')">🎬 रील अपलोड करें</button>
             </div>
         </div>
     </div>
 
     <script>
-        // प्रोफाइल डेटा लोड करना (Local Storage से)
         window.addEventListener('load', () => {
             const savedUser = localStorage.getItem('vip_user') || "राव_साहब_HR06";
             const savedPic = localStorage.getItem('vip_pic') || "https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=100";
             document.getElementById('headerUsername').innerText = savedUser;
             document.getElementById('headerUserAvatar').src = savedPic;
+            renderLiveFeed();
         });
 
         function openModal(id) { document.getElementById(id).classList.add('active'); }
@@ -204,14 +205,21 @@
 
         function triggerUpload(type) {
             closeModal('instagramUploadModal');
-            if(type === 'photo' || type === 'video') {
-                document.getElementById('photoVideoInput').click();
-            } else if(type === 'reel') {
-                document.getElementById('reelInput').click();
+            if(type === 'photo' || type === 'video') { document.getElementById('photoVideoInput').click(); } 
+            else if(type === 'reel') { document.getElementById('reelInput').click(); }
+        }
+
+        // लॉगआउट फंक्शन
+        function processLogout() {
+            if(confirm("क्या आप सच में लॉगआउट करना चाहते हैं?")) {
+                localStorage.removeItem('current_logged_in_user');
+                localStorage.removeItem('vip_name');
+                localStorage.removeItem('vip_user');
+                localStorage.removeItem('vip_pic');
+                window.location.href = 'login.html';
             }
         }
 
-        // मीडिया प्रोसेसिंग और डेटाबेस सिंक फंक्शन (100% फिक्स्ड)
         function processUpload(event, mode) {
             const file = event.target.files[0];
             if (!file) return;
@@ -221,58 +229,55 @@
                 const mediaUrl = e.target.result;
                 const myName = localStorage.getItem('vip_name') || "अमित राव";
                 const myPic = localStorage.getItem('vip_pic') || "https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=100";
-                const currentUser = localStorage.getItem('current_logged_in_user') || "राव_साहब_HR06";
+                const currentUser = localStorage.getItem('current_logged_in_user');
                 
-                let mediaHtml = '';
                 let isVideo = file.type.startsWith('video');
-
-                // डेटा को लोकल स्टोरेज डेटाबेस में ओनर के साथ जोड़ना
                 let savedItems = JSON.parse(localStorage.getItem('my_uploaded_media') || '[]');
+                
                 savedItems.unshift({ 
                     url: mediaUrl, 
                     type: mode === 'reel' ? 'reel' : (isVideo ? 'video' : 'photo'), 
-                    owner: currentUser 
+                    owner: currentUser,
+                    authorName: myName,
+                    authorPic: myPic
                 });
                 localStorage.setItem('my_uploaded_media', JSON.stringify(savedItems));
-
-                // मीडिया टाइप के अनुसार सही टैग जनरेट करना
-                if (mode === 'reel') {
-                    mediaHtml = `<video src="${mediaUrl}" class="post-video" controls autoplay loop muted></video>`;
-                } else if(isVideo) {
-                    mediaHtml = `<video src="${mediaUrl}" class="post-video" controls></video>`;
-                } else {
-                    mediaHtml = `<img src="${mediaUrl}" class="post-image" alt="Uploaded Pic">`;
-                }
-
-                // पोस्ट का डिज़ाइन स्ट्रक्चर
-                const postHtml = `
-                    <div class="post ${mode === 'reel' ? 'reel-style' : ''}">
-                        <div class="post-header">
-                            <div class="post-user-info">
-                                <img src="${myPic}" class="post-avatar">
-                                <div>
-                                    <div class="post-username">${myName} ${mode === 'reel' ? '• <span style="color:#ff007f;">रिल 🎬</span>' : ''}</div>
-                                    <div class="post-location">पानीपत • अभी-अभी</div>
-                                </div>
-                            </div>
-                            <i class="fa-solid fa-ellipsis"></i>
-                        </div>
-                        <div class="post-media-wrapper">${mediaHtml}</div>
-                        <div class="post-actions">
-                            <div class="left-actions">
-                                <i class="fa-solid fa-heart" style="color:#ff007f;"></i>
-                                <i class="fa-regular fa-comment action-btn"></i>
-                            </div>
-                        </div>
-                        <div class="post-likes">1 लाइक</div>
-                        <div class="post-caption"><span>${myName}</span>नयी वीआईपी पोस्ट लाइव! 🔥 #ZomatoDating</div>
-                    </div>
-                `;
-
-                document.getElementById('mainFeed').insertAdjacentHTML('afterbegin', postHtml);
-                alert(`${mode === 'reel' ? 'रील' : 'पोस्ट'} सफलतापूर्वक आपके पर्सनल अकाउंट से लाइव हो गई! 🚀`);
+                renderLiveFeed();
+                alert('पोस्ट सफलतापूर्वक लाइव हो गई! 🚀');
             };
             reader.readAsDataURL(file);
         }
+
+        function renderLiveFeed() {
+            const savedItems = JSON.parse(localStorage.getItem('my_uploaded_media') || '[]');
+            // डिफ़ॉल्ट पोस्ट को सुरक्षित रखना
+            let feedHtml = `
+                <div class="post">
+                    <div class="post-header"><div class="post-user-info"><img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=100" class="post-avatar"><div><div class="post-username">प्रिया शर्मा</div><div class="post-location">पानीपत</div></div></div></div>
+                    <div class="post-media-wrapper"><img src="https://images.unsplash.com/photo-1524504388940-b1c1722653e1?w=500" class="post-image"></div>
+                    <div class="post-actions"><div class="left-actions"><i class="fa-solid fa-heart" style="color:#ff007f;"></i></div></div>
+                    <div class="post-likes">1,248 लाइक्स</div>
+                </div>
+            `;
+
+            savedItems.forEach(item => {
+                let mediaHtml = item.type === 'photo' ? `<img src="${item.url}" class="post-image">` : `<video src="${item.url}" class="post-video" controls></video>`;
+                feedHtml += `
+                    <div class="post ${item.type === 'reel' ? 'reel-style' : ''}">
+                        <div class="post-header">
+                            <div class="post-user-info">
+                                <img src="${item.authorPic}" class="post-avatar">
+                                <div><div class="post-username">${item.authorName} ${item.type === 'reel' ? '• <span style="color:#ff007f;">रिल 🎬</span>' : ''}</div></div>
+                            </div>
+                        </div>
+                        <div class="post-media-wrapper">${mediaHtml}</div>
+                        <div class="post-actions"><div class="left-actions"><i class="fa-solid fa-heart" style="color:#ff007f;"></i></div></div>
+                        <div class="post-likes">1 लाइक</div>
+                    </div>
+                `;
+            });
+            document.getElementById('mainFeed').innerHTML = feedHtml;
+        }
     </script>
 </body>
+</html>
