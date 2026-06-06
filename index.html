@@ -24,7 +24,6 @@
             min-height: 100vh;
         }
 
-        /* मोबाइल ऐप जैसा फिक्स्ड कंटेनर */
         .app-container {
             width: 100%;
             max-width: 450px;
@@ -38,7 +37,7 @@
             padding-bottom: 70px;
         }
 
-        /* इंस्टाग्राम जैसा हेडर */
+        /* हेडर */
         .app-header {
             position: sticky;
             top: 0;
@@ -60,6 +59,7 @@
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             text-shadow: 0 0 15px rgba(255, 0, 127, 0.3);
+            cursor: pointer;
         }
 
         .header-icons {
@@ -78,7 +78,7 @@
             color: #ff007f;
         }
 
-        /* इंस्टाग्राम स्टोरी बार */
+        /* स्टोरी बार */
         .stories-container {
             display: flex;
             gap: 15px;
@@ -143,7 +143,7 @@
             border: 2px solid #05010d;
         }
 
-        /* इंस्टाग्राम जैसी फीड/पोस्ट्स */
+        /* फीड / पोस्ट्स */
         .feed-container {
             display: flex;
             flex-direction: column;
@@ -248,7 +248,7 @@
             margin-right: 8px;
         }
 
-        /* इंस्टाग्राम स्टाइल बॉटम नेविगेशन बार */
+        /* बॉटम नेविगेशन बार */
         .bottom-nav {
             position: fixed;
             bottom: 0;
@@ -326,7 +326,7 @@
             cursor: pointer;
         }
 
-        /* कमेंट मॉडल */
+        /* कमेंट्स और अन्य मॉडल्स का लेआउट */
         .chat-messages {
             flex: 1;
             padding: 20px;
@@ -334,6 +334,16 @@
             display: flex;
             flex-direction: column;
             gap: 12px;
+        }
+
+        .comment-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+            font-size: 0.9rem;
+            line-height: 1.4;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.03);
+            padding-bottom: 8px;
         }
 
         .chat-input {
@@ -390,15 +400,15 @@
     <div class="app-container">
         
         <header class="app-header">
-            <div class="brand-logo">Zomato Dating</div>
+            <div class="brand-logo" onclick="location.href='index.html'">Zomato Dating</div>
             <div class="header-icons">
-                <i class="fa-regular fa-heart" onclick="alert('VIP नोटिफिकेशन: आज आपको 5 नए लोगों ने पसंद किया!')"></i>
+                <i class="fa-regular fa-heart" onclick="openModal('notificationModal')"></i>
                 <a href="chat.html"><i class="fa-regular fa-paper-plane"></i></a>
             </div>
         </header>
 
         <div class="stories-container">
-            <div class="story-wrapper" onclick="alert('अपनी खुद की वीआईपी स्टोरी लगाने का फीचर जल्द आ रहा है!')">
+            <div class="story-wrapper" onclick="openModal('addStoryModal')">
                 <div class="story-ring my-story">
                     <img src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=100" alt="My Profile">
                     <div class="add-story-badge"><i class="fa-solid fa-plus"></i></div>
@@ -422,14 +432,14 @@
         <div class="feed-container">
             <div class="post">
                 <div class="post-header">
-                    <div class="post-user-info">
+                    <div class="post-user-info" onclick="location.href='profile.html'" style="cursor:pointer;">
                         <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=100" class="post-avatar" alt="User">
                         <div>
                             <div class="post-username">प्रिया शर्मा</div>
                             <div class="post-location">पानीपत, हरियाणा</div>
                         </div>
                     </div>
-                    <i class="fa-solid fa-ellipsis"></i>
+                    <i class="fa-solid fa-ellipsis" onclick="openModal('postMenuModal')" style="cursor:pointer;"></i>
                 </div>
                 <div class="post-image-wrapper" ondblclick="toggleLike('like1')">
                     <img src="https://images.unsplash.com/photo-1524504388940-b1c1722653e1?w=500" class="post-image" alt="Post">
@@ -438,21 +448,21 @@
                     <div class="left-actions">
                         <i class="fa-regular fa-heart action-btn" id="like1" onclick="toggleLike('like1')"></i>
                         <i class="fa-regular fa-comment action-btn" onclick="openModal('commentModal')"></i>
-                        <i class="fa-regular fa-share-from-square action-btn" onclick="alert('शेयर लिंक कॉपी हो गया!')"></i>
+                        <i class="fa-regular fa-share-from-square action-btn" onclick="openModal('shareModal')"></i>
                     </div>
-                    <i class="fa-regular fa-bookmark action-btn" onclick="alert('पार्टनर प्रोफाइल सेव हो गई!')"></i>
+                    <i class="fa-regular fa-bookmark action-btn" id="bookmark1" onclick="toggleBookmark('bookmark1')"></i>
                 </div>
                 <div class="post-likes" id="likes-count-like1">1,248 लाइक्स</div>
                 <div class="post-caption">
-                    <span>प्रिया शर्मा</span>लॉन्ग驱动 और अच्छे संगीत का शौक रखने वाला कोई है यहाँ? 🚘✨ #ZomatoDating
+                    <span>प्रिया शर्मा</span>लॉन्ग ड्राइव और अच्छे संगीत का शौक रखने वाला कोई है यहाँ? 🚘✨ #ZomatoDating
                 </div>
             </div>
         </div>
 
         <nav class="bottom-nav">
             <a href="index.html" class="nav-item active"><i class="fa-solid fa-house"></i></a>
-            <i class="fa-solid fa-magnifying-glass nav-item" onclick="alert('फ्यूचरिस्टिक एआई मैच मेकिंग सर्च जल्द शुरू होगी!')"></i>
-            <i class="fa-regular fa-square-plus nav-item" onclick="alert('नया वीआईपी फोटो अपलोड करें!')"></i>
+            <i class="fa-solid fa-magnifying-glass nav-item" onclick="openModal('searchModal')"></i>
+            <i class="fa-regular fa-square-plus nav-item" onclick="openModal('uploadModal')"></i>
             <a href="chat.html" class="nav-item"><i class="fa-regular fa-message"></i></a>
             <a href="profile.html" class="nav-item"><i class="fa-regular fa-user"></i></a>
         </nav>
@@ -465,13 +475,95 @@
                 <span>टिप्पणियाँ (Comments)</span>
                 <button class="modal-close" onclick="closeModal('commentModal')"><i class="fa-solid fa-xmark"></i></button>
             </div>
-            <div class="chat-messages" style="gap: 15px;">
-                <div class="post-user-info"><strong style="margin-right: 10px;">अमित_राव:</strong> पानीपत में कहाँ से हो जी आप? 🤔</div>
-                <div class="post-user-info"><strong style="margin-right: 10px;">विक्रम_HR06:</strong> एकदम वीआईपी प्रोफाइल है! 🔥</div>
+            <div class="chat-messages" id="commentArea">
+                <div class="comment-item"><strong>अमित_राव:</strong> पानीपत में कहाँ से हो जी आप? 🤔</div>
+                <div class="comment-item"><strong>विक्रम_HR06:</strong> एकदम वीआईपी प्रोफाइल है! 🔥</div>
             </div>
             <div class="chat-input">
-                <input type="text" placeholder="एक प्यारा सा कमेंट लिखें...">
-                <button onclick="alert('कमेंट पोस्ट हो गया!')" style="background: none; border: none; color: #ff007f; font-weight: bold;">पोस्ट करें</button>
+                <input type="text" id="commentInputField" placeholder="एक प्यारा सा कमेंट लिखें...">
+                <button onclick="addComment()" style="background: none; border: none; color: #ff007f; font-weight: bold; cursor:pointer;">पोस्ट करें</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal-overlay" id="notificationModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <span>VIP नोटिफिकेशन्स 🔔</span>
+                <button class="modal-close" onclick="closeModal('notificationModal')"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+            <div class="chat-messages">
+                <div class="comment-item">❤️ <strong>अंजलि_HR06</strong> ने आपकी पोस्ट को लाइक किया। (2 मिनट पहले)</div>
+                <div class="comment-item">👑 <strong>प्रिया शर्मा</strong> ने आपको एक VIP मैच रिक्वेस्ट भेजी है!</div>
+                <div class="comment-item">💬 <strong>रोहित_राव</strong> ने आपको इनबॉक्स में मैसेज किया।</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal-overlay" id="shareModal">
+        <div class="modal-content" style="height: auto; border-radius: 20px 20px 0 0; margin-top: auto;">
+            <div class="modal-header">
+                <span>कहाँ शेयर करना चाहते हैं? 🚀</span>
+                <button class="modal-close" onclick="closeModal('shareModal')"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+            <div style="display: grid; grid-template-columns: repeat(3, 1fr); padding: 30px; text-align: center; gap: 20px;">
+                <div onclick="alert('WhatsApp पर लिंक भेज दिया गया है!')" style="cursor:pointer;"><i class="fa-brands fa-whatsapp" style="color: #25D366; font-size: 2.5rem;"></i><p style="margin-top:5px; font-size:0.8rem;">WhatsApp</p></div>
+                <div onclick="alert('VIP लिंक कॉपी हो गया!')" style="cursor:pointer;"><i class="fa-regular fa-copy" style="color: #00f0ff; font-size: 2.5rem;"></i><p style="margin-top:5px; font-size:0.8rem;">लिंक कॉपी करें</p></div>
+                <div onclick="alert('Instagram DM में शेयर किया गया!')" style="cursor:pointer;"><i class="fa-brands fa-instagram" style="color: #E1306C; font-size: 2.5rem;"></i><p style="margin-top:5px; font-size:0.8rem;">Instagram</p></div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal-overlay" id="searchModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <span>AI मैच मेकर सर्च 🔍</span>
+                <button class="modal-close" onclick="closeModal('searchModal')"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+            <div class="chat-input" style="border-top:none;">
+                <input type="text" placeholder="उम्र, स्थान या शौक लिखकर सर्च करें (जैसे: पानीपत)..." oninput="console.log('Searching...')">
+            </div>
+            <div class="chat-messages">
+                <div class="comment-item" style="cursor:pointer;" onclick="location.href='profile.html'">✨ <strong>प्रिया शर्मा</strong> - पानीपत (मैच स्कोर: 98%)</div>
+                <div class="comment-item" style="cursor:pointer;" onclick="location.href='profile.html'">✨ <strong>अंजलि यादव</strong> - HR06 (मैच स्कोर: 91%)</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal-overlay" id="uploadModal">
+        <div class="modal-content" style="height: auto; border-radius: 20px 20px 0 0; margin-top: auto; padding-bottom: 20px;">
+            <div class="modal-header">
+                <span>नई वीआईपी पोस्ट बनाएँ 📸</span>
+                <button class="modal-close" onclick="closeModal('uploadModal')"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+            <div style="padding: 20px; text-align: center;">
+                <div style="border: 2px dashed rgba(255,255,255,0.2); padding: 40px; border-radius: 15px; cursor: pointer;" onclick="alert('गैलरी एक्सेस चालू हो रहा है...')">
+                    <i class="fa-regular fa-images" style="font-size: 3rem; color: #00f0ff; margin-bottom: 10px;"></i>
+                    <p>गैलरी से फोटो या वीडियो चुनें</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal-overlay" id="addStoryModal">
+        <div class="modal-content" style="height: auto; border-radius: 20px 20px 0 0; margin-top: auto; padding-bottom: 20px;">
+            <div class="modal-header">
+                <span>अपनी VIP स्टोरी लगाएं ⚡</span>
+                <button class="modal-close" onclick="closeModal('addStoryModal')"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+            <div style="padding: 30px; text-align: center; display: flex; gap: 20px; justify-content: center;">
+                <button onclick="alert('कैमरा खुल रहा है...📸')" style="background:linear-gradient(45deg, #ff007f, #7928ca); border:none; color:white; padding:15px; border-radius:10px; font-weight:bold; cursor:pointer;"><i class="fa-solid fa-camera"></i> कैमरा</button>
+                <button onclick="alert('गैलरी खुल रही है...🖼️')" style="background:rgba(255,255,255,0.08); border:1px solid rgba(255,255,255,0.1); color:white; padding:15px; border-radius:10px; font-weight:bold; cursor:pointer;"><i class="fa-solid fa-image"></i> गैलरी</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal-overlay" id="postMenuModal">
+        <div class="modal-content" style="height: auto; border-radius: 20px 20px 0 0; margin-top: auto;">
+            <div style="display: flex; flex-direction: column; text-align: center;">
+                <div onclick="alert('प्रोफाइल ब्लॉक कर दी गई है!')" style="padding: 20px; color: #ff007f; font-weight: bold; border-bottom: 1px solid rgba(255,255,255,0.05); cursor:pointer;">ब्लॉक करें (Block)</div>
+                <div onclick="alert('पोस्ट की रिपोर्ट दर्ज कर ली गई है।')" style="padding: 20px; color: #ff007f; border-bottom: 1px solid rgba(255,255,255,0.05); cursor:pointer;">रिपोर्ट करें (Report)</div>
+                <div onclick="closeModal('postMenuModal')" style="padding: 20px; color: white; cursor:pointer;">रद्द करें (Cancel)</div>
             </div>
         </div>
     </div>
@@ -509,6 +601,32 @@
                 likeIcon.classList.add('fa-regular');
                 countElement.innerText = "1,248 लाइक्स";
             }
+        }
+
+        // बुकमार्क बटन ऑन करने का फंक्शन
+        function toggleBookmark(id) {
+            const el = document.getElementById(id);
+            if(el.classList.contains('fa-regular')) {
+                el.classList.remove('fa-regular');
+                el.classList.add('fa-solid');
+                el.style.color = '#00f0ff';
+                alert('VIP पोस्ट आपकी गैलरी में सेव हो गई!');
+            } else {
+                el.classList.remove('fa-solid');
+                el.classList.add('fa-regular');
+                el.style.color = 'white';
+            }
+        }
+
+        // कमेंट जोड़ने का असली सिस्टम
+        function addComment() {
+            const input = document.getElementById('commentInputField');
+            const area = document.getElementById('commentArea');
+            if(input.value.trim() === '') return;
+
+            area.insertAdjacentHTML('beforeend', `<div class="comment-item"><strong>आप (VIP):</strong> ${input.value}</div>`);
+            input.value = '';
+            area.scrollTop = area.scrollHeight;
         }
 
         function showStory(imgSrc) {
