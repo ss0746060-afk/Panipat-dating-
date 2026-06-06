@@ -6,7 +6,6 @@
     <title>Zomato Dating - VIP Futuristic Social</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        /* वीआईपी साइबरपंक डार्क थीम */
         * {
             margin: 0;
             padding: 0;
@@ -37,7 +36,6 @@
             padding-bottom: 70px;
         }
 
-        /* हेडर */
         .app-header {
             position: sticky;
             top: 0;
@@ -69,16 +67,9 @@
             cursor: pointer;
         }
 
-        .header-icons a {
-            color: white;
-            text-decoration: none;
-        }
+        .header-icons a { color: white; text-decoration: none; }
+        .header-icons i:hover, .header-icons a:hover { color: #ff007f; }
 
-        .header-icons i:hover, .header-icons a:hover {
-            color: #ff007f;
-        }
-
-        /* स्टोरी बार */
         .stories-container {
             display: flex;
             gap: 15px;
@@ -88,9 +79,7 @@
             background: rgba(255, 255, 255, 0.01);
         }
 
-        .stories-container::-webkit-scrollbar {
-            display: none;
-        }
+        .stories-container::-webkit-scrollbar { display: none; }
 
         .story-wrapper {
             display: flex;
@@ -113,10 +102,7 @@
             position: relative;
         }
 
-        .story-ring.my-story {
-            background: rgba(255, 255, 255, 0.2);
-            box-shadow: none;
-        }
+        .story-ring.my-story { background: rgba(255, 255, 255, 0.2); box-shadow: none; }
 
         .add-story-badge {
             position: absolute;
@@ -143,86 +129,32 @@
             border: 2px solid #05010d;
         }
 
-        /* फीड / पोस्ट्स */
-        .feed-container {
-            display: flex;
-            flex-direction: column;
-        }
+        .feed-container { display: flex; flex-direction: column; }
 
-        .post {
-            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-            padding-bottom: 15px;
-        }
+        .post { border-bottom: 1px solid rgba(255, 255, 255, 0.05); padding-bottom: 15px; }
 
-        .post-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 12px 15px;
-        }
+        .post-header { display: flex; justify-content: space-between; align-items: center; padding: 12px 15px; }
 
-        .post-user-info {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
+        .post-user-info { display: flex; align-items: center; gap: 10px; }
 
-        .post-avatar {
-            width: 35px;
-            height: 35px;
-            border-radius: 50%;
-            border: 1.5px solid #00f0ff;
-            object-fit: cover;
-        }
+        .post-avatar { width: 35px; height: 35px; border-radius: 50%; border: 1.5px solid #00f0ff; object-fit: cover; }
 
-        .post-username {
-            font-weight: 600;
-            font-size: 0.95rem;
-        }
+        .post-username { font-weight: 600; font-size: 0.95rem; }
 
-        .post-location {
-            font-size: 0.75rem;
-            color: #00f0ff;
-        }
+        .post-location { font-size: 0.75rem; color: #00f0ff; }
 
-        .post-image-wrapper {
-            width: 100%;
-            position: relative;
-            cursor: pointer;
-        }
+        .post-image-wrapper { width: 100%; position: relative; cursor: pointer; }
 
-        .post-image {
-            width: 100%;
-            max-height: 450px;
-            object-fit: cover;
-        }
+        .post-image { width: 100%; max-height: 450px; object-fit: cover; }
 
-        /* इंटरैक्शन बटन बार */
-        .post-actions {
-            padding: 12px 15px;
-            display: flex;
-            justify-content: space-between;
-            font-size: 1.35rem;
-        }
+        .post-actions { padding: 12px 15px; display: flex; justify-content: space-between; font-size: 1.35rem; }
 
-        .left-actions {
-            display: flex;
-            gap: 20px;
-        }
+        .left-actions { display: flex; gap: 20px; }
 
-        .action-btn {
-            cursor: pointer;
-            transition: transform 0.2s;
-        }
+        .action-btn { cursor: pointer; transition: transform 0.2s; }
+        .action-btn:active { transform: scale(1.2); }
 
-        .action-btn:active {
-            transform: scale(1.2);
-        }
-
-        .fa-heart.liked {
-            color: #ff007f;
-            animation: pulse 0.3s ease-in-out;
-        }
+        .fa-heart.liked { color: #ff007f; animation: pulse 0.3s ease-in-out; }
 
         @keyframes pulse {
             0% { transform: scale(1); }
@@ -230,175 +162,61 @@
             100% { transform: scale(1); }
         }
 
-        .post-likes {
-            padding: 0 15px;
-            font-size: 0.9rem;
-            font-weight: bold;
-            margin-bottom: 5px;
-        }
+        .post-likes { padding: 0 15px; font-size: 0.9rem; font-weight: bold; margin-bottom: 5px; }
 
-        .post-caption {
-            padding: 0 15px;
-            font-size: 0.9rem;
-            line-height: 1.4;
-        }
+        .post-caption { padding: 0 15px; font-size: 0.9rem; line-height: 1.4; }
+        .post-caption span { font-weight: bold; margin-right: 8px; }
 
-        .post-caption span {
-            font-weight: bold;
-            margin-right: 8px;
-        }
-
-        /* बॉटम नेविगेशन बार */
         .bottom-nav {
             position: fixed;
-            bottom: 0;
-            width: 100%;
-            max-width: 450px;
+            bottom: 0; width: 100%; max-width: 450px;
             background: rgba(5, 1, 13, 0.95);
             backdrop-filter: blur(10px);
             border-top: 1px solid rgba(255, 255, 255, 0.08);
-            display: flex;
-            justify-content: space-around;
-            align-items: center;
-            padding: 15px 0;
-            font-size: 1.4rem;
-            z-index: 10;
+            display: flex; justify-content: space-around; align-items: center;
+            padding: 15px 0; font-size: 1.4rem; z-index: 10;
         }
 
-        .nav-item {
-            cursor: pointer;
-            color: #8b8ba7;
-            transition: 0.2s;
-            text-decoration: none;
-        }
+        .nav-item { cursor: pointer; color: #8b8ba7; transition: 0.2s; text-decoration: none; }
+        .nav-item:hover, .nav-item.active { color: #00f0ff; text-shadow: 0 0 10px #00f0ff; }
 
-        .nav-item:hover, .nav-item.active {
-            color: #00f0ff;
-            text-shadow: 0 0 10px #00f0ff;
-        }
-
-        /* फुल स्क्रीन ओवरले मॉडल्स */
         .modal-overlay {
             position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
+            top: 0; left: 0; width: 100%; height: 100%;
             background: rgba(5, 1, 13, 0.95);
             backdrop-filter: blur(8px);
             z-index: 100;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            opacity: 0;
-            pointer-events: none;
-            transition: all 0.3s ease;
+            display: flex; justify-content: center; align-items: center;
+            opacity: 0; pointer-events: none; transition: all 0.3s ease;
         }
 
-        .modal-overlay.active {
-            opacity: 1;
-            pointer-events: auto;
-        }
+        .modal-overlay.active { opacity: 1; pointer-events: auto; }
 
-        .modal-content {
-            width: 100%;
-            max-width: 450px;
-            height: 100%;
-            display: flex;
-            flex-direction: column;
-            background: #0d061a;
-        }
+        .modal-content { width: 100%; max-width: 450px; height: 100%; display: flex; flex-direction: column; background: #0d061a; }
 
-        .modal-header {
-            padding: 15px 20px;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            font-weight: bold;
-        }
+        .modal-header { padding: 15px 20px; border-bottom: 1px solid rgba(255, 255, 255, 0.1); display: flex; justify-content: space-between; align-items: center; font-weight: bold; }
 
-        .modal-close {
-            background: none;
-            border: none;
-            color: white;
-            font-size: 1.5rem;
-            cursor: pointer;
-        }
+        .modal-close { background: none; border: none; color: white; font-size: 1.5rem; cursor: pointer; }
 
-        /* कमेंट्स और अन्य मॉडल्स का लेआउट */
-        .chat-messages {
-            flex: 1;
-            padding: 20px;
-            overflow-y: auto;
-            display: flex;
-            flex-direction: column;
-            gap: 12px;
-        }
+        .chat-messages { flex: 1; padding: 20px; overflow-y: auto; display: flex; flex-direction: column; gap: 12px; }
 
-        .comment-item {
-            display: flex;
-            align-items: flex-start;
-            gap: 10px;
-            font-size: 0.9rem;
-            line-height: 1.4;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.03);
-            padding-bottom: 8px;
-        }
+        .comment-item { display: flex; align-items: flex-start; gap: 10px; font-size: 0.9rem; line-height: 1.4; border-bottom: 1px solid rgba(255, 255, 255, 0.03); padding-bottom: 8px; }
 
-        .chat-input {
-            padding: 15px;
-            border-top: 1px solid rgba(255, 255, 255, 0.1);
-            display: flex;
-            gap: 10px;
-        }
+        .chat-input { padding: 15px; border-top: 1px solid rgba(255, 255, 255, 0.1); display: flex; gap: 10px; }
 
-        .chat-input input {
-            flex: 1;
-            background: rgba(255, 255, 255, 0.05);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 30px;
-            padding: 12px 20px;
-            color: white;
-            outline: none;
-        }
+        .chat-input input { flex: 1; background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 30px; padding: 12px 20px; color: white; outline: none; }
 
-        /* स्टोरी व्यूअर */
-        .story-viewer-content {
-            justify-content: center;
-            align-items: center;
-            position: relative;
-            background: black;
-        }
-
-        .story-progress-bar {
-            position: absolute;
-            top: 15px;
-            left: 5%;
-            width: 90%;
-            height: 3px;
-            background: rgba(255, 255, 255, 0.3);
-            border-radius: 2px;
-        }
-
-        .story-progress-fill {
-            width: 0%;
-            height: 100%;
-            background: white;
-            border-radius: 2px;
-        }
-
-        .story-img-full {
-            width: 100%;
-            max-height: 80vh;
-            object-fit: contain;
-        }
+        .story-viewer-content { justify-content: center; align-items: center; position: relative; background: black; }
+        .story-progress-bar { position: absolute; top: 15px; left: 5%; width: 90%; height: 3px; background: rgba(255, 255, 255, 0.3); border-radius: 2px; }
+        .story-progress-fill { width: 0%; height: 100%; background: white; border-radius: 2px; }
+        .story-img-full { width: 100%; max-height: 80vh; object-fit: contain; }
     </style>
 </head>
 <body>
 
     <div class="app-container">
-        
+        <input type="file" id="hiddenPostInput" accept="image/*" style="display: none;" onchange="handleImageUpload(event)">
+
         <header class="app-header">
             <div class="brand-logo" onclick="location.href='index.html'">Zomato Dating</div>
             <div class="header-icons">
@@ -410,10 +228,10 @@
         <div class="stories-container">
             <div class="story-wrapper" onclick="openModal('addStoryModal')">
                 <div class="story-ring my-story">
-                    <img src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=100" alt="My Profile">
+                    <img id="headerUserAvatar" src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=100" alt="My Profile">
                     <div class="add-story-badge"><i class="fa-solid fa-plus"></i></div>
                 </div>
-                <span>Your Story</span>
+                <span id="headerUsername">Your Story</span>
             </div>
             <div class="story-wrapper" onclick="showStory('https://images.unsplash.com/photo-1524504388940-b1c1722653e1?w=500')">
                 <div class="story-ring">
@@ -421,15 +239,9 @@
                 </div>
                 <span>प्रिया_पानीपत</span>
             </div>
-            <div class="story-wrapper" onclick="showStory('https://images.unsplash.com/photo-1517841905240-472988babdf9?w=500')">
-                <div class="story-ring">
-                    <img src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=100" alt="User 2">
-                </div>
-                <span>अंजलि_HR06</span>
-            </div>
         </div>
 
-        <div class="feed-container">
+        <div class="feed-container" id="mainFeed">
             <div class="post">
                 <div class="post-header">
                     <div class="post-user-info" onclick="location.href='profile.html'" style="cursor:pointer;">
@@ -462,11 +274,10 @@
         <nav class="bottom-nav">
             <a href="index.html" class="nav-item active"><i class="fa-solid fa-house"></i></a>
             <i class="fa-solid fa-magnifying-glass nav-item" onclick="openModal('searchModal')"></i>
-            <i class="fa-regular fa-square-plus nav-item" onclick="openModal('uploadModal')"></i>
+            <i class="fa-regular fa-square-plus nav-item" onclick="triggerGallery()"></i>
             <a href="chat.html" class="nav-item"><i class="fa-regular fa-message"></i></a>
             <a href="profile.html" class="nav-item"><i class="fa-regular fa-user"></i></a>
         </nav>
-
     </div>
 
     <div class="modal-overlay" id="commentModal">
@@ -477,7 +288,6 @@
             </div>
             <div class="chat-messages" id="commentArea">
                 <div class="comment-item"><strong>अमित_राव:</strong> पानीपत में कहाँ से हो जी आप? 🤔</div>
-                <div class="comment-item"><strong>विक्रम_HR06:</strong> एकदम वीआईपी प्रोफाइल है! 🔥</div>
             </div>
             <div class="chat-input">
                 <input type="text" id="commentInputField" placeholder="एक प्यारा सा कमेंट लिखें...">
@@ -493,9 +303,7 @@
                 <button class="modal-close" onclick="closeModal('notificationModal')"><i class="fa-solid fa-xmark"></i></button>
             </div>
             <div class="chat-messages">
-                <div class="comment-item">❤️ <strong>अंजलि_HR06</strong> ने आपकी पोस्ट को लाइक किया। (2 मिनट पहले)</div>
-                <div class="comment-item">👑 <strong>प्रिया शर्मा</strong> ने आपको एक VIP मैच रिक्वेस्ट भेजी है!</div>
-                <div class="comment-item">💬 <strong>रोहित_राव</strong> ने आपको इनबॉक्स में मैसेज किया।</div>
+                <div class="comment-item">❤️ <strong>अंजलि_HR06</strong> ने आपकी पोस्ट को लाइक किया।</div>
             </div>
         </div>
     </div>
@@ -507,9 +315,8 @@
                 <button class="modal-close" onclick="closeModal('shareModal')"><i class="fa-solid fa-xmark"></i></button>
             </div>
             <div style="display: grid; grid-template-columns: repeat(3, 1fr); padding: 30px; text-align: center; gap: 20px;">
-                <div onclick="alert('WhatsApp पर लिंक भेज दिया गया है!')" style="cursor:pointer;"><i class="fa-brands fa-whatsapp" style="color: #25D366; font-size: 2.5rem;"></i><p style="margin-top:5px; font-size:0.8rem;">WhatsApp</p></div>
-                <div onclick="alert('VIP लिंक कॉपी हो गया!')" style="cursor:pointer;"><i class="fa-regular fa-copy" style="color: #00f0ff; font-size: 2.5rem;"></i><p style="margin-top:5px; font-size:0.8rem;">लिंक कॉपी करें</p></div>
-                <div onclick="alert('Instagram DM में शेयर किया गया!')" style="cursor:pointer;"><i class="fa-brands fa-instagram" style="color: #E1306C; font-size: 2.5rem;"></i><p style="margin-top:5px; font-size:0.8rem;">Instagram</p></div>
+                <div onclick="alert('WhatsApp पर शेयर हुआ!')" style="cursor:pointer;"><i class="fa-brands fa-whatsapp" style="color: #25D366; font-size: 2.5rem;"></i><p style="margin-top:5px; font-size:0.8rem;">WhatsApp</p></div>
+                <div onclick="alert('लिंक कॉपी हुआ!')" style="cursor:pointer;"><i class="fa-regular fa-copy" style="color: #00f0ff; font-size: 2.5rem;"></i><p style="margin-top:5px; font-size:0.8rem;">कॉपी लिंक</p></div>
             </div>
         </div>
     </div>
@@ -521,26 +328,7 @@
                 <button class="modal-close" onclick="closeModal('searchModal')"><i class="fa-solid fa-xmark"></i></button>
             </div>
             <div class="chat-input" style="border-top:none;">
-                <input type="text" placeholder="उम्र, स्थान या शौक लिखकर सर्च करें (जैसे: पानीपत)..." oninput="console.log('Searching...')">
-            </div>
-            <div class="chat-messages">
-                <div class="comment-item" style="cursor:pointer;" onclick="location.href='profile.html'">✨ <strong>प्रिया शर्मा</strong> - पानीपत (मैच स्कोर: 98%)</div>
-                <div class="comment-item" style="cursor:pointer;" onclick="location.href='profile.html'">✨ <strong>अंजलि यादव</strong> - HR06 (मैच स्कोर: 91%)</div>
-            </div>
-        </div>
-    </div>
-
-    <div class="modal-overlay" id="uploadModal">
-        <div class="modal-content" style="height: auto; border-radius: 20px 20px 0 0; margin-top: auto; padding-bottom: 20px;">
-            <div class="modal-header">
-                <span>नई वीआईपी पोस्ट बनाएँ 📸</span>
-                <button class="modal-close" onclick="closeModal('uploadModal')"><i class="fa-solid fa-xmark"></i></button>
-            </div>
-            <div style="padding: 20px; text-align: center;">
-                <div style="border: 2px dashed rgba(255,255,255,0.2); padding: 40px; border-radius: 15px; cursor: pointer;" onclick="alert('गैलरी एक्सेस चालू हो रहा है...')">
-                    <i class="fa-regular fa-images" style="font-size: 3rem; color: #00f0ff; margin-bottom: 10px;"></i>
-                    <p>गैलरी से फोटो या वीडियो चुनें</p>
-                </div>
+                <input type="text" placeholder="सर्च करें (जैसे: पानीपत)...">
             </div>
         </div>
     </div>
@@ -551,9 +339,8 @@
                 <span>अपनी VIP स्टोरी लगाएं ⚡</span>
                 <button class="modal-close" onclick="closeModal('addStoryModal')"><i class="fa-solid fa-xmark"></i></button>
             </div>
-            <div style="padding: 30px; text-align: center; display: flex; gap: 20px; justify-content: center;">
-                <button onclick="alert('कैमरा खुल रहा है...📸')" style="background:linear-gradient(45deg, #ff007f, #7928ca); border:none; color:white; padding:15px; border-radius:10px; font-weight:bold; cursor:pointer;"><i class="fa-solid fa-camera"></i> कैमरा</button>
-                <button onclick="alert('गैलरी खुल रही है...🖼️')" style="background:rgba(255,255,255,0.08); border:1px solid rgba(255,255,255,0.1); color:white; padding:15px; border-radius:10px; font-weight:bold; cursor:pointer;"><i class="fa-solid fa-image"></i> गैलरी</button>
+            <div style="padding: 30px; text-align: center;">
+                <button onclick="triggerGallery()" style="background:linear-gradient(45deg, #ff007f, #7928ca); border:none; color:white; padding:15px; border-radius:10px; font-weight:bold; cursor:pointer;"><i class="fa-solid fa-image"></i> गैलरी खोलें</button>
             </div>
         </div>
     </div>
@@ -561,32 +348,34 @@
     <div class="modal-overlay" id="postMenuModal">
         <div class="modal-content" style="height: auto; border-radius: 20px 20px 0 0; margin-top: auto;">
             <div style="display: flex; flex-direction: column; text-align: center;">
-                <div onclick="alert('प्रोफाइल ब्लॉक कर दी गई है!')" style="padding: 20px; color: #ff007f; font-weight: bold; border-bottom: 1px solid rgba(255,255,255,0.05); cursor:pointer;">ब्लॉक करें (Block)</div>
-                <div onclick="alert('पोस्ट की रिपोर्ट दर्ज कर ली गई है।')" style="padding: 20px; color: #ff007f; border-bottom: 1px solid rgba(255,255,255,0.05); cursor:pointer;">रिपोर्ट करें (Report)</div>
-                <div onclick="closeModal('postMenuModal')" style="padding: 20px; color: white; cursor:pointer;">रद्द करें (Cancel)</div>
+                <div onclick="alert('प्रोफाइल ब्लॉक कर दी गई है!')" style="padding: 20px; color: #ff007f; font-weight: bold; cursor:pointer;">ब्लॉक करें</div>
+                <div onclick="closeModal('postMenuModal')" style="padding: 20px; color: white; cursor:pointer;">रद्द करें</div>
             </div>
         </div>
     </div>
 
     <div class="modal-overlay" id="storyModal" onclick="closeModal('storyModal')">
         <div class="modal-content story-viewer-content">
-            <div class="story-progress-bar">
-                <div class="story-progress-fill" id="storyProgress"></div>
-            </div>
+            <div class="story-progress-bar"><div class="story-progress-fill" id="storyProgress"></div></div>
             <img src="" id="storyFullImage" class="story-img-full" alt="Full Story">
         </div>
     </div>
 
     <script>
-        function openModal(id) {
-            document.getElementById(id).classList.add('active');
-        }
+        // कस्टमाइज्ड प्रोफाइल डेटा लोड करना (Local Storage से)
+        window.addEventListener('load', () => {
+            const savedName = localStorage.getItem('vip_name') || "अमित राव";
+            const savedUser = localStorage.getItem('vip_user') || "राव_साहब_HR06";
+            const savedPic = localStorage.getItem('vip_pic') || "https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=100";
 
+            document.getElementById('headerUsername').innerText = savedUser;
+            document.getElementById('headerUserAvatar').src = savedPic;
+        });
+
+        function openModal(id) { document.getElementById(id).classList.add('active'); }
         function closeModal(id) {
             document.getElementById(id).classList.remove('active');
-            if(id === 'storyModal') {
-                document.getElementById('storyProgress').style.width = '0%';
-            }
+            if(id === 'storyModal') document.getElementById('storyProgress').style.width = '0%';
         }
 
         function toggleLike(id) {
@@ -603,46 +392,95 @@
             }
         }
 
-        // बुकमार्क बटन ऑन करने का फंक्शन
         function toggleBookmark(id) {
             const el = document.getElementById(id);
             if(el.classList.contains('fa-regular')) {
-                el.classList.remove('fa-regular');
-                el.classList.add('fa-solid');
+                el.classList.remove('fa-regular'); el.classList.add('fa-solid');
                 el.style.color = '#00f0ff';
-                alert('VIP पोस्ट आपकी गैलरी में सेव हो गई!');
+                alert('VIP पोस्ट सेव हो गई!');
             } else {
-                el.classList.remove('fa-solid');
-                el.classList.add('fa-regular');
+                el.classList.remove('fa-solid'); el.classList.add('fa-regular');
                 el.style.color = 'white';
             }
         }
 
-        // कमेंट जोड़ने का असली सिस्टम
         function addComment() {
             const input = document.getElementById('commentInputField');
             const area = document.getElementById('commentArea');
             if(input.value.trim() === '') return;
-
-            area.insertAdjacentHTML('beforeend', `<div class="comment-item"><strong>आप (VIP):</strong> ${input.value}</div>`);
+            const myUser = localStorage.getItem('vip_user') || "आप (VIP)";
+            area.insertAdjacentHTML('beforeend', `<div class="comment-item"><strong>${myUser}:</strong> ${input.value}</div>`);
             input.value = '';
             area.scrollTop = area.scrollHeight;
+        }
+
+        // असली गैलरी खोलने के लिए फंक्शन
+        function triggerGallery() {
+            closeModal('addStoryModal');
+            document.getElementById('hiddenPostInput').click();
+        }
+
+        // इमेज अपलोड हैंडलर (फीड में न्यू पोस्ट जोड़ने के लिए)
+        function handleImageUpload(event) {
+            const file = event.target.files[0];
+            if (!file) return;
+
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                const imageUrl = e.target.result;
+                const feed = document.getElementById('mainFeed');
+
+                const myName = localStorage.getItem('vip_name') || "अमित राव";
+                const myPic = localStorage.getItem('vip_pic') || "https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=100";
+                
+                const randomId = 'like_' + Math.floor(Math.random() * 10000);
+
+                // इंस्टाग्राम जैसी नई पोस्ट का HTML ढांचा
+                const newPostHtml = `
+                    <div class="post">
+                        <div class="post-header">
+                            <div class="post-user-info">
+                                <img src="${myPic}" class="post-avatar" alt="User">
+                                <div>
+                                    <div class="post-username">${myName}</div>
+                                    <div class="post-location">पानीपत, हरियाणा (अभी-अभी)</div>
+                                </div>
+                            </div>
+                            <i class="fa-solid fa-ellipsis"></i>
+                        </div>
+                        <div class="post-image-wrapper" ondblclick="toggleLike('${randomId}')">
+                            <img src="${imageUrl}" class="post-image" alt="Uploaded Post">
+                        </div>
+                        <div class="post-actions">
+                            <div class="left-actions">
+                                <i class="fa-regular fa-heart action-btn" id="${randomId}" onclick="toggleLike('${randomId}')"></i>
+                                <i class="fa-regular fa-comment action-btn" onclick="openModal('commentModal')"></i>
+                                <i class="fa-regular fa-share-from-square action-btn" onclick="openModal('shareModal')"></i>
+                            </div>
+                            <i class="fa-regular fa-bookmark action-btn"></i>
+                        </div>
+                        <div class="post-likes" id="likes-count-${randomId}">0 लाइक्स</div>
+                        <div class="post-caption">
+                            <span>${myName}</span>नयी वीआईपी पोस्ट लाइव! 🔥 #ZomatoDating
+                        </div>
+                    </div>
+                `;
+
+                // फीड में सबसे ऊपर जोड़ना
+                feed.insertAdjacentHTML('afterbegin', newPostHtml);
+                alert('VIP पोस्ट सफलतापूर्वक फीड में लाइव हो गई है! 🚀');
+            };
+            reader.readAsDataURL(file);
         }
 
         function showStory(imgSrc) {
             document.getElementById('storyFullImage').src = imgSrc;
             openModal('storyModal');
-            
             let progress = document.getElementById('storyProgress');
             let width = 0;
             let interval = setInterval(() => {
-                if (width >= 100) {
-                    clearInterval(interval);
-                    closeModal('storyModal');
-                } else {
-                    width++;
-                    progress.style.width = width + '%';
-                }
+                if (width >= 100) { clearInterval(interval); closeModal('storyModal'); }
+                else { width++; progress.style.width = width + '%'; }
             }, 30);
         }
     </script>
