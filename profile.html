@@ -1,6 +1,13 @@
 <!DOCTYPE html>
 <html lang="hi">
 <head>
+<script>
+    // 🔒 प्रोफाइल सुरक्षा कवच
+    if (!localStorage.getItem('current_logged_in_user')) {
+        window.location.href = 'login.html'; // बिना लॉगिन अंदर आना मना है!
+    }
+</script>
+
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>VIP Profile - Zomato Dating</title>
