@@ -99,7 +99,7 @@
             <div class="subtitle">टैलेंट हब में लॉगिन करें 👑</div>
             <form onsubmit="handleLogin(event)">
                 <div class="input-group">
-                    <input type="text" id="loginIdentifier" placeholder="Gmail आईडी या मोबाइल नंबर" required>
+                    <input type="text" id="loginIdentifier" placeholder="यूजरनेम, Gmail या मोबाइल नंबर" required>
                     <i class="fa-solid fa-user-shield"></i>
                 </div>
                 <div class="input-group">
@@ -162,6 +162,7 @@
     <script>
         let globalAvatar = "https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=120";
 
+        // फॉर्म बदलने का फंक्शन
         function switchForm(formType) {
             if(formType === 'register') {
                 document.getElementById('loginBox').classList.add('hidden-form');
@@ -172,6 +173,7 @@
             }
         }
 
+        // प्रोफाइल फोटो प्रीव्यू
         function previewAvatar(event) {
             const file = event.target.files[0];
             if (!file) return;
@@ -183,19 +185,20 @@
             reader.readAsDataURL(file);
         }
 
+        // 📝 साइन अप / रजिस्ट्रेशन हैंडलर
         function handleRegister(event) {
             event.preventDefault();
             const name = document.getElementById('regName').value.trim();
             const email = document.getElementById('regEmail').value.trim().toLowerCase();
             const phone = document.getElementById('regPhone').value.trim();
-            const user = document.getElementById('regUser').value.trim();
+            const user = document.getElementById('regUser').value.trim().toLowerCase(); // यूजरनेम को छोटे अक्षरों में सेव करेंगे ताकि कोई एरर न आए
             const pass = document.getElementById('regPass').value;
 
             const emailError = document.getElementById('emailError');
             const phoneError = document.getElementById('phoneError');
             let hasError = false;
 
-            // ईमेल वैलिडेशन
+            // 1. ईमेल वैलिडेशन
             if (!email.endsWith('@gmail.com')) {
                 emailError.style.display = 'block';
                 hasError = true;
@@ -203,7 +206,7 @@
                 emailError.style.display = 'none';
             }
 
-            // फोन नंबर वैलिडेशन (सिर्फ 10 डिजिट)
+            // 2. फोन नंबर वैलिडेशन
             const phonePattern = /^[0-9]{10}$/;
             if (!phonePattern.test(phone)) {
                 phoneError.style.display = 'block';
@@ -214,20 +217,34 @@
 
             if (hasError) return;
 
+            // डेटाबेस लोड करना
             let secureDb = JSON.parse(localStorage.getItem('secure_users_db') || '{}');
+            
+            // डुप्लीकेट डेटा चेक करना
             for (let k in secureDb) {
-                if (secureDb[k].email === email) { alert('यह Gmail आईडी पहले से रजिस्टर्ड है!'); return; }
-                if (secureDb[k].phone === phone) { alert('यह मोबाइल नंबर पहले से रजिस्टर्ड है!'); return; }
-                if (secureDb[k].username === user) { alert('यह यूजरनेम पहले से बुक है!'); return; }
+                if (secureDb[k].email === email) { alert('❌ यह Gmail आईडी पहले से रजिस्टर्ड है!'); return; }
+                if (secureDb[k].phone === phone) { alert('❌ यह मोबाइल नंबर पहले से रजिस्टर्ड है!'); return; }
+                if (secureDb[k].username === user) { alert('❌ यह यूजरनेम पहले से बुक है!'); return; }
             }
 
-            secureDb[user] = { name: name, email: email, phone: phone, username: user, password: pass, pic: globalAvatar };
+            // डेटाबेस में बिल्कुल साफ-साफ ऑब्जेक्ट स्टोर करना
+            secureDb[user] = { 
+                name: name, 
+                email: email, 
+                phone: phone, 
+                username: user, 
+                password: pass, 
+                pic: globalAvatar 
+            };
+            
             localStorage.setItem('secure_users_db', JSON.stringify(secureDb));
-            alert('🔒 आपका अकाउंट असली क्रेडेंशियल्स के साथ सुरक्षित रूप से बन गया है! अब लॉगिन करें।');
+            alert('🔒 आपका अकाउंट सफलतापूर्वक रजिस्टर हो गया है! अब लॉगिन करें।');
+            
             switchForm('login');
-            document.getElementById('loginIdentifier').value = user;
+            document.getElementById('loginIdentifier').value = user; // लॉगिन बॉक्स में यूजरनेम खुद ही भर जाएगा
         }
 
+        // 🔓 लॉगिन हैंडलर (फिक्स कर दिया गया है)
         function handleLogin(event) {
             event.preventDefault();
             const identifier = document.getElementById('loginIdentifier').value.trim().toLowerCase();
@@ -236,32 +253,49 @@
             let secureDb = JSON.parse(localStorage.getItem('secure_users_db') || '{}');
             let matchedUser = null;
 
-            // टेस्टिंग के लिए सुपर एडमिन बायपास
-            if((identifier === "admin@gmail.com" || identifier === "9999999999" || identifier === "admin") && pass === "1234") {
+            // 🛠️ मास्टर एडमिन बायपास (अगर डेटाबेस खाली भी हो, तब भी यह काम करेगा)
+            if ((identifier === "admin@gmail.com" || identifier === "9999999999" || identifier === "admin") && pass === "1234") {
                 executeSecureLogin("अमित राव", "राव_साहब_HR06", "https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=100");
                 return;
             }
 
+            // पूरे डेटाबेस की सघन चेकिंग (यूज़रनेम, ईमेल या फ़ोन मैचिंग)
             for (let k in secureDb) {
-                if (secureDb[k].username.toLowerCase() === identifier || secureDb[k].email === identifier || secureDb[k].phone === identifier) {
-                    if (secureDb[k].password === pass) { matchedUser = secureDb[k]; break; }
+                let currentAccount = secureDb[k];
+                if (
+                    currentAccount.username.toLowerCase() === identifier || 
+                    currentAccount.email.toLowerCase() === identifier || 
+                    currentAccount.phone === identifier
+                ) {
+                    // अगर आईडी मैच हो गई, तो पासवर्ड चेक करो
+                    if (currentAccount.password === pass) {
+                        matchedUser = currentAccount;
+                        break;
+                    } else {
+                        alert('❌ पासवर्ड गलत है! कृपया दोबारा सही पासवर्ड डालें।');
+                        return; // पासवर्ड गलत होने पर कोड यहीं रुक जाएगा
+                    }
                 }
             }
 
             if (matchedUser) {
                 executeSecureLogin(matchedUser.name, matchedUser.username, matchedUser.pic);
             } else {
-                alert('❌ गलत क्रेडेंशियल्स! कृपया रजिस्टर्ड Gmail/मोबाइल नंबर और पासवर्ड जांचें।');
+                alert('❌ यह यूजर आईडी (Gmail/मोबाइल/यूजरनेम) हमारे डेटाबेस में नहीं है! कृपया पहले साइन अप करें।');
             }
         }
 
+        // सेशन बनाकर होमपेज पर भेजने वाला मैकेनिज्म
         function executeSecureLogin(name, username, pic) {
             localStorage.setItem('current_logged_in_user', username);
             localStorage.setItem('vip_name', name);
             localStorage.setItem('vip_user', username);
             localStorage.setItem('vip_pic', pic);
+            
             document.getElementById('successScreen').classList.add('active');
-            setTimeout(() => { window.location.href = 'index.html'; }, 1800);
+            setTimeout(() => { 
+                window.location.href = 'index.html'; 
+            }, 1500);
         }
     </script>
 </body>
