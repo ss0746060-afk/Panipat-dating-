@@ -1,1 +1,281 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Zomato Dating</title>
 
+<style>
+*{margin:0;padding:0;box-sizing:border-box;font-family:Arial,sans-serif}
+
+body{
+background:#f5f5f5;
+padding-bottom:80px;
+}
+
+header{
+background:#e23744;
+color:white;
+padding:15px;
+font-size:24px;
+font-weight:bold;
+position:sticky;
+top:0;
+}
+
+.container{
+max-width:600px;
+margin:auto;
+padding:10px;
+}
+
+.card{
+background:white;
+border-radius:12px;
+padding:15px;
+margin-bottom:15px;
+box-shadow:0 2px 8px rgba(0,0,0,.1);
+}
+
+input,textarea{
+width:100%;
+padding:10px;
+margin-top:10px;
+border:1px solid #ddd;
+border-radius:8px;
+}
+
+button{
+background:#e23744;
+color:white;
+border:none;
+padding:10px 15px;
+border-radius:8px;
+margin-top:10px;
+cursor:pointer;
+}
+
+.story-row{
+display:flex;
+overflow:auto;
+gap:10px;
+}
+
+.story{
+text-align:center;
+}
+
+.story img{
+width:70px;
+height:70px;
+border-radius:50%;
+border:3px solid #e23744;
+}
+
+.post img{
+width:100%;
+border-radius:10px;
+margin-top:10px;
+}
+
+.bottom{
+position:fixed;
+bottom:0;
+left:0;
+right:0;
+background:white;
+display:flex;
+justify-content:space-around;
+padding:12px;
+border-top:1px solid #ddd;
+}
+</style>
+</head>
+
+<body>
+
+<header>
+❤️ Zomato Dating
+</header>
+
+<div class="container">
+
+<div class="card">
+<h2>Login</h2>
+
+<input id="username" placeholder="Username">
+
+<button onclick="loginUser()">
+Login
+</button>
+
+<p id="welcome"></p>
+</div>
+
+<div class="card">
+<h2>Stories</h2>
+
+<div class="story-row">
+
+<div class="story">
+<img src="https://i.pravatar.cc/100?img=5">
+<p>Aarti</p>
+</div>
+
+<div class="story">
+<img src="https://i.pravatar.cc/100?img=6">
+<p>Kavita</p>
+</div>
+
+<div class="story">
+<img src="https://i.pravatar.cc/100?img=7">
+<p>Riya</p>
+</div>
+
+<div class="story">
+<img src="https://i.pravatar.cc/100?img=8">
+<p>Neha</p>
+</div>
+
+</div>
+</div>
+
+<div class="card">
+<h2>Create Post</h2>
+
+<input type="file" id="imageInput">
+
+<textarea id="caption" placeholder="Write something..."></textarea>
+
+<button onclick="addPost()">
+Post
+</button>
+</div>
+
+<div id="feed"></div>
+
+</div>
+
+<div class="bottom">
+<span>🏠</span>
+<span onclick="showProfile()">👤</span>
+<span onclick="toggleDark()">🌙</span>
+</div>
+
+<script>
+
+let posts =
+JSON.parse(localStorage.getItem("posts") || "[]");
+
+function loginUser(){
+
+let name =
+document.getElementById("username").value;
+
+localStorage.setItem("user",name);
+
+document.getElementById("welcome").innerHTML =
+"Welcome " + name;
+}
+
+function addPost(){
+
+let file =
+document.getElementById("imageInput").files[0];
+
+if(!file){
+alert("Select image");
+return;
+}
+
+let reader =
+new FileReader();
+
+reader.onload=function(e){
+
+posts.unshift({
+user:localStorage.getItem("user") || "Guest",
+img:e.target.result,
+caption:document.getElementById("caption").value,
+likes:0
+});
+
+localStorage.setItem(
+"posts",
+JSON.stringify(posts)
+);
+
+renderPosts();
+}
+
+reader.readAsDataURL(file);
+}
+
+function likePost(index){
+
+posts[index].likes++;
+
+localStorage.setItem(
+"posts",
+JSON.stringify(posts)
+);
+
+renderPosts();
+}
+
+function renderPosts(){
+
+let html="";
+
+posts.forEach((post,index)=>{
+
+html += `
+<div class="card post">
+
+<h3>@${post.user}</h3>
+
+<img src="${post.img}">
+
+<p>${post.caption}</p>
+
+<button onclick="likePost(${index})">
+❤️ ${post.likes}
+</button>
+
+</div>
+`;
+});
+
+document.getElementById("feed").innerHTML =
+html;
+}
+
+function showProfile(){
+
+alert(
+"User: " +
+(localStorage.getItem("user") || "Guest")
+);
+}
+
+function toggleDark(){
+
+if(document.body.style.background=="black"){
+
+document.body.style.background="#f5f5f5";
+document.body.style.color="black";
+
+}else{
+
+document.body.style.background="black";
+document.body.style.color="white";
+
+}
+}
+
+renderPosts();
+
+</script>
+
+</body>
+</html>
