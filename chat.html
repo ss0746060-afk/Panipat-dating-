@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VIP Inbox - Zomato Dating</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Roboto, sans-serif;
+            -webkit-tap-highlight-color: transparent;
+        }
+        body {
+            background: #05010d;
+            background: radial-gradient(circle at top, #1a0b2e 0%, #05010d 100%);
+            color: #ffffff;
+            display: flex;
+            justify-content: center;
+            min-height: 100vh;
+        }
+        .app-container {
+            width: 100%;
+            max-width: 450px;
+            background: rgba(15, 8, 28, 0.8);
+            min-height: 100vh;
+            padding-bottom: 70px;
+            border-left: 1px solid rgba(255, 255, 255, 0.05);
+            border-right: 1px solid rgba(255, 255, 255, 0.05);
+            display: flex;
+            flex-direction: column;
+        }
+        /* हेडर */
+        .chat-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 15px 20px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+            background: rgba(5, 1, 13, 0.95);
+            position: sticky;
+            top: 0;
+            z-index: 10;
+        }
+        .back-btn {
+            color: white;
+            font-size: 1.2rem;
+            text-decoration: none;
+            cursor: pointer;
+        }
+        .header-title {
+            font-size: 1.2rem;
+            font-weight: bold;
+            background: linear-gradient(45deg, #00f0ff, #ff007f);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        /* सर्च बार */
+        .search-box {
+            padding: 15px;
+        }
+        .search-input-wrapper {
+            position: relative;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            padding: 10px 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .search-input-wrapper input {
+            background: none;
+            border: none;
+            color: white;
+            outline: none;
+            width: 100%;
+            font-size: 0.95rem;
+        }
+        .search-input-wrapper i {
+            color: #8b8ba7;
+        }
+        /* चैट लिस्ट */
+        .chat-list {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
+        .chat-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 12px 20px;
+            cursor: pointer;
+            transition: background 0.2s;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.02);
+        }
+        .chat-item:hover {
+            background: rgba(255, 255, 255, 0.03);
+        }
+        .user-details {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        .avatar-ring {
+            width: 55px;
+            height: 55px;
+            border-radius: 50%;
+            padding: 2px;
+            background: linear-gradient(45deg, #00f0ff, #ff007f);
+        }
+        .avatar-ring img {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 2px solid #05010d;
+        }
+        .user-text {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+        .user-name {
+            font-weight: bold;
+            font-size: 1rem;
+        }
+        .last-msg {
+            font-size: 0.85rem;
+            color: #8b8ba7;
+            max-width: 200px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-transform: initial;
+            text-overflow: ellipsis;
+        }
+        .last-msg.unread {
+            color: #00f0ff;
+            font-weight: 600;
+        }
+        .right-meta {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end;
+            gap: 6px;
+        }
+        .time-text {
+            font-size: 0.75rem;
+            color: #6a6a8a;
+        }
+        .unread-dot {
+            width: 8px;
+            height: 8px;
+            background: #00f0ff;
+            border-radius: 50%;
+            box-shadow: 0 0 8px #00f0ff;
+        }
+        /* बॉटम नेविगेशन बार */
+        .bottom-nav {
+            position: fixed;
+            bottom: 0; width: 100%; max-width: 450px;
+            background: rgba(5, 1, 13, 0.95);
+            backdrop-filter: blur(10px);
+            border-top: 1px solid rgba(255, 255, 255, 0.08);
+            display: flex; justify-content: space-around; align-items: center;
+            padding: 15px 0; font-size: 1.4rem; z-index: 10;
+        }
+        .nav-item { cursor: pointer; color: #8b8ba7; text-decoration: none;}
+        .nav-item.active { color: #00f0ff; text-shadow: 0 0 10px #00f0ff; }
+    </style>
+</head>
+<body>
+
+    <div class="app-container">
+        
+        <header class="chat-header">
+            <a href="index.html" class="back-btn"><i class="fa-solid fa-chevron-left"></i></a>
+            <div class="header-title">VIP मैसेज इनबॉक्स</div>
+            <i class="fa-solid fa-pen-to-square" onclick="alert('नया चैट शुरू करें!')"></i>
+        </header>
+
+        <div class="search-box">
+            <div class="search-input-wrapper">
+                <i class="fa-solid fa-magnifying-glass"></i>
+                <input type="text" placeholder="मैचेस या चैट खोजें...">
+            </div>
+        </div>
+
+        <div class="chat-list">
+            
+            <div class="chat-item" onclick="location.href='index.html'">
+                <div class="user-details">
+                    <div class="avatar-ring">
+                        <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=100" alt="Avatar">
+                    </div>
+                    <div class="user-text">
+                        <div class="user-name">प्रिया शर्मा <i class="fa-solid fa-crown" style="color: #ff007f; font-size: 0.75rem;"></i></div>
+                        <div class="last-msg unread">राम-राम जी! कहाँ गायब हो आजकल?</div>
+                    </div>
+                </div>
+                <div class="right-meta">
+                    <div class="time-text">अब अभी</div>
+                    <div class="unread-dot"></div>
+                </div>
+            </div>
+
+            <div class="chat-item" onclick="location.href='index.html'">
+                <div class="user-details">
+                    <div class="avatar-ring" style="background: rgba(255,255,255,0.1);">
+                        <img src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=100" alt="Avatar">
+                    </div>
+                    <div class="user-text">
+                        <div class="user-name">अंजलि_HR06</div>
+                        <div class="last-msg">कल मिलते हैं पानीपत रिफाइनरी के पास 👍</div>
+                    </div>
+                </div>
+                <div class="right-meta">
+                    <div class="time-text">2 घंटे पहले</div>
+                </div>
+            </div>
+
+            <div class="chat-item" onclick="location.href='index.html'">
+                <div class="user-details">
+                    <div class="avatar-ring" style="background: rgba(255,255,255,0.1);">
+                        <img src="https://images.unsplash.com/photo-1524504388940-b1c1722653e1?w=100" alt="Avatar">
+                    </div>
+                    <div class="user-text">
+                        <div class="user-name">सोनिया यादव</div>
+                        <div class="last-msg">Zomato से क्या ऑर्डर किया आपने? 🍕</div>
+                    </div>
+                </div>
+                <div class="right-meta">
+                    <div class="time-text">1 दिन पहले</div>
+                </div>
+            </div>
+
+        </div>
+
+        <nav class="bottom-nav">
+            <a href="index.html" class="nav-item"><i class="fa-solid fa-house"></i></a>
+            <i class="fa-solid fa-magnifying-glass nav-item" onclick="alert('सर्च फीचर आ रहा है!')"></i>
+            <i class="fa-regular fa-square-plus nav-item" onclick="alert('नई फोटो अपलोड करें!')"></i>
+            <a href="chat.html" class="nav-item active"><i class="fa-solid fa-message"></i></a>
+            <a href="profile.html" class="nav-item"><i class="fa-regular fa-user"></i></a>
+        </nav>
+
+    </div>
+
+</body>
+</html>
