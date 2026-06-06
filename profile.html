@@ -8,78 +8,52 @@
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Roboto, sans-serif; -webkit-tap-highlight-color: transparent; }
         body {
-            background: #05010d;
-            background: radial-gradient(circle at top, #1a0b2e 0%, #05010d 100%);
+            background: #05010d; background: radial-gradient(circle at top, #1a0b2e 0%, #05010d 100%);
             color: #ffffff; display: flex; justify-content: center; min-height: 100vh;
         }
-        .app-container {
-            width: 100%; max-width: 450px; background: rgba(15, 8, 28, 0.8); min-height: 100vh;
-            padding-bottom: 70px; border-left: 1px solid rgba(255, 255, 255, 0.05); border-right: 1px solid rgba(255, 255, 255, 0.05);
-        }
+        .app-container { width: 100%; max-width: 450px; background: rgba(15, 8, 28, 0.8); min-height: 100vh; padding-bottom: 70px; }
         .profile-header { display: flex; align-items: center; justify-content: space-between; padding: 15px 20px; border-bottom: 1px solid rgba(255, 255, 255, 0.08); }
         .username { font-size: 1.2rem; font-weight: bold; color: #00f0ff; }
         
         .profile-info { padding: 20px; display: flex; align-items: center; gap: 25px; }
-        .profile-avatar-wrapper { position: relative; }
-        .profile-avatar { width: 85px; height: 85px; border-radius: 50%; padding: 3px; background: linear-gradient(45deg, #ff007f, #00f0ff); box-shadow: 0 0 15px rgba(0, 240, 255, 0.4); }
-        .profile-avatar img { width: 100%; height: 100%; border-radius: 50%; object-fit: cover; border: 2px solid #05010d; }
+        .profile-avatar { width: 85px; height: 85px; border-radius: 50%; padding: 3px; background: linear-gradient(45deg, #ff007f, #00f0ff); }
+        .profile-avatar img { width: 100%; height: 100%; border-radius: 50%; object-fit: cover; }
         
         .profile-stats { display: flex; gap: 20px; text-align: center; flex: 1; justify-content: space-around; }
         .stat-num { font-size: 1.1rem; font-weight: bold; }
         .stat-label { font-size: 0.75rem; color: #8b8ba7; }
         
         .profile-bio { padding: 0 20px 15px 20px; }
-        .full-name { font-weight: bold; margin-bottom: 4px; font-size: 1.1rem; }
-        .bio-text { font-size: 0.9rem; color: #ddd; line-height: 1.4; }
-        .vip-badge { background: linear-gradient(45deg, #ff007f, #7928ca); font-size: 0.7rem; padding: 2px 8px; border-radius: 10px; font-weight: bold; display: inline-block; margin-top: 5px; box-shadow: 0 0 8px rgba(255, 0, 127, 0.5); }
+        .full-name { font-weight: bold; margin-bottom: 4px; }
+        .bio-text { font-size: 0.9rem; color: #ddd; }
         
-        .profile-buttons { padding: 0 20px; display: flex; gap: 10px; margin-bottom: 20px; }
-        .edit-btn { flex: 1; background: rgba(255, 255, 255, 0.08); border: 1px solid rgba(255, 255, 255, 0.1); color: white; padding: 10px; border-radius: 10px; font-weight: 600; font-size: 0.9rem; cursor: pointer; }
-        
-        .instagram-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 3px; padding: 3px; border-top: 1px solid rgba(255, 255, 255, 0.08); }
-        .grid-item { aspect-ratio: 1 / 1; position: relative; cursor: pointer; overflow: hidden; }
-        .grid-item img { width: 100%; height: 100%; object-fit: cover; }
+        /* टैब बार (पोस्ट्स बनाम रील्स) */
+        .profile-tabs { display: flex; border-top: 1px solid rgba(255,255,255,0.05); border-bottom: 1px solid rgba(255,255,255,0.05); margin-top: 10px; }
+        .tab-item { flex: 1; text-align: center; padding: 12px; color: #8b8ba7; cursor: pointer; font-size: 1.2rem; }
+        .tab-item.active { color: #00f0ff; border-bottom: 2px solid #00f0ff; }
 
-        /* एडिट प्रोफाइल का वीआईपी स्लाइडर मॉडल */
-        .edit-modal { position: fixed; bottom: -100%; left: 0; width: 100%; height: 100%; background: #0d061a; z-index: 100; transition: bottom 0.4s ease; display: flex; justify-content: center; }
-        .edit-modal.active { bottom: 0; }
-        .modal-content { width: 100%; max-width: 450px; padding: 20px; display: flex; flex-direction: column; }
-        .modal-header { display: flex; justify-content: space-between; align-items: center; font-weight: bold; padding-bottom: 20px; border-bottom: 1px solid rgba(255,255,255,0.1); font-size: 1.2rem; }
-        
-        .edit-avatar-section { text-align: center; padding: 25px 0; }
-        .edit-avatar-section img { width: 90px; height: 90px; border-radius: 50%; object-fit: cover; border: 2px solid #00f0ff; }
-        .change-pic-text { color: #00f0ff; font-size: 0.9rem; font-weight: bold; margin-top: 10px; cursor: pointer; }
+        .instagram-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 3px; padding: 3px; }
+        .grid-item { aspect-ratio: 1 / 1; position: relative; background: #110922; overflow: hidden; }
+        .grid-item img, .grid-item video { width: 100%; height: 100%; object-fit: cover; }
+        .reel-badge { position: absolute; top: 5px; right: 5px; background: rgba(0,0,0,0.6); padding: 3px 6px; border-radius: 4px; font-size: 0.7rem; color: #ff007f; }
 
-        .input-box { margin-bottom: 20px; }
-        .input-box label { display: block; font-size: 0.85rem; color: #8b8ba7; margin-bottom: 6px; }
-        .input-box input { width: 100%; padding: 12px; background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.1); border-radius: 10px; color: white; outline: none; font-size: 0.95rem; }
-        .input-box input:focus { border-color: #ff007f; }
-
-        .save-btn { width: 100%; background: linear-gradient(45deg, #00f0ff, #ff007f); border: none; padding: 14px; color: white; font-weight: bold; border-radius: 10px; font-size: 1rem; cursor: pointer; margin-top: 10px; }
-
-        .bottom-nav { position: fixed; bottom: 0; width: 100%; max-width: 450px; background: rgba(5, 1, 13, 0.95); backdrop-filter: blur(10px); border-top: 1px solid rgba(255, 255, 255, 0.08); display: flex; justify-content: space-around; align-items: center; padding: 15px 0; font-size: 1.4rem; z-index: 10; }
+        .bottom-nav { position: fixed; bottom: 0; width: 100%; max-width: 450px; background: rgba(5, 1, 13, 0.95); display: flex; justify-content: space-around; align-items: center; padding: 15px 0; font-size: 1.4rem; z-index: 10; border-top: 1px solid rgba(255,255,255,0.08); }
         .nav-item { cursor: pointer; color: #8b8ba7; text-decoration: none; }
-        .nav-item.active { color: #00f0ff; text-shadow: 0 0 10px #00f0ff; }
+        .nav-item.active { color: #00f0ff; }
     </style>
 </head>
 <body>
 
     <div class="app-container">
-        <input type="file" id="avatarFileInput" accept="image/*" style="display: none;" onchange="handleAvatarChange(event)">
-
         <header class="profile-header">
-            <div class="username" id="displayUsername">राव_साहब_HR06 <i class="fa-solid fa-circle-check" style="color: #00f0ff; font-size: 0.9rem;"></i></div>
+            <div class="username" id="displayUsername">राव_साहब_HR06</div>
             <i class="fa-solid fa-bars"></i>
         </header>
 
         <div class="profile-info">
-            <div class="profile-avatar-wrapper">
-                <div class="profile-avatar">
-                    <img id="displayAvatar" src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=200" alt="Profile">
-                </div>
-            </div>
+            <div class="profile-avatar"><img id="displayAvatar" src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=200"></div>
             <div class="profile-stats">
-                <div><div class="stat-num">12</div><div class="stat-label">पोस्ट्स</div></div>
+                <div><div class="stat-num" id="postCount">0</div><div class="stat-label">पोस्ट्स</div></div>
                 <div><div class="stat-num">4.8K</div><div class="stat-label">फॉलोअर्स</div></div>
                 <div><div class="stat-num">340</div><div class="stat-label">मैचेस</div></div>
             </div>
@@ -87,24 +61,16 @@
 
         <div class="profile-bio">
             <div class="full-name" id="displayName">अमित राव</div>
-            <div class="bio-text">
-                📍 पानीपत, हरियाणा <br>
-                Zomato Dating VIP मेंबर 👑 <br>
-                "पार्टनर ढूँढो सुपरफास्ट स्पीड में!" ⚡️
+            <div class="bio-text">📍 पानीपत, हरियाणा <br> Zomato Dating VIP मेंबर 👑</div>
+        </div>
+
+        <div class="profile-tabs">
+            <div class="tab-item active" id="postsTab" onclick="switchTab('posts')"><i class="fa-solid fa-table-cells"></i></div>
+            <div class="tab-item" id="reelsTab" onclick="switchTab('reels')"><i class="fa-solid fa-film"></i></div>
+        </div>
+
+        <div class="instagram-grid" id="profileGrid">
             </div>
-            <div class="vip-badge"><i class="fa-solid fa-crown"></i> VIP MEMBER</div>
-        </div>
-
-        <div class="profile-buttons">
-            <button class="edit-btn" onclick="openEditModal()">प्रोफ़ाइल एडिट करें</button>
-            <button class="edit-btn" style="background: #ff007f;" onclick="alert('VIP प्रोफाइल लिंक कॉपी हुआ!')">शेयर प्रोफाइल</button>
-        </div>
-
-        <div class="instagram-grid">
-            <div class="grid-item"><img src="https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=300" alt="Post"></div>
-            <div class="grid-item"><img src="https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?w=300" alt="Post"></div>
-            <div class="grid-item"><img src="https://images.unsplash.com/photo-1492562080023-ab3db95bfbce?w=300" alt="Post"></div>
-        </div>
 
         <nav class="bottom-nav">
             <a href="index.html" class="nav-item"><i class="fa-solid fa-house"></i></a>
@@ -115,82 +81,53 @@
         </nav>
     </div>
 
-    <div class="edit-modal" id="profileEditModal">
-        <div class="modal-content">
-            <div class="modal-header">
-                <span onclick="closeEditModal()" style="cursor: pointer; font-size: 0.9rem; color: #8b8ba7;">रद्द करें</span>
-                <span>प्रोफ़ाइल एडिट करें</span>
-                <span onclick="saveProfileData()" style="cursor: pointer; font-size: 0.9rem; color: #00f0ff;">हो गया</span>
-            </div>
-
-            <div class="edit-avatar-section">
-                <img id="modalAvatarPreview" src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=200" alt="Preview">
-                <div class="change-pic-text" onclick="triggerAvatarUpload()">प्रोफ़ाइल फ़ोटो बदलें</div>
-            </div>
-
-            <div class="input-box">
-                <label>नाम (Name)</label>
-                <input type="text" id="inputName" value="अमित राव">
-            </div>
-
-            <div class="input-box">
-                <label>यूज़रनेम (Username)</label>
-                <input type="text" id="inputUsername" value="राव_साहब_HR06">
-            </div>
-
-            <button class="save-btn" onclick="saveProfileData()">VIP बदलाव सेव करें</button>
-        </div>
-    </div>
-
     <script>
-        // वेबसाइट लोड होते ही पुराना सेव डेटा दिखाना
+        let currentView = 'posts';
+
         window.addEventListener('load', () => {
-            const savedName = localStorage.getItem('vip_name') || "अमित राव";
-            const savedUser = localStorage.getItem('vip_user') || "राव_साहब_HR06";
-            const savedPic = localStorage.getItem('vip_pic') || "https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=200";
-
-            document.getElementById('displayName').innerText = savedName;
-            document.getElementById('displayUsername').innerHTML = savedUser + ` <i class="fa-solid fa-circle-check" style="color: #00f0ff; font-size: 0.9rem;"></i>`;
-            document.getElementById('displayAvatar').src = savedPic;
-            document.getElementById('modalAvatarPreview').src = savedPic;
-
-            document.getElementById('inputName').value = savedName;
-            document.getElementById('inputUsername').value = savedUser;
+            // प्रोफाइल डेटा सेट करना
+            document.getElementById('displayName').innerText = localStorage.getItem('vip_name') || "अमित राव";
+            document.getElementById('displayUsername').innerText = localStorage.getItem('vip_user') || "राव_साहब_HR06";
+            document.getElementById('displayAvatar').src = localStorage.getItem('vip_pic') || "https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=200";
+            
+            renderGrid();
         });
 
-        function openEditModal() { document.getElementById('profileEditModal').classList.add('active'); }
-        function closeEditModal() { document.getElementById('profileEditModal').classList.remove('active'); }
-
-        function triggerAvatarUpload() { document.getElementById('avatarFileInput').click(); }
-
-        // फोन की गैलरी से फोटो लेकर प्रोफाइल प्रीव्यू दिखाना
-        function handleAvatarChange(event) {
-            const file = event.target.files[0];
-            if (!file) return;
-            const reader = new FileReader();
-            reader.onload = function(e) {
-                document.getElementById('modalAvatarPreview').src = e.target.result;
-            };
-            reader.readAsDataURL(file);
+        function switchTab(tab) {
+            currentView = tab;
+            document.getElementById('postsTab').classList.toggle('active', tab === 'posts');
+            document.getElementById('reelsTab').classList.toggle('active', tab === 'reels');
+            renderGrid();
         }
 
-        // लोकल स्टोरेज में असली डेटा सेव करना ताकि यह पूरे नेटवर्क पर काम करे
-        function saveProfileData() {
-            const newName = document.getElementById('inputName').value;
-            const newUsername = document.getElementById('inputUsername').value;
-            const newPic = document.getElementById('modalAvatarPreview').src;
+        // लोकल स्टोरेज से मीडिया निकालकर ग्रिड में सजाना
+        function renderGrid() {
+            const grid = document.getElementById('profileGrid');
+            grid.innerHTML = '';
+            
+            const savedItems = JSON.parse(localStorage.getItem('my_uploaded_media') || '[]');
+            document.getElementById('postCount').innerText = savedItems.length;
 
-            localStorage.setItem('vip_name', newName);
-            localStorage.setItem('vip_user', newUsername);
-            localStorage.setItem('vip_pic', newPic);
+            const filtered = savedItems.filter(item => currentView === 'reels' ? item.type === 'reel' : item.type !== 'reel');
 
-            // तुरंत स्क्रीन पर दिखाना
-            document.getElementById('displayName').innerText = newName;
-            document.getElementById('displayUsername').innerHTML = newUsername + ` <i class="fa-solid fa-circle-check" style="color: #00f0ff; font-size: 0.9rem;"></i>`;
-            document.getElementById('displayAvatar').src = newPic;
+            if(filtered.length === 0) {
+                grid.innerHTML = `<div style="grid-column: span 3; text-align:center; padding:40px; color:#6a6a8a; font-size:0.9rem;">कोई कन्टेंट नहीं है। होमपेज से अपलोड करें!</div>`;
+                return;
+            }
 
-            closeEditModal();
-            alert('VIP प्रोफ़ाइल सफलतापूर्वक अपडेट हो गई है! 👑');
+            filtered.forEach(item => {
+                let html = '';
+                if(item.type === 'video' || item.type === 'reel') {
+                    html = `
+                        <div class="grid-item">
+                            <video src="${item.url}" muted loop autoplay></video>
+                            ${item.type === 'reel' ? '<div class="reel-badge"><i class="fa-solid fa-film"></i> रील</div>' : ''}
+                        </div>`;
+                } else {
+                    html = `<div class="grid-item"><img src="${item.url}"></div>`;
+                }
+                grid.insertAdjacentHTML('beforeend', html);
+            });
         }
     </script>
 </body>
