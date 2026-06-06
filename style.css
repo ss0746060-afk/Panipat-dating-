@@ -1,91 +1,17 @@
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap');
+* { margin: 0; padding: 0; box-sizing: border-box; font-family: sans-serif; }
+body { background: #fafafa; }
 
-body{
-  margin:0;
-  font-family:Poppins;
-  background: radial-gradient(circle at top,#1a001f,#0b0b14);
-  color:white;
-}
+/* Header */
+.navbar { display: flex; justify-content: space-between; padding: 15px; background: #fff; border-bottom: 1px solid #dbdbdb; }
+.logo { font-family: cursive; color: #e23744; }
 
-/* TOP BAR */
-.topbar{
-  display:flex;
-  justify-content:space-between;
-  padding:15px;
-  background:rgba(255,255,255,0.05);
-  backdrop-filter:blur(10px);
-  position:sticky;
-  top:0;
-}
+/* Feed */
+.post { background: white; margin-bottom: 20px; border: 1px solid #dbdbdb; }
+.post-header { padding: 10px; display: flex; align-items: center; gap: 10px; }
+.avatar { width: 35px; height: 35px; border-radius: 50%; background: linear-gradient(45deg, #f09433, #e6683c, #dc2743, #cc2366); }
+.post-img { width: 100%; }
+.post-footer { padding: 10px; }
+.icon { font-size: 24px; margin-right: 15px; cursor: pointer; }
 
-.logo{
-  color:#ff4d6d;
-  font-weight:600;
-}
-
-/* LAYOUT */
-.container{
-  display:flex;
-}
-
-/* SIDEBAR */
-.sidebar{
-  width:200px;
-  padding:15px;
-  background:rgba(255,255,255,0.03);
-  min-height:100vh;
-}
-
-.nav{
-  padding:10px;
-  margin:8px 0;
-  border-radius:10px;
-  cursor:pointer;
-  transition:0.3s;
-}
-
-.nav:hover{
-  background:rgba(255,77,109,0.2);
-}
-
-/* MAIN */
-.main{
-  flex:1;
-  padding:20px;
-}
-
-/* CARD */
-.card{
-  background:rgba(255,255,255,0.05);
-  padding:15px;
-  border-radius:15px;
-  margin-bottom:15px;
-  backdrop-filter:blur(10px);
-  border:1px solid rgba(255,255,255,0.1);
-}
-
-/* PROFILE CARD */
-.profile-card{
-  background:linear-gradient(145deg,#ff4d6d,#7c4dff);
-  padding:15px;
-  border-radius:15px;
-  margin:10px 0;
-  box-shadow:0 0 20px rgba(255,77,109,0.3);
-}
-
-.btn{
-  padding:10px;
-  border:none;
-  border-radius:10px;
-  background:linear-gradient(45deg,#ff4d6d,#ff8fa3);
-  color:white;
-  font-weight:600;
-  cursor:pointer;
-}
-
-/* MOBILE */
-@media(max-width:900px){
-  .sidebar{
-    display:none;
-  }
-}
+/* Bottom Nav */
+.bottom-nav { position: fixed; bottom: 0; width: 100%; display: flex; justify-content: space-around; background: #fff; padding: 15px; border-top: 1px solid #dbdbdb; font-size: 20px; }
