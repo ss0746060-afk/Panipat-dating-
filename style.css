@@ -13,15 +13,56 @@ body{
   border-bottom:1px solid #ddd;
 }
 
-/* POST BOX */
-.post-box{
-  margin:10px;
+/* PROFILE */
+.profile{
+  text-align:center;
   padding:10px;
   background:white;
-  border-radius:10px;
+}
+
+.dp{
+  width:60px;
+  height:60px;
+  background:#3897f0;
+  color:white;
+  border-radius:50%;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  margin:auto;
+  font-size:20px;
+}
+
+/* STORIES */
+.stories{
+  display:flex;
+  gap:10px;
+  padding:10px;
+  overflow-x:auto;
+  background:white;
+}
+
+.story{
+  width:50px;
+  height:50px;
+  background:linear-gradient(red,orange,pink);
+  border-radius:50%;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  color:white;
+  font-weight:bold;
+}
+
+/* POST BOX */
+.post-box{
   display:flex;
   flex-direction:column;
   gap:8px;
+  padding:10px;
+  background:white;
+  margin:10px;
+  border-radius:10px;
 }
 
 input{
@@ -30,13 +71,20 @@ input{
   border-radius:5px;
 }
 
-/* POST CARD */
+button{
+  padding:8px;
+  border:none;
+  background:#3897f0;
+  color:white;
+  border-radius:5px;
+}
+
+/* POST */
 .post{
   background:white;
   margin:10px;
   padding:10px;
   border-radius:10px;
-  border:1px solid #eee;
 }
 
 .post img{
@@ -44,10 +92,8 @@ input{
   border-radius:10px;
 }
 
-button{
-  padding:8px;
-  border:none;
-  background:#3897f0;
+/* DARK MODE */
+.dark{
+  background:#111;
   color:white;
-  border-radius:5px;
 }
