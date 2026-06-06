@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VIP Profile - Zomato Dating</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Roboto, sans-serif;
+        }
+        body {
+            background: #05010d;
+            background: radial-gradient(circle at top, #1a0b2e 0%, #05010d 100%);
+            color: #ffffff;
+            display: flex;
+            justify-content: center;
+            min-height: 100vh;
+        }
+        .app-container {
+            width: 100%;
+            max-width: 450px;
+            background: rgba(15, 8, 28, 0.8);
+            min-height: 100vh;
+            padding-bottom: 70px;
+            border-left: 1px solid rgba(255, 255, 255, 0.05);
+            border-right: 1px solid rgba(255, 255, 255, 0.05);
+        }
+        .profile-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 15px 20px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+        }
+        .username {
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: #00f0ff;
+        }
+        /* इंस्टाग्राम स्टाइल प्रोफाइल इंफो */
+        .profile-info {
+            padding: 20px;
+            display: flex;
+            align-items: center;
+            gap: 25px;
+        }
+        .profile-avatar-wrapper {
+            position: relative;
+        }
+        .profile-avatar {
+            width: 85px;
+            height: 85px;
+            border-radius: 50%;
+            padding: 3px;
+            background: linear-gradient(45deg, #ff007f, #00f0ff);
+            box-shadow: 0 0 15px rgba(0, 240, 255, 0.4);
+        }
+        .profile-avatar img {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 2px solid #05010d;
+        }
+        .profile-stats {
+            display: flex;
+            gap: 20px;
+            text-align: center;
+            flex: 1;
+            justify-content: space-around;
+        }
+        .stat-num {
+            font-size: 1.1rem;
+            font-weight: bold;
+        }
+        .stat-label {
+            font-size: 0.75rem;
+            color: #8b8ba7;
+        }
+        /* बायो और बटन */
+        .profile-bio {
+            padding: 0 20px 15px 20px;
+        }
+        .full-name {
+            font-weight: bold;
+            margin-bottom: 4px;
+        }
+        .bio-text {
+            font-size: 0.9rem;
+            color: #ddd;
+            line-height: 1.4;
+        }
+        .vip-badge {
+            background: linear-gradient(45deg, #ff007f, #7928ca);
+            font-size: 0.7rem;
+            padding: 2px 8px;
+            border-radius: 10px;
+            font-weight: bold;
+            display: inline-block;
+            margin-top: 5px;
+            box-shadow: 0 0 8px rgba(255, 0, 127, 0.5);
+        }
+        .profile-buttons {
+            padding: 0 20px;
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+        .edit-btn {
+            flex: 1;
+            background: rgba(255, 255, 255, 0.08);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: white;
+            padding: 10px;
+            border-radius: 10px;
+            font-weight: 600;
+            font-size: 0.9rem;
+            cursor: pointer;
+        }
+        /* इंस्टाग्राम स्टाइल ग्रिड */
+        .instagram-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 3px;
+            padding: 3px;
+            border-top: 1px solid rgba(255, 255, 255, 0.08);
+        }
+        .grid-item {
+            aspect-ratio: 1 / 1;
+            position: relative;
+            cursor: pointer;
+            overflow: hidden;
+        }
+        .grid-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.3s;
+        }
+        .grid-item:hover img {
+            transform: scale(1.05);
+        }
+        .grid-overlay {
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0, 0, 0, 0.4);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            transition: 0.2s;
+            gap: 15px;
+            font-size: 0.9rem;
+        }
+        .grid-item:hover .grid-overlay {
+            opacity: 1;
+        }
+        /* बॉटम नेविगेशन बार */
+        .bottom-nav {
+            position: fixed;
+            bottom: 0; width: 100%; max-width: 450px;
+            background: rgba(5, 1, 13, 0.95);
+            backdrop-filter: blur(10px);
+            border-top: 1px solid rgba(255, 255, 255, 0.08);
+            display: flex; justify-content: space-around; align-items: center;
+            padding: 15px 0; font-size: 1.4rem; z-index: 10;
+        }
+        .nav-item { cursor: pointer; color: #8b8ba7; text-decoration: none;}
+        .nav-item.active { color: #00f0ff; text-shadow: 0 0 10px #00f0ff; }
+    </style>
+</head>
+<body>
+
+    <div class="app-container">
+        
+        <header class="profile-header">
+            <div class="username">राव_साहब_HR06 <i class="fa-solid fa-circle-check" style="color: #00f0ff; font-size: 0.9rem;"></i></div>
+            <i class="fa-solid fa-bars" onclick="alert('VIP सेटिंग्स जल्द आ रही हैं!')"></i>
+        </header>
+
+        <div class="profile-info">
+            <div class="profile-avatar-wrapper">
+                <div class="profile-avatar">
+                    <img src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=200" alt="Profile">
+                </div>
+            </div>
+            <div class="profile-stats">
+                <div>
+                    <div class="stat-num">12</div>
+                    <div class="stat-label">पोस्ट्स</div>
+                </div>
+                <div>
+                    <div class="stat-num">4.8K</div>
+                    <div class="stat-label">फॉलोअर्स</div>
+                </div>
+                <div>
+                    <div class="stat-num">340</div>
+                    <div class="stat-label">मैचेस</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="profile-bio">
+            <div class="full-name">अमित राव</div>
+            <div class="bio-text">
+                📍 पानीपत, हरियाणा <br>
+                Zomato Dating VIP मेंबर 👑 <br>
+                "पार्टनर ढूँढो सुपरफास्ट स्पीड में!" ⚡️
+            </div>
+            <div class="vip-badge"><i class="fa-solid fa-crown"></i> VIP MEMBER</div>
+        </div>
+
+        <div class="profile-buttons">
+            <button class="edit-btn" onclick="alert('प्रोफ़ाइल एडिट मोड चालू हो रहा है...')">प्रोफ़ाइल एडिट करें</button>
+            <button class="edit-btn" style="background: #ff007f;" onclick="alert('VIP शेयर लिंक कॉपी हुआ!')">प्रोफ़ाइल शेयर करें</button>
+        </div>
+
+        <div class="instagram-grid">
+            <div class="grid-item" onclick="alert('VIP पोस्ट व्यू चालू हो रहा है...')">
+                <img src="https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=300" alt="Post">
+                <div class="grid-overlay"><i class="fa-solid fa-heart"></i> 542 <i class="fa-solid fa-comment"></i> 23</div>
+            </div>
+            <div class="grid-item">
+                <img src="https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?w=300" alt="Post">
+                <div class="grid-overlay"><i class="fa-solid fa-heart"></i> 890 <i class="fa-solid fa-comment"></i> 45</div>
+            </div>
+            <div class="grid-item">
+                <img src="https://images.unsplash.com/photo-1492562080023-ab3db95bfbce?w=300" alt="Post">
+                <div class="grid-overlay"><i class="fa-solid fa-heart"></i> 721 <i class="fa-solid fa-comment"></i> 12</div>
+            </div>
+        </div>
+
+        <nav class="bottom-nav">
+            <a href="index.html" class="nav-item"><i class="fa-solid fa-house"></i></a>
+            <i class="fa-solid fa-magnifying-glass nav-item" onclick="alert('सर्च फीचर आ रहा है!')"></i>
+            <i class="fa-regular fa-square-plus nav-item" onclick="alert('नई फोटो अपलोड करें!')"></i>
+            <i class="fa-regular fa-message nav-item" onclick="alert('चैट बॉक्स होमपेज से खोलें!')"></i>
+            <a href="profile.html" class="nav-item active"><i class="fa-solid fa-user"></i></a>
+        </nav>
+
+    </div>
+
+</body>
+</html>
