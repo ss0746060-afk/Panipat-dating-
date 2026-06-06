@@ -35,7 +35,7 @@
             position: relative;
             border-left: 1px solid rgba(255, 255, 255, 0.05);
             border-right: 1px solid rgba(255, 255, 255, 0.05);
-            padding-bottom: 70px; /* बॉटम बार के लिए जगह */
+            padding-bottom: 70px;
         }
 
         /* इंस्टाग्राम जैसा हेडर */
@@ -69,11 +69,16 @@
             cursor: pointer;
         }
 
-        .header-icons i:hover {
+        .header-icons a {
+            color: white;
+            text-decoration: none;
+        }
+
+        .header-icons i:hover, .header-icons a:hover {
             color: #ff007f;
         }
 
-        /* इंस्टाग्राम स्टोरी बार (नियॉन लाइट्स) */
+        /* इंस्टाग्राम स्टोरी बार */
         .stories-container {
             display: flex;
             gap: 15px;
@@ -84,7 +89,7 @@
         }
 
         .stories-container::-webkit-scrollbar {
-            display: none; /* स्क्रॉलबार छिपाने के लिए */
+            display: none;
         }
 
         .story-wrapper {
@@ -243,7 +248,7 @@
             margin-right: 8px;
         }
 
-        /* इंस्टाग्राम जैसा बॉटम नेविगेशन बार */
+        /* इंस्टाग्राम स्टाइल बॉटम नेविगेशन बार */
         .bottom-nav {
             position: fixed;
             bottom: 0;
@@ -264,6 +269,7 @@
             cursor: pointer;
             color: #8b8ba7;
             transition: 0.2s;
+            text-decoration: none;
         }
 
         .nav-item:hover, .nav-item.active {
@@ -271,7 +277,7 @@
             text-shadow: 0 0 10px #00f0ff;
         }
 
-        /* --- फुल स्क्रीन ओवरले मॉडल्स (Instagram Style Popups) --- */
+        /* फुल स्क्रीन ओवरले मॉडल्स */
         .modal-overlay {
             position: fixed;
             top: 0;
@@ -320,7 +326,7 @@
             cursor: pointer;
         }
 
-        /* चैट रूम मैसेजेस */
+        /* कमेंट मॉडल */
         .chat-messages {
             flex: 1;
             padding: 20px;
@@ -329,16 +335,6 @@
             flex-direction: column;
             gap: 12px;
         }
-
-        .msg {
-            max-width: 75%;
-            padding: 12px 16px;
-            border-radius: 20px;
-            font-size: 0.95rem;
-        }
-
-        .msg.in { background: rgba(255, 255, 255, 0.08); align-self: flex-start; }
-        .msg.out { background: linear-gradient(135deg, #ff007f, #7928ca); align-self: flex-end; }
 
         .chat-input {
             padding: 15px;
@@ -357,7 +353,7 @@
             outline: none;
         }
 
-        /* स्टोरी देखने वाला व्यूअर */
+        /* स्टोरी व्यूअर */
         .story-viewer-content {
             justify-content: center;
             align-items: center;
@@ -397,7 +393,7 @@
             <div class="brand-logo">Zomato Dating</div>
             <div class="header-icons">
                 <i class="fa-regular fa-heart" onclick="alert('VIP नोटिफिकेशन: आज आपको 5 नए लोगों ने पसंद किया!')"></i>
-                <i class="fa-regular fa-paper-plane" onclick="openModal('chatModal')"></i>
+                <a href="chat.html"><i class="fa-regular fa-paper-plane"></i></a>
             </div>
         </header>
 
@@ -420,12 +416,6 @@
                     <img src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=100" alt="User 2">
                 </div>
                 <span>अंजलि_HR06</span>
-            </div>
-            <div class="story-wrapper" onclick="showStory('https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?w=500')">
-                <div class="story-ring">
-                    <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=100" alt="User 3">
-                </div>
-                <span>रोहित_राव</span>
             </div>
         </div>
 
@@ -454,36 +444,19 @@
                 </div>
                 <div class="post-likes" id="likes-count-like1">1,248 लाइक्स</div>
                 <div class="post-caption">
-                    <span>प्रिया शर्मा</span>लॉन्ग ड्राइव और अच्छे संगीत का शौक रखने वाला कोई है यहाँ? 🚘✨ #ZomatoDating
+                    <span>प्रिया शर्मा</span>लॉन्ग驱动 और अच्छे संगीत का शौक रखने वाला कोई है यहाँ? 🚘✨ #ZomatoDating
                 </div>
             </div>
         </div>
 
         <nav class="bottom-nav">
-            <i class="fa-solid fa-house nav-item active" onclick="alert('होम फीड रिफ्रेश की गई!')"></i>
+            <a href="index.html" class="nav-item active"><i class="fa-solid fa-house"></i></a>
             <i class="fa-solid fa-magnifying-glass nav-item" onclick="alert('फ्यूचरिस्टिक एआई मैच मेकिंग सर्च जल्द शुरू होगी!')"></i>
             <i class="fa-regular fa-square-plus nav-item" onclick="alert('नया वीआईपी फोटो अपलोड करें!')"></i>
-            <i class="fa-regular fa-message nav-item" onclick="openModal('chatModal')"></i>
-            <i class="fa-regular fa-user nav-item" onclick="alert('आपका वीआईपी प्रोफाइल डैशबोर्ड!')"></i>
+            <a href="chat.html" class="nav-item"><i class="fa-regular fa-message"></i></a>
+            <a href="profile.html" class="nav-item"><i class="fa-regular fa-user"></i></a>
         </nav>
 
-    </div>
-
-    <div class="modal-overlay" id="chatModal">
-        <div class="modal-content">
-            <div class="modal-header">
-                <span><i class="fa-solid fa-bolt" style="color: #00f0ff;"></i> Zomato VIP चैट रूम</span>
-                <button class="modal-close" onclick="closeModal('chatModal')"><i class="fa-solid fa-xmark"></i></button>
-            </div>
-            <div class="chat-messages" id="chatMsgArea">
-                <div class="msg in">राम-राम जी! Zomato Dating VIP क्लब में आपका स्वागत है। 🥂</div>
-                <div class="msg in">यहाँ आपको आपका मैच ऐसे ढूँढ कर देंगे, जैसे खाना ऑर्डर करने पर तुरंत आता है! ❤️</div>
-            </div>
-            <div class="chat-input">
-                <input type="text" id="chatInputField" placeholder="अपना संदेश टाइप करें...">
-                <button onclick="sendChatMessage()" style="background: none; border: none; color: #00f0ff; font-size: 1.3rem;"><i class="fa-solid fa-paper-plane"></i></button>
-            </div>
-        </div>
     </div>
 
     <div class="modal-overlay" id="commentModal">
@@ -524,7 +497,6 @@
             }
         }
 
-        // लाइक बटन टॉगल
         function toggleLike(id) {
             const likeIcon = document.getElementById(id);
             const countElement = document.getElementById('likes-count-' + id);
@@ -539,23 +511,6 @@
             }
         }
 
-        // चैट मैसेज भेजने का सिस्टम
-        function sendChatMessage() {
-            const input = document.getElementById('chatInputField');
-            const area = document.getElementById('chatMsgArea');
-            if(input.value.trim() === '') return;
-
-            area.insertAdjacentHTML('beforeend', `<div class="msg out">${input.value}</div>`);
-            input.value = '';
-            area.scrollTop = area.scrollHeight;
-
-            setTimeout(() => {
-                area.insertAdjacentHTML('beforeend', `<div class="msg in">पार्टनर अभी ऑनलाइन आ रहा है... ✨</div>`);
-                area.scrollTop = area.scrollHeight;
-            }, 1200);
-        }
-
-        // इंस्टाग्राम जैसी ऑटो-स्टोरी प्रोग्रेस बार
         function showStory(imgSrc) {
             document.getElementById('storyFullImage').src = imgSrc;
             openModal('storyModal');
@@ -570,7 +525,7 @@
                     width++;
                     progress.style.width = width + '%';
                 }
-            }, 30); // 3 सेकंड तक स्टोरी चलेगी
+            }, 30);
         }
     </script>
 </body>
