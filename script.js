@@ -1,40 +1,35 @@
-function addPost(){
-  let name = document.getElementById("name").value;
-  let img = document.getElementById("image").value;
-  let cap = document.getElementById("caption").value;
+let users = [
+  {name:"Anjali", age:22, bio:"Love food & travel ❤️"},
+  {name:"Priya", age:21, bio:"Coffee + long drives ☕"},
+  {name:"Neha", age:23, bio:"Simple & happy 😊"},
+  {name:"Simran", age:24, bio:"Music lover 🎧"}
+];
 
-  if(!name || !img || !cap){
-    alert("Fill all fields!");
-    return;
-  }
+function loadProfiles(){
+  let box=document.getElementById("cards");
+  box.innerHTML="";
 
-  let post = document.createElement("div");
-  post.className = "post";
+  users.forEach(u=>{
+    let div=document.createElement("div");
+    div.className="profile-card";
 
-  post.innerHTML = `
-    <h3>${name}</h3>
-    <img src="${img}">
-    <p>${cap}</p>
-    <button onclick="likePost(this)">❤️ Like</button>
-    <button onclick="commentPost(this)">💬 Comment</button>
-  `;
+    div.innerHTML=`
+      <h3>${u.name}, ${u.age}</h3>
+      <p>${u.bio}</p>
+      <button onclick="like()">❤️ Like</button>
+      <button onclick="skip()">❌ Skip</button>
+    `;
 
-  document.getElementById("feed").prepend(post);
-
-  document.getElementById("name").value="";
-  document.getElementById("image").value="";
-  document.getElementById("caption").value="";
+    box.appendChild(div);
+  });
 }
 
-function likePost(btn){
-  btn.innerHTML = "❤️ Liked";
+function like(){
+  alert("💘 Match Found!");
 }
 
-function commentPost(btn){
-  let text = prompt("Write comment:");
-  if(text){
-    alert("💬 Comment added: " + text);
-  }
+function skip(){
+  alert("Skipped");
 }
 
 function toggleTheme(){
