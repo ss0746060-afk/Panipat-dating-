@@ -6,133 +6,30 @@
     <title>Instagram Access</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        * { 
-            margin: 0; padding: 0; box-sizing: border-box; 
-            font-family: '-apple-system', BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; 
-        }
-        body {
-            background: #000000; color: #ffffff; display: flex; justify-content: center; align-items: center; min-height: 100vh; padding: 20px;
-            background: radial-gradient(circle at center, #1c0522 0%, #000000 100%);
-        }
-        .login-container {
-            width: 100%; max-width: 380px; background: rgba(10, 5, 15, 0.85); border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 16px; padding: 40px 30px; text-align: center; backdrop-filter: blur(20px);
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.7); position: relative;
-        }
-        .logo-text { 
-            font-size: 2.6rem; font-weight: 800; 
-            background: linear-gradient(45deg, #f9ce34, #ee2a7b, #6228d7); 
-            -webkit-background-clip: text; -webkit-text-fill-color: transparent; 
-            margin-bottom: 25px; font-style: italic; 
-        }
-        .subtitle { font-size: 0.85rem; color: #a8a8a8; margin-bottom: 20px; }
-        .input-group { position: relative; margin-bottom: 14px; }
-        .input-group i { position: absolute; left: 15px; top: 50%; transform: translateY(-50%); color: #a8a8a8; }
-        .input-group input { 
-            width: 100%; padding: 14px 15px 14px 45px; background: #121212; 
-            border: 1px solid #262626; border-radius: 10px; color: white; outline: none; font-size: 0.9rem; 
-        }
-        .input-group input:focus { border-color: #ee2a7b; }
-        .action-btn { 
-            width: 100%; background: linear-gradient(45deg, #f58529, #dd2a7b, #8134af); 
-            color: white; border: none; padding: 14px; font-size: 0.95rem; font-weight: bold; border-radius: 10px; cursor: pointer; margin-top: 10px; 
-        }
-        .footer-text { margin-top: 30px; font-size: 0.85rem; color: #737373; border-top: 1px solid #262626; padding-top: 20px; }
-        .footer-text span { color: #0095f6; cursor: pointer; font-weight: 600; }
-        .hidden-form { display: none; }
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: sans-serif; }
+        body { background: #000; color: #fff; display: flex; justify-content: center; align-items: center; min-height: 100vh; }
+        .login-container { width: 100%; max-width: 380px; background: #121212; border: 1px solid #333; border-radius: 10px; padding: 30px; }
+        .logo-text { font-size: 2rem; font-weight: bold; text-align: center; margin-bottom: 20px; }
+        .input-group { margin-bottom: 15px; }
+        .input-group input { width: 100%; padding: 12px; background: #262626; border: 1px solid #444; color: white; border-radius: 5px; }
+        .action-btn { width: 100%; background: #0095f6; border: none; padding: 12px; color: white; font-weight: bold; border-radius: 5px; cursor: pointer; }
     </style>
 </head>
 <body>
-
     <div class="login-container">
         <div class="logo-text">Instagram</div>
-        
-        <div id="loginBox">
-            <div class="subtitle">अपने अकाउंट में लॉगिन करें 👑</div>
-            <form onsubmit="handleLogin(event)">
-                <div class="input-group">
-                    <input type="text" id="loginIdentifier" placeholder="यूजरनेम, ईमेल या मोबाइल नंबर" required>
-                    <i class="fa-solid fa-user"></i>
-                </div>
-                <div class="input-group">
-                    <input type="password" id="loginPass" placeholder="पासवर्ड" required>
-                    <i class="fa-solid fa-lock"></i>
-                </div>
-                <button type="submit" class="action-btn">लॉगिन करें</button>
-            </form>
-            <div class="footer-text">अकाउंट नहीं है? <span onclick="switchForm('register')">साइन अप करें</span></div>
-        </div>
-
-        <div id="registerBox" class="hidden-form">
-            <div class="subtitle">नया अकाउंट बनाने के लिए जुड़ें ✨</div>
-            <form onsubmit="handleRegister(event)">
-                <div class="input-group">
-                    <input type="text" id="regName" placeholder="पूरा नाम" required>
-                    <i class="fa-solid fa-signature"></i>
-                </div>
-                <div class="input-group">
-                    <input type="text" id="regUser" placeholder="यूनिक यूजरनेम" required>
-                    <i class="fa-solid fa-at"></i>
-                </div>
-                <div class="input-group">
-                    <input type="password" id="regPass" placeholder="मजबूत पासवर्ड" required>
-                    <i class="fa-solid fa-key"></i>
-                </div>
-                <button type="submit" class="action-btn">खाता बनाएं</button>
-            </form>
-            <div class="footer-text">पहले से अकाउंट है? <span onclick="switchForm('login')">लॉगिन करें</span></div>
-        </div>
+        <form onsubmit="handleLogin(event)">
+            <div class="input-group"><input type="text" id="loginIdentifier" placeholder="यूजरनेम" required></div>
+            <div class="input-group"><input type="password" id="loginPass" placeholder="पासवर्ड" required></div>
+            <button type="submit" class="action-btn">लॉगिन करें</button>
+        </form>
     </div>
-
     <script>
-        function switchForm(type) {
-            if(type === 'register') {
-                document.getElementById('loginBox').classList.add('hidden-form');
-                document.getElementById('registerBox').classList.remove('hidden-form');
-            } else {
-                document.getElementById('registerBox').classList.add('hidden-form');
-                document.getElementById('loginBox').classList.remove('hidden-form');
-            }
-        }
-
-        function handleRegister(event) {
-            event.preventDefault();
-            const name = document.getElementById('regName').value.trim();
-            const user = document.getElementById('regUser').value.trim().toLowerCase();
-            const pass = document.getElementById('regPass').value;
-
-            let db = JSON.parse(localStorage.getItem('secure_users_db') || '{}');
-            if (db[user]) { alert('❌ यह यूजरनेम पहले से बुक है!'); return; }
-
-            db[user] = { name: name, username: user, password: pass, pic: "https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=100" };
-            localStorage.setItem('secure_users_db', JSON.stringify(db));
-            
-            alert('🔒 अकाउंट बन गया! अब लॉगिन करें।');
-            switchForm('login');
-            document.getElementById('loginIdentifier').value = user;
-        }
-
         function handleLogin(event) {
             event.preventDefault();
-            const identifier = document.getElementById('loginIdentifier').value.trim().toLowerCase();
-            const pass = document.getElementById('loginPass').value;
-
-            // टेस्ट करने के लिए डायरेक्ट बायपास (यूजर: admin , पासवर्ड: 1234)
-            if (identifier === "admin" && pass === "1234") {
-                localStorage.setItem('current_logged_in_user', 'admin');
-                localStorage.setItem('vip_user', 'admin');
-                window.location.href = 'index.html';
-                return;
-            }
-
-            let db = JSON.parse(localStorage.getItem('secure_users_db') || '{}');
-            if (db[identifier] && db[identifier].password === pass) {
-                localStorage.setItem('current_logged_in_user', identifier);
-                localStorage.setItem('vip_user', db[identifier].username);
-                window.location.href = 'index.html';
-            } else {
-                alert('❌ गलत यूजरनेम या पासवर्ड!');
-            }
+            const user = document.getElementById('loginIdentifier').value;
+            localStorage.setItem('current_logged_in_user', user);
+            window.location.href = 'index.html';
         }
     </script>
 </body>
