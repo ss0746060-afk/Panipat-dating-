@@ -1,49 +1,45 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="hi">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Zomato Dating</title>
-
-<link rel="stylesheet" href="style.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Zomato Dating - Premium</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
-
 <body>
 
-<!-- TOP BAR -->
-<div class="topbar">
-  <div class="logo">❤️ Zomato Dating</div>
-  <button onclick="toggleTheme()">🌙</button>
-</div>
+    <header class="navbar">
+        <h2 class="logo">ZomatoDating</h2>
+        <div class="nav-icons">
+            <i class="fa-regular fa-heart"></i>
+            <i class="fa-regular fa-paper-plane"></i>
+        </div>
+    </header>
 
-<!-- MAIN -->
-<div class="container">
+    <main id="main-feed">
+        <div class="post">
+            <div class="post-header">
+                <div class="avatar"></div>
+                <span>Rahul_Chef</span>
+            </div>
+            <img src="https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=500" class="post-img">
+            <div class="post-footer">
+                <i class="fa-regular fa-heart icon" onclick="like(this)"></i>
+                <i class="fa-regular fa-comment icon"></i>
+                <i class="fa-regular fa-paper-plane icon"></i>
+                <p><strong>1,240 likes</strong></p>
+            </div>
+        </div>
+    </main>
 
-  <!-- LEFT MENU -->
-  <div class="sidebar">
-    <div class="nav">🏠 Home</div>
-    <div class="nav">🔥 Matches</div>
-    <div class="nav">💬 Chat</div>
-    <div class="nav">👤 Profile</div>
-  </div>
+    <nav class="bottom-nav">
+        <i class="fa-solid fa-house"></i>
+        <i class="fa-solid fa-magnifying-glass"></i>
+        <i class="fa-solid fa-plus"></i>
+        <i class="fa-solid fa-user"></i>
+    </nav>
 
-  <!-- CENTER -->
-  <div class="main">
-
-    <!-- PROFILE CARDS -->
-    <div class="card">
-      <h2>Find Your Match 💘</h2>
-      <p>Swipe & Connect with People</p>
-    </div>
-
-    <div id="cards"></div>
-
-    <button class="btn" onclick="loadProfiles()">Load Profiles</button>
-
-  </div>
-
-</div>
-
-<script src="script.js"></script>
+    <script src="script.js"></script>
 </body>
 </html>
