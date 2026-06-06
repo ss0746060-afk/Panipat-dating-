@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VIP Futuristic Chat</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* फ्यूचरिस्टिक और वीआईपी डार्क थीम */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+        }
+
+        body {
+            background: radial-gradient(circle at center, #1a0b2e 0%, #05010d 100%);
+            color: #ffffff;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        /* बैकग्राउंड में चमकने वाले नियॉन गोले */
+        .bg-glow {
+            position: absolute;
+            width: 300px;
+            height: 300px;
+            background: #ff007f;
+            filter: blur(150px);
+            opacity: 0.2;
+            z-index: 1;
+            top: 10%;
+            left: 15%;
+        }
+
+        .bg-glow-2 {
+            position: absolute;
+            width: 300px;
+            height: 300px;
+            background: #00f0ff;
+            filter: blur(150px);
+            opacity: 0.2;
+            z-index: 1;
+            bottom: 10%;
+            right: 15%;
+        }
+
+        /* मेन होमपेज कंटेनर */
+        .main-container {
+            text-align: center;
+            z-index: 2;
+        }
+
+        h1 {
+            font-size: 3rem;
+            font-weight: 800;
+            letter-spacing: 2px;
+            background: linear-gradient(45deg, #00f0ff, #ff007f);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 10px;
+            text-shadow: 0 0 30px rgba(0, 240, 255, 0.3);
+        }
+
+        p {
+            color: #8b8ba7;
+            font-size: 1.1rem;
+            margin-bottom: 30px;
+        }
+
+        /* वीआईपी ओपन बटन */
+        .open-chat-btn {
+            background: linear-gradient(135deg, #ff007f 0%, #7928ca 100%);
+            color: white;
+            border: none;
+            padding: 15px 35px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            border-radius: 50px;
+            cursor: pointer;
+            box-shadow: 0 0 20px rgba(255, 0, 127, 0.4);
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .open-chat-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 0 30px rgba(255, 0, 127, 0.8), 0 0 10px rgba(0, 240, 255, 0.5);
+        }
+
+        /* --- इंस्टाग्राम जैसा चैट मॉडल (Modal) --- */
+        .chat-modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(5, 1, 13, 0.85);
+            backdrop-filter: blur(8px);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 10;
+            opacity: 0;
+            pointer-events: none;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        /* मॉडल जब खुलेगा (Instagram Pop-up Style) */
+        .chat-modal-overlay.active {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        .chat-box {
+            width: 100%;
+            max-width: 450px;
+            height: 80vh;
+            background: rgba(20, 10, 35, 0.75);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 24px;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5), inset 0 0 20px rgba(255, 255, 255, 0.05);
+            transform: scale(0.8);
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        .chat-modal-overlay.active .chat-box {
+            transform: scale(1);
+        }
+
+        /* चैट हेडर (Instagram DM जैसा) */
+        .chat-header {
+            padding: 15px 20px;
+            background: rgba(30, 15, 50, 0.9);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: linear-gradient(45deg, #f99f1b, #f8308d, #b11391);
+            padding: 2px;
+        }
+
+        .avatar img {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            background: #1a0b2e;
+            object-fit: cover;
+        }
+
+        .user-name {
+            font-weight: 600;
+            font-size: 1.05rem;
+        }
+
+        .user-status {
+            font-size: 0.75rem;
+            color: #00f0ff;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .user-status
