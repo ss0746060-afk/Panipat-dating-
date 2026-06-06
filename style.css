@@ -1,14 +1,16 @@
-* { margin: 0; padding: 0; box-sizing: border-box; font-family: sans-serif; }
-body { background-color: #fafafa; padding-bottom: 60px; }
+* { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', sans-serif; }
+body { background: #000; color: white; display: flex; justify-content: center; }
 
-.top-nav { display: flex; justify-content: space-between; padding: 15px; background: white; border-bottom: 1px solid #ddd; font-weight: bold; color: #e23744; }
+.navbar { width: 100%; max-width: 600px; height: 60px; background: #121212; position: fixed; top: 0; display: flex; justify-content: space-between; align-items: center; padding: 0 20px; border-bottom: 1px solid #333; z-index: 100; }
+.logo { font-size: 24px; font-weight: bold; color: #ff3e3e; }
+.nav-links { display: flex; gap: 20px; font-size: 20px; }
 
-.story-container { display: flex; gap: 15px; padding: 15px; background: white; overflow-x: auto; }
-.img-circle { width: 65px; height: 65px; border-radius: 50%; border: 3px solid #e23744; }
+.main-content { margin-top: 80px; width: 100%; max-width: 600px; }
+.stories { display: flex; gap: 15px; padding: 10px; overflow-x: auto; background: #121212; }
+.story-circle { display: flex; flex-direction: column; align-items: center; gap: 5px; }
+.story-circle .img { width: 70px; height: 70px; border-radius: 50%; border: 3px solid #ff3e3e; background: #333; }
 
-.post { background: white; margin-top: 15px; border-top: 1px solid #ddd; }
-.post-header { padding: 10px; display: flex; align-items: center; font-weight: bold; }
-.post-img { width: 100%; height: 350px; background: #eee; }
-.post-actions { padding: 10px; display: flex; gap: 15px; font-size: 24px; }
-
-.bottom-nav { position: fixed; bottom: 0; width: 100%; display: flex; justify-content: space-around; padding: 15px; background: white; border-top: 1px solid #ddd; font-size: 20px; }
+.post-card { background: #121212; margin: 20px 0; border: 1px solid #333; border-radius: 10px; }
+.post-header { padding: 10px; display: flex; align-items: center; gap: 10px; }
+.post-img { width: 100%; height: 400px; background: #222; }
+.actions { padding: 15px; display: flex; gap: 20px; font-size: 24px; }
