@@ -6,73 +6,40 @@
     <title>VIP Futuristic Chat</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        /* फ्यूचरिस्टिक और वीआईपी डार्क थीम */
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            font-family: 'Segoe UI', Roboto, sans-serif;
         }
-
         body {
-            background: radial-gradient(circle at center, #1a0b2e 0%, #05010d 100%);
+            background: linear-gradient(135deg, #05010d 0%, #1a0b2e 50%, #0a1128 100%);
             color: #ffffff;
             display: flex;
             justify-content: center;
             align-items: center;
-            height: 100vh;
+            min-height: 100vh;
+            text-align: center;
             overflow: hidden;
         }
-
-        /* बैकग्राउंड में चमकने वाले नियॉन गोले */
-        .bg-glow {
-            position: absolute;
-            width: 300px;
-            height: 300px;
-            background: #ff007f;
-            filter: blur(150px);
-            opacity: 0.2;
-            z-index: 1;
-            top: 10%;
-            left: 15%;
-        }
-
-        .bg-glow-2 {
-            position: absolute;
-            width: 300px;
-            height: 300px;
-            background: #00f0ff;
-            filter: blur(150px);
-            opacity: 0.2;
-            z-index: 1;
-            bottom: 10%;
-            right: 15%;
-        }
-
-        /* मेन होमपेज कंटेनर */
         .main-container {
-            text-align: center;
-            z-index: 2;
+            z-index: 10;
+            padding: 20px;
+            width: 100%;
         }
-
         h1 {
-            font-size: 3rem;
+            font-size: 2.5rem;
             font-weight: 800;
-            letter-spacing: 2px;
             background: linear-gradient(45deg, #00f0ff, #ff007f);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
-            margin-bottom: 10px;
-            text-shadow: 0 0 30px rgba(0, 240, 255, 0.3);
+            margin-bottom: 15px;
         }
-
         p {
             color: #8b8ba7;
-            font-size: 1.1rem;
+            font-size: 1rem;
             margin-bottom: 30px;
         }
-
-        /* वीआईपी ओपन बटन */
         .open-chat-btn {
             background: linear-gradient(135deg, #ff007f 0%, #7928ca 100%);
             color: white;
@@ -83,103 +50,163 @@
             border-radius: 50px;
             cursor: pointer;
             box-shadow: 0 0 20px rgba(255, 0, 127, 0.4);
-            transition: all 0.3s ease;
             display: inline-flex;
             align-items: center;
             gap: 10px;
         }
-
-        .open-chat-btn:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 0 30px rgba(255, 0, 127, 0.8), 0 0 10px rgba(0, 240, 255, 0.5);
-        }
-
-        /* --- इंस्टाग्राम जैसा चैट मॉडल (Modal) --- */
+        /* इंस्टाग्राम स्टाइल मॉडल */
         .chat-modal-overlay {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(5, 1, 13, 0.85);
-            backdrop-filter: blur(8px);
+            background: rgba(5, 1, 13, 0.9);
             display: flex;
             justify-content: center;
             align-items: center;
-            z-index: 10;
+            z-index: 100;
             opacity: 0;
             pointer-events: none;
-            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            transition: 0.3s ease;
         }
-
-        /* मॉडल जब खुलेगा (Instagram Pop-up Style) */
         .chat-modal-overlay.active {
             opacity: 1;
             pointer-events: auto;
         }
-
         .chat-box {
-            width: 100%;
-            max-width: 450px;
+            width: 90%;
+            max-width: 400px;
             height: 80vh;
-            background: rgba(20, 10, 35, 0.75);
+            background: #140a23;
             border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 24px;
+            border-radius: 20px;
             display: flex;
             flex-direction: column;
             overflow: hidden;
-            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5), inset 0 0 20px rgba(255, 255, 255, 0.05);
-            transform: scale(0.8);
-            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
         }
-
-        .chat-modal-overlay.active .chat-box {
-            transform: scale(1);
-        }
-
-        /* चैट हेडर (Instagram DM जैसा) */
         .chat-header {
-            padding: 15px 20px;
-            background: rgba(30, 15, 50, 0.9);
-            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+            padding: 15px;
+            background: #1e0f32;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
             display: flex;
             justify-content: space-between;
             align-items: center;
         }
-
-        .user-info {
+        .close-btn {
+            background: none;
+            border: none;
+            color: white;
+            font-size: 1.2rem;
+            cursor: pointer;
+        }
+        .chat-messages {
+            flex: 1;
+            padding: 15px;
+            overflow-y: auto;
             display: flex;
-            align-items: center;
-            gap: 12px;
+            flex-direction: column;
+            gap: 10px;
         }
-
-        .avatar {
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            background: linear-gradient(45deg, #f99f1b, #f8308d, #b11391);
-            padding: 2px;
+        .message {
+            max-width: 80%;
+            padding: 10px 15px;
+            border-radius: 15px;
+            font-size: 0.95rem;
+            text-align: left;
         }
-
-        .avatar img {
-            width: 100%;
-            height: 100%;
-            border-radius: 50%;
-            background: #1a0b2e;
-            object-fit: cover;
+        .message.incoming {
+            background: rgba(255, 255, 255, 0.1);
+            align-self: flex-start;
         }
-
-        .user-name {
-            font-weight: 600;
-            font-size: 1.05rem;
+        .message.outgoing {
+            background: linear-gradient(135deg, #00f0ff, #0072ff);
+            align-self: flex-end;
         }
-
-        .user-status {
-            font-size: 0.75rem;
+        .chat-input-area {
+            padding: 15px;
+            background: #140a23;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            display: flex;
+            gap: 10px;
+        }
+        .chat-input-area input {
+            flex: 1;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            padding: 10px 15px;
+            color: white;
+            outline: none;
+        }
+        .send-btn {
+            background: none;
+            border: none;
             color: #00f0ff;
-            display: flex;
-            align-items: center;
-            gap: 4px;
+            font-size: 1.2rem;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="main-container">
+        <h1>PANIPAT DATING</h1>
+        <p>हरियाणा का पहला वीआईपी और फ्यूचरिस्टिक सोशल हब</p>
+        <button class="open-chat-btn" id="openChatBtn">
+            <i class="fa-regular fa-comment-dots"></i> चैट बॉक्स खोलें
+        </button>
+    </div>
+
+    <div class="chat-modal-overlay" id="chatModal">
+        <div class="chat-box">
+            <div class="chat-header">
+                <span style="font-weight: bold;">VIP पार्टनर क्लब (ऑनलाइन)</span>
+                <button class="close-btn" id="closeChatBtn"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+            <div class="chat-messages" id="chatMessages">
+                <div class="message incoming">राम-राम जी! Panipat Dating पर आपका स्वागत है। 🙏</div>
+                <div class="message incoming">यहाँ आपको आपका पार्टनर बिल्कुल फ्यूचरिस्टिक स्टाइल में मिलेगा।</div>
+            </div>
+            <div class="chat-input-area">
+                <input type="text" id="messageInput" placeholder="अपना संदेश लिखें...">
+                <button class="send-btn" id="sendBtn"><i class="fa-solid fa-paper-plane"></i></button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const openChatBtn = document.getElementById('openChatBtn');
+        const closeChatBtn = document.getElementById('closeChatBtn');
+        const chatModal = document.getElementById('chatModal');
+        const sendBtn = document.getElementById('sendBtn');
+        const messageInput = document.getElementById('messageInput');
+        const chatMessages = document.getElementById('chatMessages');
+
+        openChatBtn.addEventListener('click', () => chatModal.classList.add('active'));
+        closeChatBtn.addEventListener('click', () => chatModal.classList.remove('active'));
+        
+        chatModal.addEventListener('click', (e) => {
+            if (e.target === chatModal) chatModal.classList.remove('active');
+        });
+
+        function sendMessage() {
+            const text = messageInput.value.trim();
+            if (text === '') return;
+            chatMessages.insertAdjacentHTML('beforeend', `<div class="message outgoing">${text}</div>`);
+            messageInput.value = '';
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+
+            setTimeout(() => {
+                chatMessages.insertAdjacentHTML('beforeend', `<div class="message incoming">सिस्टम आपका मैसेज प्रोसेस कर रहा है... ❤️</div>`);
+                chatMessages.scrollTop = chatMessages.scrollHeight;
+            }, 1000);
         }
 
-        .user-status
+        sendBtn.addEventListener('click', sendMessage);
+        messageInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') sendMessage();
+        });
+    </script>
+</body>
+</html>
