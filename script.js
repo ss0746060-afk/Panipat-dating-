@@ -1,9 +1,9 @@
 function addPost(){
-  let name = document.getElementById("username").value;
+  let name = document.getElementById("name").value;
   let img = document.getElementById("image").value;
-  let caption = document.getElementById("caption").value;
+  let cap = document.getElementById("caption").value;
 
-  if(!name || !img || !caption){
+  if(!name || !img || !cap){
     alert("Fill all fields!");
     return;
   }
@@ -14,30 +14,29 @@ function addPost(){
   post.innerHTML = `
     <h3>${name}</h3>
     <img src="${img}">
-    <p>${caption}</p>
+    <p>${cap}</p>
     <button onclick="likePost(this)">❤️ Like</button>
+    <button onclick="commentPost(this)">💬 Comment</button>
   `;
 
-  document.getElementById("posts").prepend(post);
+  document.getElementById("feed").prepend(post);
 
-  document.getElementById("username").value = "";
-  document.getElementById("image").value = "";
-  document.getElementById("caption").value = "";
+  document.getElementById("name").value="";
+  document.getElementById("image").value="";
+  document.getElementById("caption").value="";
 }
 
 function likePost(btn){
   btn.innerHTML = "❤️ Liked";
 }
 
-/* SIMPLE THEME TOGGLE */
-function toggleTheme(){
-  let body = document.body;
-
-  if(body.style.background === "black"){
-    body.style.background = "#fafafa";
-    body.style.color = "black";
-  }else{
-    body.style.background = "black";
-    body.style.color = "white";
+function commentPost(btn){
+  let text = prompt("Write comment:");
+  if(text){
+    alert("💬 Comment added: " + text);
   }
+}
+
+function toggleTheme(){
+  document.body.classList.toggle("dark");
 }
