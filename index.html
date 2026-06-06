@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Insta Clone</title>
+
+<link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+<!-- TOP BAR -->
+<div class="navbar">
+  <h2>📸 InstaClone</h2>
+  <button onclick="toggleTheme()">🌙</button>
+</div>
+
+<!-- POST BOX -->
+<div class="post-box">
+  <input id="username" placeholder="Your name">
+  <input id="image" placeholder="Image URL">
+  <input id="caption" placeholder="Write caption">
+  <button onclick="addPost()">Post</button>
+</div>
+
+<!-- POSTS -->
+<div id="posts"></div>
+
+<script src="script.js"></script>
+</body>
+</html>
