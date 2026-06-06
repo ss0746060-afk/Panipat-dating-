@@ -2,25 +2,33 @@
 <html lang="hi">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Social App</title>
     <link rel="stylesheet" href="style.css">
-    <title>मेरी वेबसाइट</title>
 </head>
 <body>
 
-    <header>
-        <h1>मेरी सोशल ऐप</h1>
-    </header>
+    <div class="app-container">
+        <header>
+            <div class="logo">MySocial</div>
+            <div class="icons">❤️ 📩</div>
+        </header>
 
-    <main class="feed">
-        <div class="post">यहाँ आपकी फोटो/वीडियो दिखेगी</div>
-    </main>
+        <main id="feed">
+            <div class="post">
+                <div class="user-info">👤 यूजर का नाम</div>
+                <div class="post-content">यहाँ आपकी फोटो या वीडियो आएगी</div>
+                <div class="actions">👍 💬 ✈️</div>
+            </div>
+            </main>
 
-    <nav class="bottom-nav">
-        <div>Home</div>
-        <div>Inbox</div>
-        <div>Explore</div>
-        <div>Profile</div>
-    </nav>
+        <nav class="bottom-nav">
+            <button onclick="changePage('Home')">🏠</button>
+            <button onclick="changePage('Inbox')">📥</button>
+            <button onclick="changePage('Explore')">🔍</button>
+            <button onclick="changePage('Profile')">👤</button>
+        </nav>
+    </div>
 
     <script src="script.js"></script>
 </body>
