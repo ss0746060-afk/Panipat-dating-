@@ -1,283 +1,215 @@
-<!DOCTYPE html>
-<html lang="hi">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Zomato Dating - VIP Futuristic Social</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <style>
-        * {
-            margin: 0; padding: 0; box-sizing: border-box;
-            font-family: 'Segoe UI', Roboto, Helvetica, sans-serif;
-            -webkit-tap-highlight-color: transparent;
-        }
+<script>
+    // 🔒 सुरक्षा कवच: पेज लोड होने से पहले चेक करेगा कि यूजर लॉगिन है या नहीं
+    if (!localStorage.getItem('current_logged_in_user')) {
+        window.location.href = 'login.html';
+    }
 
-        body {
-            background: #05010d; color: #ffffff; display: flex; justify-content: center;
-            background: radial-gradient(circle at top, #1a0b2e 0%, #05010d 100%); min-height: 100vh;
+    // 🌟 जादूई पिटारा: 10 डमी इंस्टाग्राम प्रोफाइल्स और उनका कड़क कंटेंट
+    const dummyInstagramFeed = [
+        {
+            authorName: "रितिका सेन",
+            authorPic: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=150",
+            location: "मुंबई • बैंडस्टैंड",
+            type: "photo",
+            url: "https://images.unsplash.com/photo-1517841905240-472988babdf9?w=600",
+            likes: "12.4K लाइक्स",
+            caption: "समुद्र की लहरें और मुंबई की शाम! 🌊✨ #MumbaiDiaries #Sunset"
+        },
+        {
+            authorName: "जस्सी संधू",
+            authorPic: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150",
+            location: "चंडीगढ़ • गेड़ी रूट",
+            type: "reel",
+            url: "https://assets.mixkit.co/videos/preview/mixkit-driving-in-a-futuristic-neon-city-43152-large.mp4",
+            likes: "45.2K लाइक्स",
+            caption: "नयी गाड़ी, नया रूट! 🎬 थार लवर्स हाजिरी लगाओ 👇 #Thar #Chandigarh #GediRoute"
+        },
+        {
+            authorName: "काव्या खन्ना",
+            authorPic: "https://images.unsplash.com/photo-1524504388940-b1c1722653e1?w=150",
+            location: "दिल्ली • कनॉट प्लेस",
+            type: "photo",
+            url: "https://images.unsplash.com/photo-1529626455594-4ff0802cfb7e?w=600",
+            likes: "8,912 लाइक्स",
+            caption: "दिल्ली की सर्दी और गरम कैपुचिनो ☕❄️ #DelhiWinters #CP"
+        },
+        {
+            authorName: "अमन खटाना (गुज्जर)",
+            authorPic: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=150",
+            location: "गुरुग्राम • गोल्फ कोर्स रोड",
+            type: "video",
+            url: "https://assets.mixkit.co/videos/preview/mixkit-hands-of-a-driver-on-a-steering-wheel-41695-large.mp4",
+            likes: "18.5K लाइक्स",
+            caption: "सिस्टम हैंग कर देंगे भाई! 🔥 फॉर्च्यूनर वाइब्स। #Gurgaon #VipLife"
+        },
+        {
+            authorName: "स्नेहा रेड्डी",
+            authorPic: "https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=150",
+            location: "गोवा • बागा बीच",
+            type: "photo",
+            url: "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=600",
+            likes: "15.1K लाइक्स",
+            caption: "वर्क फ्रॉम होम? नहीं, वर्क फ्रॉम बीच! 🌴🍹 #GoaVibes #BeachLife"
+        },
+        {
+            authorName: "रोहित शर्मा (यादव)",
+            authorPic: "https://images.unsplash.com/photo-1492562080023-ab3db95bfbce?w=150",
+            location: "रोहतक • महर्षि दयानंद यूनिवर्सिटी",
+            type: "reel",
+            url: "https://assets.mixkit.co/videos/preview/mixkit-man-dancing-under-neon-lights-42245-large.mp4",
+            likes: "32.9K लाइक्स",
+            caption: "कैंपस में पहली रील! भाई का स्वैग चेक करो 🎬🕺 #MDU #Haryana #Trending"
+        },
+        {
+            authorName: "दीक्षा सिंह",
+            authorPic: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=150",
+            location: "जयपुर • नाहरगढ़ फोर्ट",
+            type: "photo",
+            url: "https://images.unsplash.com/photo-1469334031218-e382a71b716b?w=600",
+            likes: "9,420 लाइक्स",
+            caption: "गुलाबी शहर का खूबसूरत नजारा महल की चोटी से 🏰✨ #Jaipur #PinkCity"
+        },
+        {
+            authorName: "विक्रम हुड्डा",
+            authorPic: "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=150",
+            location: "सोनीपत • अंसल सुशांत सिटी",
+            type: "photo",
+            url: "https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?w=600",
+            likes: "21K लाइक्स",
+            caption: "ज़मींदार लाइफ! कुर्ता पायजामा गेम ऑन 👑🌾 #DesiSwag #Haryana"
+        },
+        {
+            authorName: "पूजा हीर",
+            authorPic: "https://images.unsplash.com/photo-1531746020798-e6953c6e8e04?w=150",
+            location: "नोएडा • सेक्टर 18",
+            type: "reel",
+            url: "https://assets.mixkit.co/videos/preview/mixkit-girl-in-neon-sign-holding-a-camera-42247-large.mp4",
+            likes: "11.2K लाइक्स",
+            caption: "नाइट आउट विद माय गर्ल्स! 🥂✨ #NoidaNightlife #Reels"
+        },
+        {
+            authorName: "आरव जैन",
+            authorPic: "https://images.unsplash.com/photo-1489980508314-941910ded1f4?w=150",
+            location: "बेंगलुरु • टेक पार्क",
+            type: "photo",
+            url: "https://images.unsplash.com/photo-1515879218367-8466d910aaa4?w=600",
+            likes: "6,540 लाइक्स",
+            caption: "जब कोड पहली बार में बिना किसी एरर के कंपाइल हो जाए! 💻🚀 #CoderLife #Tech"
         }
+    ];
 
-        .app-container {
-            width: 100%; max-width: 450px; background: rgba(15, 8, 28, 0.8);
-            min-height: 100vh; display: flex; flex-direction: column; position: relative;
-            border-left: 1px solid rgba(255, 255, 255, 0.05); border-right: 1px solid rgba(255, 255, 255, 0.05);
-            padding-bottom: 70px;
-        }
-
-        .app-header {
-            position: sticky; top: 0; background: rgba(5, 1, 13, 0.95); backdrop-filter: blur(10px);
-            padding: 15px 20px; display: flex; justify-content: space-between; align-items: center;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.08); z-index: 10;
-        }
-
-        .brand-logo {
-            font-size: 1.6rem; font-weight: 900; letter-spacing: 1px;
-            background: linear-gradient(45deg, #ff007f, #ff4b2b);
-            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-            text-shadow: 0 0 15px rgba(255, 0, 127, 0.3); cursor: pointer;
-        }
-
-        .header-icons { display: flex; gap: 20px; font-size: 1.3rem; align-items: center; }
-        .header-icons i { cursor: pointer; }
+    window.addEventListener('load', () => {
+        const savedUser = localStorage.getItem('vip_user') || "राव_साहब_HR06";
+        const savedPic = localStorage.getItem('vip_pic') || "https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=100";
+        document.getElementById('headerUsername').innerText = savedUser;
+        document.getElementById('headerUserAvatar').src = savedPic;
         
-        /* लॉगआउट बटन स्टाइल */
-        .logout-btn { color: #ff3b30; transition: transform 0.2s; }
-        .logout-btn:hover { transform: scale(1.1); }
+        // फीड रेंडर करना
+        renderLiveFeed();
+    });
 
-        .stories-container {
-            display: flex; gap: 15px; padding: 15px; overflow-x: auto;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.05); background: rgba(255, 255, 255, 0.01);
+    function openModal(id) { document.getElementById(id).classList.add('active'); }
+    function closeModal(id) { document.getElementById(id).classList.remove('active'); }
+
+    function triggerUpload(type) {
+        closeModal('instagramUploadModal');
+        if(type === 'photo' || type === 'video') { document.getElementById('photoVideoInput').click(); } 
+        else if(type === 'reel') { document.getElementById('reelInput').click(); }
+    }
+
+    // लॉगआउट फंक्शन
+    function processLogout() {
+        if(confirm("क्या आप सच में लॉगआउट करना चाहते हैं?")) {
+            localStorage.removeItem('current_logged_in_user');
+            localStorage.removeItem('vip_name');
+            localStorage.removeItem('vip_user');
+            localStorage.removeItem('vip_pic');
+            window.location.href = 'login.html';
         }
-        .stories-container::-webkit-scrollbar { display: none; }
+    }
 
-        .story-wrapper { display: flex; flex-direction: column; align-items: center; font-size: 0.75rem; color: #8b8ba7; cursor: pointer; min-width: 65px; }
-        .story-ring { width: 65px; height: 65px; border-radius: 50%; padding: 2.5px; background: linear-gradient(45deg, #00f0ff, #ff007f, #7928ca); margin-bottom: 5px; position: relative; }
-        .story-ring.my-story { background: rgba(255, 255, 255, 0.2); }
-        .add-story-badge { position: absolute; bottom: 2px; right: 2px; background: #ff007f; width: 18px; height: 18px; border-radius: 50%; display: flex; justify-content: center; align-items: center; color: white; font-size: 0.7rem; border: 2px solid #05010d; }
-        .story-ring img { width: 100%; height: 100%; border-radius: 50%; object-fit: cover; background: #140a23; border: 2px solid #05010d; }
+    // नया कन्टेंट अपलोड प्रोसेसिंग
+    function processUpload(event, mode) {
+        const file = event.target.files[0];
+        if (!file) return;
 
-        /* फीड और मीडिया स्टाइल्स */
-        .feed-container { display: flex; flex-direction: column; }
-        .post { border-bottom: 1px solid rgba(255, 255, 255, 0.05); padding-bottom: 15px; }
-        .post-header { display: flex; justify-content: space-between; align-items: center; padding: 12px 15px; }
-        .post-user-info { display: flex; align-items: center; gap: 10px; }
-        .post-avatar { width: 35px; height: 35px; border-radius: 50%; border: 1.5px solid #00f0ff; object-fit: cover; }
-        .post-username { font-weight: 600; font-size: 0.95rem; }
-        .post-location { font-size: 0.75rem; color: #00f0ff; }
-        
-        .post-media-wrapper { width: 100%; position: relative; background: #000; display: flex; justify-content: center; }
-        .post-image { width: 100%; max-height: 450px; object-fit: cover; }
-        .post-video { width: 100%; max-height: 450px; background: #000; }
-        
-        .post.reel-style .post-media-wrapper { aspect-ratio: 9 / 16; max-height: 600px; }
-        .post.reel-style .post-video { height: 100%; max-height: 600px; object-fit: cover; }
-
-        .post-actions { padding: 12px 15px; display: flex; justify-content: space-between; font-size: 1.35rem; }
-        .left-actions { display: flex; gap: 20px; }
-        .action-btn { cursor: pointer; transition: transform 0.2s; }
-        .fa-heart.liked { color: #ff007f; }
-
-        .post-likes { padding: 0 15px; font-size: 0.9rem; font-weight: bold; margin-bottom: 5px; }
-        .post-caption { padding: 0 15px; font-size: 0.9rem; line-height: 1.4; }
-        .post-caption span { font-weight: bold; margin-right: 8px; }
-
-        /* बॉटम नेविगेशन */
-        .bottom-nav {
-            position: fixed; bottom: 0; width: 100%; max-width: 450px;
-            background: rgba(5, 1, 13, 0.95); backdrop-filter: blur(10px);
-            border-top: 1px solid rgba(255, 255, 255, 0.08); display: flex;
-            justify-content: space-around; align-items: center; padding: 15px 0; font-size: 1.4rem; z-index: 10;
-        }
-        .nav-item { cursor: pointer; color: #8b8ba7; text-decoration: none; }
-        .nav-item.active { color: #00f0ff; text-shadow: 0 0 10px #00f0ff; }
-
-        /* मॉडल विंडोज */
-        .modal-overlay {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(5, 1, 13, 0.95); backdrop-filter: blur(8px); z-index: 100;
-            display: flex; justify-content: center; align-items: center; opacity: 0; pointer-events: none; transition: all 0.3s ease;
-        }
-        .modal-overlay.active { opacity: 1; pointer-events: auto; }
-        .modal-content { width: 100%; max-width: 450px; height: 100%; display: flex; flex-direction: column; background: #0d061a; }
-        .modal-header { padding: 15px 20px; border-bottom: 1px solid rgba(255, 255, 255, 0.1); display: flex; justify-content: space-between; align-items: center; font-weight: bold; }
-        .modal-close { background: none; border: none; color: white; font-size: 1.5rem; cursor: pointer; }
-
-        .upload-option-btn {
-            background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.1);
-            color: white; padding: 15px; margin: 10px 0; border-radius: 12px; font-weight: bold;
-            display: flex; align-items: center; gap: 15px; cursor: pointer; font-size: 1rem; width: 100%;
-            transition: 0.2s;
-        }
-        .upload-option-btn:hover { background: rgba(255, 0, 127, 0.15); border-color: #ff007f; }
-    </style>
-    
-    <script>
-        // 🔒 सुरक्षा कवच: पेज लोड होने से पहले चेक करेगा कि यूजर लॉगिन है या नहीं
-        if (!localStorage.getItem('current_logged_in_user')) {
-            window.location.href = 'login.html'; // लॉगिन नहीं है तो सीधे बाहर भगाओ
-        }
-    </script>
-</head>
-<body>
-
-    <div class="app-container">
-        <input type="file" id="photoVideoInput" accept="image/*,video/*" style="display: none;" onchange="processUpload(event, 'feed')">
-        <input type="file" id="reelInput" accept="video/*" style="display: none;" onchange="processUpload(event, 'reel')">
-
-        <header class="app-header">
-            <div class="brand-logo" onclick="location.href='index.html'">Zomato Dating</div>
-            <div class="header-icons">
-                <i class="fa-regular fa-heart" onclick="alert('VIP नोटिफिकेशन अभी खाली हैं!')"></i>
-                <i class="fa-solid fa-right-from-bracket logout-btn" onclick="processLogout()" title="लॉगआउट करें"></i>
-            </div>
-        </header>
-
-        <div class="stories-container">
-            <div class="story-wrapper">
-                <div class="story-ring my-story">
-                    <img id="headerUserAvatar" src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=100" alt="My Profile">
-                    <div class="add-story-badge"><i class="fa-solid fa-plus"></i></div>
-                </div>
-                <span id="headerUsername">Your Story</span>
-            </div>
-        </div>
-
-        <div class="feed-container" id="mainFeed">
-            <div class="post">
-                <div class="post-header">
-                    <div class="post-user-info">
-                        <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=100" class="post-avatar">
-                        <div>
-                            <div class="post-username">प्रिया शर्मा</div>
-                            <div class="post-location">पानीपत • हरियाणा</div>
-                        </div>
-                    </div>
-                    <i class="fa-solid fa-ellipsis"></i>
-                </div>
-                <div class="post-media-wrapper">
-                    <img src="https://images.unsplash.com/photo-1524504388940-b1c1722653e1?w=500" class="post-image" alt="Default Post">
-                </div>
-                <div class="post-actions">
-                    <div class="left-actions">
-                        <i class="fa-regular fa-heart action-btn" onclick="this.classList.toggle('fa-regular'); this.classList.toggle('fa-solid'); this.classList.toggle('liked');"></i>
-                        <i class="fa-regular fa-comment action-btn"></i>
-                    </div>
-                </div>
-                <div class="post-likes">1,248 लाइक्स</div>
-                <div class="post-caption"><span>प्रिया शर्मा</span>लॉन्ग驱动 और अच्छे संगीत का शौक रखने वाला कोई है यहाँ? 🚘✨</div>
-            </div>
-        </div>
-
-        <nav class="bottom-nav">
-            <a href="index.html" class="nav-item active"><i class="fa-solid fa-house"></i></a>
-            <i class="fa-solid fa-magnifying-glass nav-item" onclick="alert('खोज जारी है...')"></i>
-            <i class="fa-regular fa-square-plus nav-item" onclick="openModal('instagramUploadModal')"></i>
-            <i class="fa-regular fa-message nav-item" onclick="alert('चैट बॉक्स जल्द आ रहा है!')"></i>
-            <a href="profile.html" class="nav-item"><i class="fa-regular fa-user"></i></a>
-        </nav>
-    </div>
-
-    <div class="modal-overlay" id="instagramUploadModal">
-        <div class="modal-content" style="height: auto; border-radius: 24px 24px 0 0; margin-top: auto; padding-bottom: 20px;">
-            <div class="modal-header">
-                <span>नया कन्टेंट बनाएं 📸</span>
-                <button class="modal-close" onclick="closeModal('instagramUploadModal')"><i class="fa-solid fa-xmark"></i></button>
-            </div>
-            <div style="padding: 20px;">
-                <button class="upload-option-btn" onclick="triggerUpload('photo')">💾 फोटो अपलोड करें</button>
-                <button class="upload-option-btn" onclick="triggerUpload('video')">📹 वीडियो अपलोड करें</button>
-                <button class="upload-option-btn" onclick="triggerUpload('reel')">🎬 रील अपलोड करें</button>
-            </div>
-        </div>
-    </div>
-
-    <script>
-        window.addEventListener('load', () => {
-            const savedUser = localStorage.getItem('vip_user') || "राव_साहब_HR06";
-            const savedPic = localStorage.getItem('vip_pic') || "https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=100";
-            document.getElementById('headerUsername').innerText = savedUser;
-            document.getElementById('headerUserAvatar').src = savedPic;
+        const reader = new FileReader();
+        reader.onload = function(e) {
+            const mediaUrl = e.target.result;
+            const myName = localStorage.getItem('vip_name') || "अमित राव";
+            const myPic = localStorage.getItem('vip_pic') || "https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=100";
+            const currentUser = localStorage.getItem('current_logged_in_user');
+            
+            let isVideo = file.type.startsWith('video');
+            let savedItems = JSON.parse(localStorage.getItem('my_uploaded_media') || '[]');
+            
+            savedItems.unshift({ 
+                authorName: myName,
+                authorPic: myPic,
+                location: "पानीपत • अभी-अभी",
+                type: mode === 'reel' ? 'reel' : (isVideo ? 'video' : 'photo'), 
+                url: mediaUrl, 
+                likes: "1 लाइक",
+                caption: "नयी वीआईपी पोस्ट लाइव! 🔥 #ZomatoDating",
+                owner: currentUser
+            });
+            
+            localStorage.setItem('my_uploaded_media', JSON.stringify(savedItems));
             renderLiveFeed();
-        });
+            alert('आपकी पोस्ट जादुई तरीके से फीड में सबसे ऊपर लाइव हो गई! 🚀');
+        };
+        reader.readAsDataURL(file);
+    }
 
-        function openModal(id) { document.getElementById(id).classList.add('active'); }
-        function closeModal(id) { document.getElementById(id).classList.remove('active'); }
+    // 🌟 असली मास्टर रेंडरर: आपके द्वारा अपलोड किए गए पोस्ट और 10 डमी प्रोफाइल्स को मिक्स करेगा
+    function renderLiveFeed() {
+        const mySavedItems = JSON.parse(localStorage.getItem('my_uploaded_media') || '[]');
+        
+        // आपके असली पोस्ट हमेशा टॉप पर रहेंगे, उसके बाद ये 10 डमी प्रोफाइल्स मिक्स हो जाएँगी
+        const fullFeed = [...mySavedItems, ...dummyInstagramFeed];
+        let feedHtml = '';
 
-        function triggerUpload(type) {
-            closeModal('instagramUploadModal');
-            if(type === 'photo' || type === 'video') { document.getElementById('photoVideoInput').click(); } 
-            else if(type === 'reel') { document.getElementById('reelInput').click(); }
-        }
-
-        // लॉगआउट फंक्शन
-        function processLogout() {
-            if(confirm("क्या आप सच में लॉगआउट करना चाहते हैं?")) {
-                localStorage.removeItem('current_logged_in_user');
-                localStorage.removeItem('vip_name');
-                localStorage.removeItem('vip_user');
-                localStorage.removeItem('vip_pic');
-                window.location.href = 'login.html';
+        fullFeed.forEach(item => {
+            let mediaHtml = '';
+            
+            if (item.type === 'photo') {
+                mediaHtml = `<img src="${item.url}" class="post-image" alt="Post Content">`;
+            } else if (item.type === 'video' || item.type === 'reel') {
+                // रील और वीडियो के लिए वीडियो टैग ऑटोप्ले और लूप के साथ
+                mediaHtml = `<video src="${item.url}" class="post-video" controls loop muted autoplay></video>`;
             }
-        }
 
-        function processUpload(event, mode) {
-            const file = event.target.files[0];
-            if (!file) return;
-
-            const reader = new FileReader();
-            reader.onload = function(e) {
-                const mediaUrl = e.target.result;
-                const myName = localStorage.getItem('vip_name') || "अमित राव";
-                const myPic = localStorage.getItem('vip_pic') || "https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=100";
-                const currentUser = localStorage.getItem('current_logged_in_user');
-                
-                let isVideo = file.type.startsWith('video');
-                let savedItems = JSON.parse(localStorage.getItem('my_uploaded_media') || '[]');
-                
-                savedItems.unshift({ 
-                    url: mediaUrl, 
-                    type: mode === 'reel' ? 'reel' : (isVideo ? 'video' : 'photo'), 
-                    owner: currentUser,
-                    authorName: myName,
-                    authorPic: myPic
-                });
-                localStorage.setItem('my_uploaded_media', JSON.stringify(savedItems));
-                renderLiveFeed();
-                alert('पोस्ट सफलतापूर्वक लाइव हो गई! 🚀');
-            };
-            reader.readAsDataURL(file);
-        }
-
-        function renderLiveFeed() {
-            const savedItems = JSON.parse(localStorage.getItem('my_uploaded_media') || '[]');
-            // डिफ़ॉल्ट पोस्ट को सुरक्षित रखना
-            let feedHtml = `
-                <div class="post">
-                    <div class="post-header"><div class="post-user-info"><img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=100" class="post-avatar"><div><div class="post-username">प्रिया शर्मा</div><div class="post-location">पानीपत</div></div></div></div>
-                    <div class="post-media-wrapper"><img src="https://images.unsplash.com/photo-1524504388940-b1c1722653e1?w=500" class="post-image"></div>
-                    <div class="post-actions"><div class="left-actions"><i class="fa-solid fa-heart" style="color:#ff007f;"></i></div></div>
-                    <div class="post-likes">1,248 लाइक्स</div>
-                </div>
-            `;
-
-            savedItems.forEach(item => {
-                let mediaHtml = item.type === 'photo' ? `<img src="${item.url}" class="post-image">` : `<video src="${item.url}" class="post-video" controls></video>`;
-                feedHtml += `
-                    <div class="post ${item.type === 'reel' ? 'reel-style' : ''}">
-                        <div class="post-header">
-                            <div class="post-user-info">
-                                <img src="${item.authorPic}" class="post-avatar">
-                                <div><div class="post-username">${item.authorName} ${item.type === 'reel' ? '• <span style="color:#ff007f;">रिल 🎬</span>' : ''}</div></div>
+            feedHtml += `
+                <div class="post ${item.type === 'reel' ? 'reel-style' : ''}">
+                    <div class="post-header">
+                        <div class="post-user-info">
+                            <img src="${item.authorPic}" class="post-avatar" alt="Avatar">
+                            <div>
+                                <div class="post-username">${item.authorName} ${item.type === 'reel' ? '• <span style="color:#ff007f; font-weight:bold;">रिल 🎬</span>' : ''}</div>
+                                <div class="post-location">${item.location}</div>
                             </div>
                         </div>
-                        <div class="post-media-wrapper">${mediaHtml}</div>
-                        <div class="post-actions"><div class="left-actions"><i class="fa-solid fa-heart" style="color:#ff007f;"></i></div></div>
-                        <div class="post-likes">1 लाइक</div>
+                        <i class="fa-solid fa-ellipsis"></i>
                     </div>
-                `;
-            });
-            document.getElementById('mainFeed').innerHTML = feedHtml;
-        }
-    </script>
-</body>
-</html>
+                    <div class="post-media-wrapper">
+                        ${mediaHtml}
+                    </div>
+                    <div class="post-actions">
+                        <div class="left-actions">
+                            <i class="fa-solid fa-heart liked"></i>
+                            <i class="fa-regular fa-comment action-btn" onclick="alert('कमेंट बॉक्स पर काम चल रहा है भाई!')"></i>
+                            <i class="fa-regular fa-paper-plane action-btn"></i>
+                        </div>
+                        <i class="fa-regular fa-bookmark action-btn"></i>
+                    </div>
+                    <div class="post-likes">${item.likes}</div>
+                    <div class="post-caption">
+                        <span>${item.authorName}</span>${item.caption}
+                    </div>
+                </div>
+            `;
+        });
+        
+        document.getElementById('mainFeed').innerHTML = feedHtml;
+    }
+</script>
