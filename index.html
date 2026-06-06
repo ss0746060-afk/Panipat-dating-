@@ -3,301 +3,76 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Instagram VIP Permanent Feed</title>
+    <title>Ember UI</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        * {
-            margin: 0; padding: 0; box-sizing: border-box;
-            font-family: '-apple-system', BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            -webkit-tap-highlight-color: transparent;
-        }
-        body {
-            background: #05010d; color: #ffffff; display: flex; justify-content: center;
-            background: radial-gradient(circle at top, #1a0b2e 0%, #05010d 100%); min-height: 100vh;
-        }
-        .app-container {
-            width: 100%; max-width: 450px; background: rgba(15, 8, 28, 0.8);
-            min-height: 100vh; display: flex; flex-direction: column; position: relative;
-            border-left: 1px solid rgba(255, 255, 255, 0.05); border-right: 1px solid rgba(255, 255, 255, 0.05);
-            padding-bottom: 70px;
-        }
-        .app-header {
-            position: sticky; top: 0; background: rgba(5, 1, 13, 0.95); backdrop-filter: blur(10px);
-            padding: 15px 20px; display: flex; justify-content: space-between; align-items: center;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.08); z-index: 10;
-        }
-        .brand-logo {
-            font-size: 1.6rem; font-weight: 900; letter-spacing: 1px;
-            background: linear-gradient(45deg, #ff007f, #ff4b2b);
-            -webkit-background-clip: text; -webkit-text-fill-color: transparent; cursor: pointer;
-        }
-        .header-icons { display: flex; gap: 20px; font-size: 1.3rem; align-items: center; }
-        .logout-btn { color: #ff3b30; cursor: pointer; }
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: sans-serif; }
+        body { background: #fdfaf6; color: #1a1a1a; display: flex; justify-content: center; min-height: 100vh; }
+        .app-container { width: 100%; max-width: 450px; background: #fdfaf6; position: relative; padding-bottom: 80px; }
+        
+        /* हेडर */
+        .header { display: flex; justify-content: space-between; padding: 20px; align-items: center; }
+        .logo { font-weight: 800; font-size: 1.5rem; color: #e67e22; }
+        
+        /* स्टोरीज़ */
+        .stories { display: flex; gap: 15px; padding: 0 20px; margin-bottom: 20px; }
+        .story { text-align: center; font-size: 0.7rem; }
+        .story img { width: 60px; height: 60px; border-radius: 50%; border: 2px solid #e67e22; padding: 2px; }
 
-        /* स्टोरी बार */
-        .stories-container {
-            display: flex; gap: 15px; padding: 15px; overflow-x: auto;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.05); background: rgba(255, 255, 255, 0.01);
-        }
-        .stories-container::-webkit-scrollbar { display: none; }
-        .story-wrapper { display: flex; flex-direction: column; align-items: center; font-size: 0.75rem; color: #8b8ba7; min-width: 65px; }
-        .story-ring { width: 65px; height: 65px; border-radius: 50%; padding: 2.5px; background: linear-gradient(45deg, #00f0ff, #ff007f, #7928ca); margin-bottom: 5px; position: relative; cursor: pointer; }
-        .story-ring img { width: 100%; height: 100%; border-radius: 50%; object-fit: cover; background: #140a23; border: 2px solid #05010d; }
-        .add-story-badge { position: absolute; bottom: 2px; right: 2px; background: #ff007f; width: 18px; height: 18px; border-radius: 50%; display: flex; justify-content: center; align-items: center; color: white; font-size: 0.7rem; border: 2px solid #05010d; }
+        /* मुख्य कार्ड */
+        .card { margin: 0 20px; background: white; border-radius: 30px; overflow: hidden; box-shadow: 0 10px 30px rgba(0,0,0,0.1); position: relative; }
+        .card img { width: 100%; height: 500px; object-fit: cover; }
+        .card-info { padding: 20px; }
+        .card-info h2 { font-size: 1.8rem; }
+        .card-info p { color: #666; margin-top: 5px; }
 
-        /* फीड और पोस्ट स्टाइल */
-        .feed-container { display: flex; flex-direction: column; }
-        .post { border-bottom: 1px solid rgba(255, 255, 255, 0.05); padding-bottom: 15px; }
-        .post-header { display: flex; justify-content: space-between; align-items: center; padding: 12px 15px; }
-        .post-user-info { display: flex; align-items: center; gap: 10px; }
-        .post-avatar { width: 35px; height: 35px; border-radius: 50%; border: 1.5px solid #00f0ff; object-fit: cover; }
-        .post-username { font-weight: 600; font-size: 0.95rem; }
-        .post-location { font-size: 0.75rem; color: #00f0ff; }
-        .post-media-wrapper { width: 100%; background: #000; display: flex; justify-content: center; }
-        .post-image, .post-video { width: 100%; max-height: 450px; object-fit: cover; }
-        .post-actions { padding: 12px 15px; display: flex; justify-content: space-between; font-size: 1.35rem; }
-        .left-actions { display: flex; gap: 20px; }
-        .action-icon { cursor: pointer; }
-        .liked { color: #ff007f; }
-        .post-likes { padding: 0 15px; font-size: 0.9rem; font-weight: bold; margin-bottom: 5px; }
-        .post-caption { padding: 0 15px; font-size: 0.9rem; line-height: 1.4; }
-        .post-caption span { font-weight: bold; margin-right: 8px; }
+        /* एक्शन बटन */
+        .actions { display: flex; justify-content: center; gap: 20px; margin-top: 20px; padding: 20px; }
+        .btn { width: 60px; height: 60px; border-radius: 50%; border: none; font-size: 1.5rem; cursor: pointer; display: flex; align-items: center; justify-content: center; box-shadow: 0 5px 15px rgba(0,0,0,0.1); }
+        .dislike { color: #e74c3c; background: white; }
+        .like { color: #2ecc71; background: white; }
+        .superlike { color: #3498db; background: white; }
 
         /* बॉटम नेविगेशन */
-        .bottom-nav {
-            position: fixed; bottom: 0; width: 100%; max-width: 450px;
-            background: rgba(5, 1, 13, 0.95); backdrop-filter: blur(10px);
-            border-top: 1px solid rgba(255, 255, 255, 0.08); display: flex;
-            justify-content: space-around; align-items: center; padding: 15px 0; font-size: 1.4rem; z-index: 10;
-        }
-        .nav-item { color: #8b8ba7; text-decoration: none; cursor: pointer; }
-        .nav-item.active { color: #00f0ff; }
+        .nav { position: fixed; bottom: 0; width: 100%; max-width: 450px; display: flex; justify-content: space-around; padding: 20px; background: white; border-top: 1px solid #eee; }
     </style>
-    <script>
-        // सुरक्षा लॉक: अगर यूजर लॉग इन नहीं है तो सीधे लॉगिन पेज पर भेजें
-        if (!localStorage.getItem('current_logged_in_user')) { window.location.href = 'login.html'; }
-    </script>
 </head>
 <body>
 
     <div class="app-container">
-        <input type="file" id="mediaUploadInput" accept="image/*,video/*" style="display: none;" onchange="handleNewUpload(event)">
+        <div class="header">
+            <div class="logo">ember</div>
+            <i class="fa-regular fa-comment-dots" style="font-size: 1.4rem;"></i>
+        </div>
 
-        <header class="app-header">
-            <div class="brand-logo" onclick="location.href='index.html'">Instagram</div>
-            <div class="header-icons">
-                <i class="fa-regular fa-heart"></i>
-                <i class="fa-solid fa-right-from-bracket logout-btn" onclick="processLogout()"></i>
-            </div>
-        </header>
+        <div class="stories">
+            <div class="story"><img src="https://i.pravatar.cc/100?u=1"><div>You</div></div>
+            <div class="story"><img src="https://i.pravatar.cc/100?u=2"><div>Sofia</div></div>
+            <div class="story"><img src="https://i.pravatar.cc/100?u=3"><div>Marco</div></div>
+        </div>
 
-        <div class="stories-container">
-            <div class="story-wrapper" onclick="document.getElementById('mediaUploadInput').click()">
-                <div class="story-ring">
-                    <img id="headerUserAvatar" src="">
-                    <div class="add-story-badge"><i class="fa-solid fa-plus"></i></div>
-                </div>
-                <span id="headerUsername">Your Story</span>
+        <div class="card">
+            <img src="https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=800" alt="Profile">
+            <div class="card-info">
+                <h2>Sofia, 24</h2>
+                <p>Sunset chaser, espresso enthusiast, and weekend gallery wanderer.</p>
             </div>
         </div>
 
-        <div class="feed-container" id="mainFeedArea">
-            </div>
+        <div class="actions">
+            <button class="btn dislike"><i class="fa-solid fa-xmark"></i></button>
+            <button class="btn superlike"><i class="fa-solid fa-star"></i></button>
+            <button class="btn like"><i class="fa-solid fa-heart"></i></button>
+        </div>
 
-        <nav class="bottom-nav">
-            <a href="index.html" class="nav-item active"><i class="fa-solid fa-house"></i></a>
-            <i class="fa-solid fa-magnifying-glass nav-item"></i>
-            <i class="fa-regular fa-square-plus nav-item" onclick="document.getElementById('mediaUploadInput').click()"></i>
-            <i class="fa-regular fa-message nav-item"></i>
-            <a href="profile.html" class="nav-item"><i class="fa-regular fa-user"></i></a>
-        </nav>
+        <div class="nav">
+            <i class="fa-solid fa-fire"></i>
+            <i class="fa-solid fa-compass"></i>
+            <i class="fa-solid fa-heart"></i>
+            <i class="fa-solid fa-comment"></i>
+            <i class="fa-solid fa-user" onclick="location.href='profile.html'"></i>
+        </div>
     </div>
 
-    <script>
-        // 10 डिफ़ॉल्ट डमी प्रोफाइल्स (अगर कोई पोस्ट नहीं होगी तो यह बैकअप की तरह दिखेंगी)
-        const dummyPosts = [
-            { id: "d1", name: "रितिका सेन", user: "ritika_sen", pic: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=100", loc: "मुंबई • बैंडस्टैंड", type: "img", url: "https://images.unsplash.com/photo-1517841905240-472988babdf9?w=600", cap: "समुद्र की लहरें और मुंबई की शाम! 🌊✨", likes: 12400, likedUsers: [] },
-            { id: "d2", name: "जस्सी संधू", user: "jassi_sandhu", pic: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=100", loc: "चंडीगढ़ • गेड़ी रूट", type: "vid", url: "https://assets.mixkit.co/videos/preview/mixkit-driving-in-a-futuristic-neon-city-43152-large.mp4", cap: "नयी गाड़ी, नया रूट! 🎬 थार लवर्स हाजिरी लगाओ 👇", likes: 45200, likedUsers: [] },
-            { id: "d3", name: "काव्या खन्ना", user: "kavya_k", pic: "https://images.unsplash.com/photo-1524504388940-b1c1722653e1?w=100", loc: "दिल्ली • CP", type: "img", url: "https://images.unsplash.com/photo-1529626455594-4ff0802cfb7e?w=600", cap: "दिल्ली की सर्दी और गरम कैपुचिनो ☕❄️", likes: 8912, likedUsers: [] },
-            { id: "d4", name: "अमन खटाना", user: "aman_gurjar", pic: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=100", loc: "गुरुग्राम • गोल्फ कोर्स", type: "vid", url: "https://assets.mixkit.co/videos/preview/mixkit-hands-of-a-driver-on-a-steering-wheel-41695-large.mp4", cap: "सिस्टम हैंग कर देंगे भाई! 🔥 फॉर्च्यूनर वाइब्स।", likes: 18500, likedUsers: [] },
-            { id: "d5", name: "स्नेहा रेड्डी", user: "sneha_reddy", pic: "https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=100", loc: "गोवा • बागा बीच", type: "img", url: "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=600", cap: "वर्क फ्रॉम होम? नहीं, बीच! 🌴🍹", likes: 15100, likedUsers: [] }
-        ];
-
-        let currentUser, currentUserName, currentUserPic;
-
-        window.addEventListener('load', () => {
-            currentUser = localStorage.getItem('current_logged_in_user');
-            let secureDb = JSON.parse(localStorage.getItem('secure_users_db') || '{}');
-            
-            // 🔒 लॉग इन यूजर की असली प्रोफाइल डिटेल्स ढूंढना
-            if (secureDb[currentUser]) {
-                currentUserName = secureDb[currentUser].name;
-                currentUserPic = secureDb[currentUser].pic || "https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=100";
-            } else {
-                currentUserName = localStorage.getItem('vip_name') || currentUser;
-                currentUserPic = localStorage.getItem('vip_pic') || "https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=100";
-            }
-
-            // स्क्रीन पर नाम और प्रोफाइल फोटो सेट करें (यह रीफ्रेश करने पर भी नहीं हटेगी)
-            document.getElementById('headerUsername').innerText = "@" + currentUser;
-            document.getElementById('headerUserAvatar').src = currentUserPic;
-
-            // फीड लोड करें
-            renderFeed();
-        });
-
-        // 📝 फीड रेंडर करने का फंक्शन (जो लोकलस्टोरेज से हमेशा डेटा बचा कर रखेगा)
-        function renderFeed() {
-            // लोकलस्टोरेज से यूजर द्वारा अपलोड की गई पोस्ट्स निकालें
-            let uploadedPosts = JSON.parse(localStorage.getItem('permanent_global_posts') || '[]');
-            
-            // डमी और असली पोस्ट को आपस में मिला दें
-            let allPosts = [...uploadedPosts, ...dummyPosts];
-            let feedHtml = '';
-
-            allPosts.forEach((post) => {
-                // चेक करें कि करंट यूजर ने इस पोस्ट को लाइक किया है या नहीं
-                let savedLikesDb = JSON.parse(localStorage.getItem(`likes_store_${post.id}`) || '{"count": ' + post.likes + ', "users": []}');
-                let hasLiked = savedLikesDb.users.includes(currentUser);
-                let heartClass = hasLiked ? 'fa-solid fa-heart liked' : 'fa-regular fa-heart';
-
-                let mediaTag = post.type === 'vid' 
-                    ? `<video src="${post.url}" class="post-video" controls loop muted autoplay></video>` 
-                    : `<img src="${post.url}" class="post-image">`;
-
-                // कमेंट्स लोड करें
-                let savedComments = JSON.parse(localStorage.getItem(`comments_store_${post.id}`) || '[]');
-                let commentItemsHtml = '';
-                if(savedComments.length === 0) {
-                    commentItemsHtml = `<p style="color:#737373; font-size:0.8rem;" class="no-cmt-tag">कोई कमेंट नहीं है</p>`;
-                } else {
-                    savedComments.forEach(cmt => {
-                        commentItemsHtml += `<div><b>@${cmt.user}</b>: ${cmt.text}</div>`;
-                    });
-                }
-
-                feedHtml += `
-                    <div class="post" id="post_block_${post.id}">
-                        <div class="post-header">
-                            <div class="post-user-info">
-                                <img src="${post.pic}" class="post-avatar">
-                                <div><div class="post-username">${post.name}</div><div class="post-location">${post.loc}</div></div>
-                            </div>
-                        </div>
-                        <div class="post-media-wrapper">${mediaTag}</div>
-                        <div class="post-actions">
-                            <div class="left-actions">
-                                <i class="${heartClass} action-icon" onclick="toggleLike('${post.id}', ${post.likes})"></i>
-                                <i class="fa-regular fa-comment action-icon" onclick="focusComment('${post.id}')"></i>
-                            </div>
-                        </div>
-                        <div class="post-likes" id="like_count_${post.id}">${savedLikesDb.count.toLocaleString()} लाइक्स</div>
-                        <div class="post-caption"><span>${post.user}</span>${post.cap}</div>
-                        
-                        <div style="padding: 0 15px; margin-top: 10px; font-size: 0.85rem;">
-                            <div id="comment_list_${post.id}" style="max-height: 80px; overflow-y: auto; color: #d0d0d0; margin-bottom: 5px;">
-                                ${commentItemsHtml}
-                            </div>
-                            <div style="display:flex; gap:10px; border-top:1px solid rgba(255,255,255,0.05); padding-top:5px;">
-                                <input type="text" id="input_${post.id}" placeholder="कमेंट जोड़ें..." style="flex:1; background:none; border:none; color:white; outline:none; font-size:0.85rem;">
-                                <button onclick="submitComment('${post.id}')" style="background:none; border:none; color:#00f0ff; font-weight:bold; cursor:pointer;">भेजें</button>
-                            </div>
-                        </div>
-                    </div>
-                `;
-            });
-
-            document.getElementById('mainFeedArea').innerHTML = feedHtml;
-        }
-
-        // 📸 गैलरी से फोटो/वीडियो परमानेंट अपलोड करने का सिस्टम
-        function handleNewUpload(event) {
-            const file = event.target.files[0];
-            if (!file) return;
-
-            const reader = new FileReader();
-            reader.onload = function(e) {
-                let mediaUrl = e.target.result; // बेस64 फॉर्मेट में फाइल सेव होगी
-                let isVideo = file.type.startsWith('video');
-
-                let uploadedPosts = JSON.parse(localStorage.getItem('permanent_global_posts') || '[]');
-                
-                // नयी पोस्ट का डेटा ऑब्जेक्ट
-                let newPostObj = {
-                    id: "user_" + Date.now(),
-                    name: currentUserName,
-                    user: currentUser,
-                    pic: currentUserPic,
-                    loc: "भारत • अभी-अभी",
-                    type: isVideo ? 'vid' : 'img',
-                    url: mediaUrl,
-                    cap: "मेरी नई VIP परमानेंट पोस्ट! 🔥 #Live",
-                    likes: 0,
-                    likedUsers: []
-                };
-
-                uploadedPosts.unshift(newPostObj);
-                localStorage.setItem('permanent_global_posts', JSON.stringify(uploadedPosts));
-                
-                // फीड दोबारा लोड करें ताकि पोस्ट तुरंत दिखे
-                renderFeed();
-                alert('🚀 आपकी पोस्ट (फोटो/वीडियो) डेटाबेस में हमेशा के लिए सेव हो गई है!');
-            };
-            reader.readAsDataURL(file);
-        }
-
-        // ❤️ लाइक को परमानेंट स्टोर करने का फंक्शन
-        function toggleLike(postId, defaultLikes) {
-            let savedLikesDb = JSON.parse(localStorage.getItem(`likes_store_${postId}`) || '{"count": ' + defaultLikes + ', "users": []}');
-            let heartIcon = document.querySelector(`#post_block_${postId} .fa-heart`);
-            let likeText = document.getElementById(`like_count_${postId}`);
-
-            if (savedLikesDb.users.includes(currentUser)) {
-                // अनलाइक करें
-                savedLikesDb.users = savedLikesDb.users.filter(u => u !== currentUser);
-                savedLikesDb.count -= 1;
-                heartIcon.className = 'fa-regular fa-heart action-icon';
-            } else {
-                // लाइक करें
-                savedLikesDb.users.push(currentUser);
-                savedLikesDb.count += 1;
-                heartIcon.className = 'fa-solid fa-heart liked action-icon';
-            }
-
-            localStorage.setItem(`likes_store_${postId}`, JSON.stringify(savedLikesDb));
-            likeText.innerText = savedLikesDb.count.toLocaleString() + " लाइक्स";
-        }
-
-        // 💬 कमेंट्स को पर搬नेंट सेव करने का फंक्शन
-        function submitComment(postId) {
-            let inputField = document.getElementById(`input_${postId}`);
-            let commentText = inputField.value.trim();
-            if (!commentText) return;
-
-            let savedComments = JSON.parse(localStorage.getItem(`comments_store_${postId}`) || '[]');
-            savedComments.push({ user: currentUser, text: commentText });
-            localStorage.setItem(`comments_store_${postId}`, JSON.stringify(savedComments));
-
-            let commentListDiv = document.getElementById(`comment_list_${postId}`);
-            let noCmt = commentListDiv.querySelector('.no-cmt-tag');
-            if (noCmt) noCmt.remove();
-
-            const newCmtRow = document.createElement('div');
-            newCmtRow.innerHTML = `<b>@${currentUser}</b>: ${commentText}`;
-            commentListDiv.appendChild(newCmtRow);
-
-            inputField.value = '';
-            commentListDiv.scrollTop = commentListDiv.scrollHeight;
-        }
-
-        function focusComment(postId) { document.getElementById(`input_${postId}`).focus(); }
-
-        function processLogout() {
-            if(confirm("लॉगआउट करना चाहते हैं?")) {
-                localStorage.removeItem('current_logged_in_user');
-                window.location.href = 'login.html';
-            }
-        }
-    </script>
 </body>
 </html>
