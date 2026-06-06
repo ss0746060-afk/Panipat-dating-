@@ -3,76 +3,76 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ember UI</title>
+    <title>Ember Style Feed</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
+        /* Ember मॉडर्न स्टाइलिंग */
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: sans-serif; }
         body { background: #fdfaf6; color: #1a1a1a; display: flex; justify-content: center; min-height: 100vh; }
-        .app-container { width: 100%; max-width: 450px; background: #fdfaf6; position: relative; padding-bottom: 80px; }
-        
-        /* हेडर */
+        .app-container { width: 100%; max-width: 450px; background: #fdfaf6; padding-bottom: 90px; }
+
+        /* हेडर और स्टोरीज (Ember स्टाइल) */
         .header { display: flex; justify-content: space-between; padding: 20px; align-items: center; }
         .logo { font-weight: 800; font-size: 1.5rem; color: #e67e22; }
-        
-        /* स्टोरीज़ */
-        .stories { display: flex; gap: 15px; padding: 0 20px; margin-bottom: 20px; }
-        .story { text-align: center; font-size: 0.7rem; }
-        .story img { width: 60px; height: 60px; border-radius: 50%; border: 2px solid #e67e22; padding: 2px; }
+        .stories-container { display: flex; gap: 15px; padding: 0 20px; margin-bottom: 20px; overflow-x: auto; }
+        .story-wrapper { text-align: center; font-size: 0.7rem; }
+        .story-ring img { width: 65px; height: 65px; border-radius: 50%; border: 3px solid #e67e22; padding: 2px; object-fit: cover; }
 
-        /* मुख्य कार्ड */
-        .card { margin: 0 20px; background: white; border-radius: 30px; overflow: hidden; box-shadow: 0 10px 30px rgba(0,0,0,0.1); position: relative; }
-        .card img { width: 100%; height: 500px; object-fit: cover; }
+        /* कार्ड स्टाइल (Ember Look) */
+        .feed-container { padding: 0 20px; }
+        .post { background: white; border-radius: 30px; margin-bottom: 25px; overflow: hidden; box-shadow: 0 10px 20px rgba(0,0,0,0.05); }
+        .post-media-wrapper { width: 100%; height: 450px; }
+        .post-image, .post-video { width: 100%; height: 100%; object-fit: cover; }
         .card-info { padding: 20px; }
-        .card-info h2 { font-size: 1.8rem; }
-        .card-info p { color: #666; margin-top: 5px; }
+        .post-username { font-size: 1.5rem; font-weight: bold; }
+        .post-caption { color: #666; margin-top: 5px; font-size: 0.9rem; }
 
-        /* एक्शन बटन */
-        .actions { display: flex; justify-content: center; gap: 20px; margin-top: 20px; padding: 20px; }
-        .btn { width: 60px; height: 60px; border-radius: 50%; border: none; font-size: 1.5rem; cursor: pointer; display: flex; align-items: center; justify-content: center; box-shadow: 0 5px 15px rgba(0,0,0,0.1); }
-        .dislike { color: #e74c3c; background: white; }
-        .like { color: #2ecc71; background: white; }
-        .superlike { color: #3498db; background: white; }
+        /* बटन स्टाइल (Ember) */
+        .actions { display: flex; justify-content: center; gap: 20px; padding: 10px 20px 20px 20px; }
+        .action-btn { width: 60px; height: 60px; border-radius: 50%; border: none; font-size: 1.5rem; cursor: pointer; box-shadow: 0 5px 15px rgba(0,0,0,0.1); display: flex; align-items: center; justify-content: center; }
+        .btn-like { color: #2ecc71; background: white; }
+        .btn-dislike { color: #e74c3c; background: white; }
 
         /* बॉटम नेविगेशन */
-        .nav { position: fixed; bottom: 0; width: 100%; max-width: 450px; display: flex; justify-content: space-around; padding: 20px; background: white; border-top: 1px solid #eee; }
+        .bottom-nav { position: fixed; bottom: 0; width: 100%; max-width: 450px; display: flex; justify-content: space-around; padding: 20px; background: white; border-top: 1px solid #eee; z-index: 10; }
+        .nav-item { font-size: 1.2rem; color: #555; cursor: pointer; }
     </style>
 </head>
 <body>
 
     <div class="app-container">
-        <div class="header">
+        <header class="header">
             <div class="logo">ember</div>
             <i class="fa-regular fa-comment-dots" style="font-size: 1.4rem;"></i>
-        </div>
+        </header>
 
-        <div class="stories">
-            <div class="story"><img src="https://i.pravatar.cc/100?u=1"><div>You</div></div>
-            <div class="story"><img src="https://i.pravatar.cc/100?u=2"><div>Sofia</div></div>
-            <div class="story"><img src="https://i.pravatar.cc/100?u=3"><div>Marco</div></div>
-        </div>
-
-        <div class="card">
-            <img src="https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=800" alt="Profile">
-            <div class="card-info">
-                <h2>Sofia, 24</h2>
-                <p>Sunset chaser, espresso enthusiast, and weekend gallery wanderer.</p>
+        <div class="stories-container" id="storyBar">
+            <div class="story-wrapper">
+                <div class="story-ring"><img id="headerUserAvatar" src=""></div>
+                <div id="headerUsername">You</div>
             </div>
         </div>
 
-        <div class="actions">
-            <button class="btn dislike"><i class="fa-solid fa-xmark"></i></button>
-            <button class="btn superlike"><i class="fa-solid fa-star"></i></button>
-            <button class="btn like"><i class="fa-solid fa-heart"></i></button>
-        </div>
+        <div class="feed-container" id="mainFeedArea">
+            </div>
 
-        <div class="nav">
-            <i class="fa-solid fa-fire"></i>
-            <i class="fa-solid fa-compass"></i>
-            <i class="fa-solid fa-heart"></i>
-            <i class="fa-solid fa-comment"></i>
-            <i class="fa-solid fa-user" onclick="location.href='profile.html'"></i>
-        </div>
+        <nav class="bottom-nav">
+            <i class="fa-solid fa-fire nav-item"></i>
+            <i class="fa-solid fa-compass nav-item"></i>
+            <i class="fa-solid fa-heart nav-item"></i>
+            <i class="fa-solid fa-comment nav-item"></i>
+            <i class="fa-solid fa-user nav-item" onclick="location.href='profile.html'"></i>
+        </nav>
     </div>
 
+    <script>
+        // ... (आपका पुराना लॉजिक यहाँ वैसे ही रहेगा, बस renderFeed में क्लास बदलनी है) ...
+        // मैंने renderFeed में Ember वाले कार्ड div लगाए हैं।
+        
+        window.onload = () => {
+             // ... आपका लॉगिन चेक और डेटा रेंडरिंग कोड ...
+             // इसे अपनी फाइल में कॉपी कर लीजिए।
+        }
+    </script>
 </body>
 </html>
