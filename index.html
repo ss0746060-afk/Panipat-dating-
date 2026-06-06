@@ -3,44 +3,46 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Master Insta App</title>
+<title>Zomato Dating</title>
 
 <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
 
-<!-- NAVBAR -->
-<div class="navbar">
-  <h2>📸 MasterGram</h2>
+<!-- TOP BAR -->
+<div class="topbar">
+  <div class="logo">❤️ Zomato Dating</div>
   <button onclick="toggleTheme()">🌙</button>
 </div>
 
-<!-- PROFILE -->
-<div class="profile">
-  <div class="dp">U</div>
-  <h3>Your Profile</h3>
-  <p>Welcome to your feed</p>
-</div>
+<!-- MAIN -->
+<div class="container">
 
-<!-- STORIES -->
-<div class="stories">
-  <div class="story">A</div>
-  <div class="story">B</div>
-  <div class="story">C</div>
-  <div class="story">D</div>
-</div>
+  <!-- LEFT MENU -->
+  <div class="sidebar">
+    <div class="nav">🏠 Home</div>
+    <div class="nav">🔥 Matches</div>
+    <div class="nav">💬 Chat</div>
+    <div class="nav">👤 Profile</div>
+  </div>
 
-<!-- POST INPUT -->
-<div class="post-box">
-  <input id="name" placeholder="Your name">
-  <input id="image" placeholder="Image URL">
-  <input id="caption" placeholder="Write caption">
-  <button onclick="addPost()">Post</button>
-</div>
+  <!-- CENTER -->
+  <div class="main">
 
-<!-- FEED -->
-<div id="feed"></div>
+    <!-- PROFILE CARDS -->
+    <div class="card">
+      <h2>Find Your Match 💘</h2>
+      <p>Swipe & Connect with People</p>
+    </div>
+
+    <div id="cards"></div>
+
+    <button class="btn" onclick="loadProfiles()">Load Profiles</button>
+
+  </div>
+
+</div>
 
 <script src="script.js"></script>
 </body>
