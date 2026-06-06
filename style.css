@@ -1,0 +1,53 @@
+body{
+  margin:0;
+  font-family:Arial;
+  background:#fafafa;
+}
+
+/* NAVBAR */
+.navbar{
+  display:flex;
+  justify-content:space-between;
+  padding:10px 15px;
+  background:white;
+  border-bottom:1px solid #ddd;
+}
+
+/* POST BOX */
+.post-box{
+  margin:10px;
+  padding:10px;
+  background:white;
+  border-radius:10px;
+  display:flex;
+  flex-direction:column;
+  gap:8px;
+}
+
+input{
+  padding:8px;
+  border:1px solid #ddd;
+  border-radius:5px;
+}
+
+/* POST CARD */
+.post{
+  background:white;
+  margin:10px;
+  padding:10px;
+  border-radius:10px;
+  border:1px solid #eee;
+}
+
+.post img{
+  width:100%;
+  border-radius:10px;
+}
+
+button{
+  padding:8px;
+  border:none;
+  background:#3897f0;
+  color:white;
+  border-radius:5px;
+}
