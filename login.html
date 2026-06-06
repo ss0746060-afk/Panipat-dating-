@@ -3,91 +3,43 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Instagram Secure Access - VIP Social Hub</title>
+    <title>Instagram Access</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         * { 
             margin: 0; padding: 0; box-sizing: border-box; 
-            font-family: '-apple-system', BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; 
-            -webkit-tap-highlight-color: transparent; 
+            font-family: '-apple-system', BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; 
         }
-        
         body {
             background: #000000; color: #ffffff; display: flex; justify-content: center; align-items: center; min-height: 100vh; padding: 20px;
             background: radial-gradient(circle at center, #1c0522 0%, #000000 100%);
         }
-        
         .login-container {
             width: 100%; max-width: 380px; background: rgba(10, 5, 15, 0.85); border: 1px solid rgba(255, 255, 255, 0.1);
             border-radius: 16px; padding: 40px 30px; text-align: center; backdrop-filter: blur(20px);
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.7); position: relative; overflow: hidden;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.7); position: relative;
         }
-        
         .logo-text { 
             font-size: 2.6rem; font-weight: 800; 
             background: linear-gradient(45deg, #f9ce34, #ee2a7b, #6228d7); 
             -webkit-background-clip: text; -webkit-text-fill-color: transparent; 
-            margin-bottom: 5px; font-style: italic; 
+            margin-bottom: 25px; font-style: italic; 
         }
-        
-        .subtitle { font-size: 0.85rem; color: #a8a8a8; margin-bottom: 30px; letter-spacing: 0.5px; }
-        
-        .input-group { position: relative; margin-bottom: 14px; text-align: left; }
-        .input-group i { position: absolute; left: 15px; top: 50%; transform: translateY(-50%); color: #a8a8a8; font-size: 0.95rem; }
-        
+        .subtitle { font-size: 0.85rem; color: #a8a8a8; margin-bottom: 20px; }
+        .input-group { position: relative; margin-bottom: 14px; }
+        .input-group i { position: absolute; left: 15px; top: 50%; transform: translateY(-50%); color: #a8a8a8; }
         .input-group input { 
             width: 100%; padding: 14px 15px 14px 45px; background: #121212; 
-            border: 1px solid #262626; border-radius: 10px; color: white; 
-            outline: none; font-size: 0.9rem; transition: all 0.2s; 
+            border: 1px solid #262626; border-radius: 10px; color: white; outline: none; font-size: 0.9rem; 
         }
-        
-        .input-group input:focus { 
-            border-color: #ee2a7b; background: #1c1c1c; 
-            box-shadow: 0 0 8px rgba(238, 42, 123, 0.2); 
-        }
-        
-        .error-message { 
-            color: #ff3b30; font-size: 0.75rem; text-align: left; 
-            margin-top: -10px; margin-bottom: 12px; display: none; 
-            padding-left: 5px; font-weight: 600; 
-        }
-        
+        .input-group input:focus { border-color: #ee2a7b; }
         .action-btn { 
             width: 100%; background: linear-gradient(45deg, #f58529, #dd2a7b, #8134af); 
-            color: white; border: none; padding: 14px; font-size: 0.95rem; 
-            font-weight: bold; border-radius: 10px; cursor: pointer; margin-top: 10px; 
-            display: flex; justify-content: center; align-items: center; gap: 10px; 
-            transition: opacity 0.2s; 
+            color: white; border: none; padding: 14px; font-size: 0.95rem; font-weight: bold; border-radius: 10px; cursor: pointer; margin-top: 10px; 
         }
-        .action-btn:hover { opacity: 0.9; }
-        
         .footer-text { margin-top: 30px; font-size: 0.85rem; color: #737373; border-top: 1px solid #262626; padding-top: 20px; }
         .footer-text span { color: #0095f6; cursor: pointer; font-weight: 600; }
-
-        .avatar-section { position: relative; width: 85px; height: 85px; margin: 0 auto 25px auto; cursor: pointer; }
-        .avatar-section img { width: 100%; height: 100%; border-radius: 50%; object-fit: cover; border: 2px solid #ee2a7b; padding: 2px; }
-        .avatar-section .upload-icon { 
-            position: absolute; bottom: 0; right: 0; background: #0095f6; 
-            width: 24px; height: 24px; border-radius: 50%; display: flex; 
-            justify-content: center; align-items: center; color: white; 
-            font-size: 0.75rem; border: 2px solid #000; 
-        }
-
         .hidden-form { display: none; }
-
-        .success-screen { 
-            position: absolute; top: 0; left: 0; width: 100%; height: 100%; 
-            background: #000000; display: flex; flex-direction: column; 
-            justify-content: center; align-items: center; z-index: 10; 
-            opacity: 0; pointer-events: none; border-radius: 16px; 
-            transition: opacity 0.3s ease; 
-        }
-        .success-screen.active { opacity: 1; pointer-events: auto; }
-        .success-screen i { 
-            font-size: 4rem; background: linear-gradient(45deg, #f9ce34, #ee2a7b, #6228d7); 
-            -webkit-background-clip: text; -webkit-text-fill-color: transparent; 
-            margin-bottom: 15px; 
-        }
     </style>
 </head>
 <body>
@@ -96,75 +48,45 @@
         <div class="logo-text">Instagram</div>
         
         <div id="loginBox">
-            <div class="subtitle">टैलेंट हब में लॉगिन करें 👑</div>
+            <div class="subtitle">अपने अकाउंट में लॉगिन करें 👑</div>
             <form onsubmit="handleLogin(event)">
                 <div class="input-group">
-                    <input type="text" id="loginIdentifier" placeholder="यूजरनेम, Gmail या मोबाइल नंबर" required>
-                    <i class="fa-solid fa-user-shield"></i>
+                    <input type="text" id="loginIdentifier" placeholder="यूजरनेम, ईमेल या मोबाइल नंबर" required>
+                    <i class="fa-solid fa-user"></i>
                 </div>
                 <div class="input-group">
                     <input type="password" id="loginPass" placeholder="पासवर्ड" required>
                     <i class="fa-solid fa-lock"></i>
                 </div>
-                <button type="submit" class="action-btn">लॉगिन करें <i class="fa-solid fa-right-to-bracket"></i></button>
+                <button type="submit" class="action-btn">लॉगिन करें</button>
             </form>
             <div class="footer-text">अकाउंट नहीं है? <span onclick="switchForm('register')">साइन अप करें</span></div>
         </div>
 
         <div id="registerBox" class="hidden-form">
-            <div class="subtitle">दुनिया को अपना टैलेंट दिखाने के लिए जुड़ें ✨</div>
+            <div class="subtitle">नया अकाउंट बनाने के लिए जुड़ें ✨</div>
             <form onsubmit="handleRegister(event)">
-                <input type="file" id="avatarInput" accept="image/*" style="display: none;" onchange="previewAvatar(event)">
-                <div class="avatar-section" onclick="document.getElementById('avatarInput').click()">
-                    <img id="avatarPreview" src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=120" alt="Avatar">
-                    <div class="upload-icon"><i class="fa-solid fa-camera"></i></div>
-                </div>
-
                 <div class="input-group">
                     <input type="text" id="regName" placeholder="पूरा नाम" required>
                     <i class="fa-solid fa-signature"></i>
                 </div>
-
-                <div class="input-group">
-                    <input type="email" id="regEmail" placeholder="असली Gmail आईडी (example@gmail.com)" required>
-                    <i class="fa-solid fa-envelope"></i>
-                </div>
-                <div class="error-message" id="emailError">कृपया एक वैध @gmail.com आईडी दर्ज करें!</div>
-
-                <div class="input-group">
-                    <input type="tel" id="regPhone" placeholder="10 अंकों का मोबाइल नंबर" required>
-                    <i class="fa-solid fa-phone"></i>
-                </div>
-                <div class="error-message" id="phoneError">मोबाइल नंबर ठीक 10 अंकों का होना चाहिए!</div>
-
                 <div class="input-group">
                     <input type="text" id="regUser" placeholder="यूनिक यूजरनेम" required>
                     <i class="fa-solid fa-at"></i>
                 </div>
-
                 <div class="input-group">
                     <input type="password" id="regPass" placeholder="मजबूत पासवर्ड" required>
                     <i class="fa-solid fa-key"></i>
                 </div>
-
-                <button type="submit" class="action-btn">खाता बनाएं <i class="fa-solid fa-user-plus"></i></button>
+                <button type="submit" class="action-btn">खाता बनाएं</button>
             </form>
             <div class="footer-text">पहले से अकाउंट है? <span onclick="switchForm('login')">लॉगिन करें</span></div>
-        </div>
-
-        <div class="success-screen" id="successScreen">
-            <i class="fa-solid fa-circle-check"></i>
-            <h2 style="font-weight: 800; letter-spacing: 0.5px;">सफलतापूर्वक लॉगिन!</h2>
-            <p style="color: #a8a8a8; font-size: 0.85rem; margin-top: 5px;">सुरक्षित कनेक्शन स्थापित हो रहा है...</p>
         </div>
     </div>
 
     <script>
-        let globalAvatar = "https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=120";
-
-        // फॉर्म बदलने का फंक्शन
-        function switchForm(formType) {
-            if(formType === 'register') {
+        function switchForm(type) {
+            if(type === 'register') {
                 document.getElementById('loginBox').classList.add('hidden-form');
                 document.getElementById('registerBox').classList.remove('hidden-form');
             } else {
@@ -173,129 +95,44 @@
             }
         }
 
-        // प्रोफाइल फोटो प्रीव्यू
-        function previewAvatar(event) {
-            const file = event.target.files[0];
-            if (!file) return;
-            const reader = new FileReader();
-            reader.onload = function(e) {
-                globalAvatar = e.target.result;
-                document.getElementById('avatarPreview').src = globalAvatar;
-            };
-            reader.readAsDataURL(file);
-        }
-
-        // 📝 साइन अप / रजिस्ट्रेशन हैंडलर
         function handleRegister(event) {
             event.preventDefault();
             const name = document.getElementById('regName').value.trim();
-            const email = document.getElementById('regEmail').value.trim().toLowerCase();
-            const phone = document.getElementById('regPhone').value.trim();
-            const user = document.getElementById('regUser').value.trim().toLowerCase(); // यूजरनेम को छोटे अक्षरों में सेव करेंगे ताकि कोई एरर न आए
+            const user = document.getElementById('regUser').value.trim().toLowerCase();
             const pass = document.getElementById('regPass').value;
 
-            const emailError = document.getElementById('emailError');
-            const phoneError = document.getElementById('phoneError');
-            let hasError = false;
+            let db = JSON.parse(localStorage.getItem('secure_users_db') || '{}');
+            if (db[user]) { alert('❌ यह यूजरनेम पहले से बुक है!'); return; }
 
-            // 1. ईमेल वैलिडेशन
-            if (!email.endsWith('@gmail.com')) {
-                emailError.style.display = 'block';
-                hasError = true;
-            } else {
-                emailError.style.display = 'none';
-            }
-
-            // 2. फोन नंबर वैलिडेशन
-            const phonePattern = /^[0-9]{10}$/;
-            if (!phonePattern.test(phone)) {
-                phoneError.style.display = 'block';
-                hasError = true;
-            } else {
-                phoneError.style.display = 'none';
-            }
-
-            if (hasError) return;
-
-            // डेटाबेस लोड करना
-            let secureDb = JSON.parse(localStorage.getItem('secure_users_db') || '{}');
+            db[user] = { name: name, username: user, password: pass, pic: "https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=100" };
+            localStorage.setItem('secure_users_db', JSON.stringify(db));
             
-            // डुप्लीकेट डेटा चेक करना
-            for (let k in secureDb) {
-                if (secureDb[k].email === email) { alert('❌ यह Gmail आईडी पहले से रजिस्टर्ड है!'); return; }
-                if (secureDb[k].phone === phone) { alert('❌ यह मोबाइल नंबर पहले से रजिस्टर्ड है!'); return; }
-                if (secureDb[k].username === user) { alert('❌ यह यूजरनेम पहले से बुक है!'); return; }
-            }
-
-            // डेटाबेस में बिल्कुल साफ-साफ ऑब्जेक्ट स्टोर करना
-            secureDb[user] = { 
-                name: name, 
-                email: email, 
-                phone: phone, 
-                username: user, 
-                password: pass, 
-                pic: globalAvatar 
-            };
-            
-            localStorage.setItem('secure_users_db', JSON.stringify(secureDb));
-            alert('🔒 आपका अकाउंट सफलतापूर्वक रजिस्टर हो गया है! अब लॉगिन करें।');
-            
+            alert('🔒 अकाउंट बन गया! अब लॉगिन करें।');
             switchForm('login');
-            document.getElementById('loginIdentifier').value = user; // लॉगिन बॉक्स में यूजरनेम खुद ही भर जाएगा
+            document.getElementById('loginIdentifier').value = user;
         }
 
-        // 🔓 लॉगिन हैंडलर (फिक्स कर दिया गया है)
         function handleLogin(event) {
             event.preventDefault();
             const identifier = document.getElementById('loginIdentifier').value.trim().toLowerCase();
             const pass = document.getElementById('loginPass').value;
 
-            let secureDb = JSON.parse(localStorage.getItem('secure_users_db') || '{}');
-            let matchedUser = null;
-
-            // 🛠️ मास्टर एडमिन बायपास (अगर डेटाबेस खाली भी हो, तब भी यह काम करेगा)
-            if ((identifier === "admin@gmail.com" || identifier === "9999999999" || identifier === "admin") && pass === "1234") {
-                executeSecureLogin("अमित राव", "राव_साहब_HR06", "https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=100");
+            // टेस्ट करने के लिए डायरेक्ट बायपास (यूजर: admin , पासवर्ड: 1234)
+            if (identifier === "admin" && pass === "1234") {
+                localStorage.setItem('current_logged_in_user', 'admin');
+                localStorage.setItem('vip_user', 'admin');
+                window.location.href = 'index.html';
                 return;
             }
 
-            // पूरे डेटाबेस की सघन चेकिंग (यूज़रनेम, ईमेल या फ़ोन मैचिंग)
-            for (let k in secureDb) {
-                let currentAccount = secureDb[k];
-                if (
-                    currentAccount.username.toLowerCase() === identifier || 
-                    currentAccount.email.toLowerCase() === identifier || 
-                    currentAccount.phone === identifier
-                ) {
-                    // अगर आईडी मैच हो गई, तो पासवर्ड चेक करो
-                    if (currentAccount.password === pass) {
-                        matchedUser = currentAccount;
-                        break;
-                    } else {
-                        alert('❌ पासवर्ड गलत है! कृपया दोबारा सही पासवर्ड डालें।');
-                        return; // पासवर्ड गलत होने पर कोड यहीं रुक जाएगा
-                    }
-                }
-            }
-
-            if (matchedUser) {
-                executeSecureLogin(matchedUser.name, matchedUser.username, matchedUser.pic);
+            let db = JSON.parse(localStorage.getItem('secure_users_db') || '{}');
+            if (db[identifier] && db[identifier].password === pass) {
+                localStorage.setItem('current_logged_in_user', identifier);
+                localStorage.setItem('vip_user', db[identifier].username);
+                window.location.href = 'index.html';
             } else {
-                alert('❌ यह यूजर आईडी (Gmail/मोबाइल/यूजरनेम) हमारे डेटाबेस में नहीं है! कृपया पहले साइन अप करें।');
+                alert('❌ गलत यूजरनेम या पासवर्ड!');
             }
-        }
-
-        // सेशन बनाकर होमपेज पर भेजने वाला मैकेनिज्म
-        function executeSecureLogin(name, username, pic) {
-            localStorage.setItem('current_logged_in_user', username);
-            localStorage.setItem('vip_name', name);
-            localStorage.setItem('vip_user', username);
-            localStorage.setItem('vip_pic', pic);
-            
-            document.getElementById('successScreen').classList.add('active');
-            setTimeout(() => { 
-                window.location.href = 'index.html'; 
-            }, 1500);
         }
     </script>
 </body>
