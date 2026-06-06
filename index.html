@@ -3,12 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Zomato Dating - VIP Futuristic Social</title>
+    <title>Instagram VIP Feed</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         * {
             margin: 0; padding: 0; box-sizing: border-box;
-            font-family: 'Segoe UI', Roboto, Helvetica, sans-serif;
+            font-family: '-apple-system', BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
             -webkit-tap-highlight-color: transparent;
         }
 
@@ -34,27 +34,24 @@
             font-size: 1.6rem; font-weight: 900; letter-spacing: 1px;
             background: linear-gradient(45deg, #ff007f, #ff4b2b);
             -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-            text-shadow: 0 0 15px rgba(255, 0, 127, 0.3); cursor: pointer;
+            cursor: pointer;
         }
 
         .header-icons { display: flex; gap: 20px; font-size: 1.3rem; align-items: center; }
-        .header-icons i { cursor: pointer; }
-        
-        .logout-btn { color: #ff3b30; transition: transform 0.2s; }
-        .logout-btn:hover { transform: scale(1.1); }
+        .logout-btn { color: #ff3b30; cursor: pointer; }
 
+        /* स्टोरी बार */
         .stories-container {
             display: flex; gap: 15px; padding: 15px; overflow-x: auto;
             border-bottom: 1px solid rgba(255, 255, 255, 0.05); background: rgba(255, 255, 255, 0.01);
         }
         .stories-container::-webkit-scrollbar { display: none; }
-
-        .story-wrapper { display: flex; flex-direction: column; align-items: center; font-size: 0.75rem; color: #8b8ba7; cursor: pointer; min-width: 65px; }
+        .story-wrapper { display: flex; flex-direction: column; align-items: center; font-size: 0.75rem; color: #8b8ba7; min-width: 65px; }
         .story-ring { width: 65px; height: 65px; border-radius: 50%; padding: 2.5px; background: linear-gradient(45deg, #00f0ff, #ff007f, #7928ca); margin-bottom: 5px; position: relative; }
-        .add-story-badge { position: absolute; bottom: 2px; right: 2px; background: #ff007f; width: 18px; height: 18px; border-radius: 50%; display: flex; justify-content: center; align-items: center; color: white; font-size: 0.7rem; border: 2px solid #05010d; }
         .story-ring img { width: 100%; height: 100%; border-radius: 50%; object-fit: cover; background: #140a23; border: 2px solid #05010d; }
+        .add-story-badge { position: absolute; bottom: 2px; right: 2px; background: #ff007f; width: 18px; height: 18px; border-radius: 50%; display: flex; justify-content: center; align-items: center; color: white; font-size: 0.7rem; border: 2px solid #05010d; }
 
-        /* फीड स्टाइल */
+        /* फीड और पोस्ट स्टाइल */
         .feed-container { display: flex; flex-direction: column; }
         .post { border-bottom: 1px solid rgba(255, 255, 255, 0.05); padding-bottom: 15px; }
         .post-header { display: flex; justify-content: space-between; align-items: center; padding: 12px 15px; }
@@ -63,17 +60,13 @@
         .post-username { font-weight: 600; font-size: 0.95rem; }
         .post-location { font-size: 0.75rem; color: #00f0ff; }
         
-        .post-media-wrapper { width: 100%; position: relative; background: #000; display: flex; justify-content: center; }
+        .post-media-wrapper { width: 100%; background: #000; display: flex; justify-content: center; }
         .post-image { width: 100%; max-height: 450px; object-fit: cover; }
-        .post-video { width: 100%; max-height: 450px; background: #000; }
+        .post-video { width: 100%; max-height: 450px; object-fit: cover; }
         
-        .post.reel-style .post-media-wrapper { aspect-ratio: 9 / 16; max-height: 550px; }
-        .post.reel-style .post-video { height: 100%; max-height: 550px; object-fit: cover; }
-
         .post-actions { padding: 12px 15px; display: flex; justify-content: space-between; font-size: 1.35rem; }
         .left-actions { display: flex; gap: 20px; }
-        .action-btn { cursor: pointer; transition: transform 0.2s; }
-        .fa-heart.liked { color: #ff007f; }
+        .liked { color: #ff007f; }
 
         .post-likes { padding: 0 15px; font-size: 0.9rem; font-weight: bold; margin-bottom: 5px; }
         .post-caption { padding: 0 15px; font-size: 0.9rem; line-height: 1.4; }
@@ -86,31 +79,12 @@
             border-top: 1px solid rgba(255, 255, 255, 0.08); display: flex;
             justify-content: space-around; align-items: center; padding: 15px 0; font-size: 1.4rem; z-index: 10;
         }
-        .nav-item { cursor: pointer; color: #8b8ba7; text-decoration: none; }
-        .nav-item.active { color: #00f0ff; text-shadow: 0 0 10px #00f0ff; }
-
-        /* मॉडल */
-        .modal-overlay {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(5, 1, 13, 0.95); backdrop-filter: blur(8px); z-index: 100;
-            display: flex; justify-content: center; align-items: center; opacity: 0; pointer-events: none; transition: all 0.3s ease;
-        }
-        .modal-overlay.active { opacity: 1; pointer-events: auto; }
-        .modal-content { width: 100%; max-width: 450px; height: auto; background: #0d061a; border-radius: 24px 24px 0 0; margin-top: auto; padding-bottom: 20px; }
-        .modal-header { padding: 15px 20px; border-bottom: 1px solid rgba(255, 255, 255, 0.1); display: flex; justify-content: space-between; align-items: center; font-weight: bold; }
-        .modal-close { background: none; border: none; color: white; font-size: 1.5rem; cursor: pointer; }
-
-        .upload-option-btn {
-            background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.1);
-            color: white; padding: 15px; margin: 10px 0; border-radius: 12px; font-weight: bold;
-            display: flex; align-items: center; gap: 15px; cursor: pointer; font-size: 1rem; width: 100%;
-            transition: 0.2s;
-        }
-        .upload-option-btn:hover { background: rgba(255, 0, 127, 0.15); border-color: #ff007f; }
+        .nav-item { color: #8b8ba7; text-decoration: none; }
+        .nav-item.active { color: #00f0ff; }
     </style>
     
     <script>
-        // 🔒 सुरक्षा कवच: पेज लोड होने से पहले चेक करेगा कि यूजर लॉगिन है या नहीं
+        // 🔒 सुरक्षा लॉक
         if (!localStorage.getItem('current_logged_in_user')) {
             window.location.href = 'login.html';
         }
@@ -119,14 +93,11 @@
 <body>
 
     <div class="app-container">
-        <input type="file" id="photoVideoInput" accept="image/*,video/*" style="display: none;" onchange="processUpload(event, 'feed')">
-        <input type="file" id="reelInput" accept="video/*" style="display: none;" onchange="processUpload(event, 'reel')">
-
         <header class="app-header">
-            <div class="brand-logo" onclick="location.href='index.html'">Zomato Dating</div>
+            <div class="brand-logo" onclick="location.href='index.html'">Instagram</div>
             <div class="header-icons">
-                <i class="fa-regular fa-heart" onclick="alert('VIP नोटिफिकेशन अभी खाली हैं!')"></i>
-                <i class="fa-solid fa-right-from-bracket logout-btn" onclick="processLogout()" title="लॉगआउट करें"></i>
+                <i class="fa-regular fa-heart"></i>
+                <i class="fa-solid fa-right-from-bracket logout-btn" onclick="processLogout()"></i>
             </div>
         </header>
 
@@ -140,145 +111,223 @@
             </div>
         </div>
 
-        <div class="feed-container" id="mainFeed">
+        <div class="feed-container">
+
+            <div class="post">
+                <div class="post-header">
+                    <div class="post-user-info">
+                        <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=100" class="post-avatar">
+                        <div>
+                            <div class="post-username">रितिका सेन</div>
+                            <div class="post-location">मुंबई • बैंडस्टैंड</div>
+                        </div>
+                    </div>
+                    <i class="fa-solid fa-ellipsis"></i>
+                </div>
+                <div class="post-media-wrapper">
+                    <img src="https://images.unsplash.com/photo-1517841905240-472988babdf9?w=600" class="post-image">
+                </div>
+                <div class="post-actions">
+                    <div class="left-actions"><i class="fa-solid fa-heart liked"></i><i class="fa-regular fa-comment"></i></div>
+                </div>
+                <div class="post-likes">12.4K लाइक्स</div>
+                <div class="post-caption"><span>रितिका सेन</span>समुद्र की लहरें और मुंबई की शाम! 🌊✨ #Mumbai Diaries</div>
             </div>
+
+            <div class="post">
+                <div class="post-header">
+                    <div class="post-user-info">
+                        <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=100" class="post-avatar">
+                        <div>
+                            <div class="post-username">जस्सी संधू</div>
+                            <div class="post-location">चंडीगढ़ • गेड़ी रूट</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="post-media-wrapper">
+                    <video src="https://assets.mixkit.co/videos/preview/mixkit-driving-in-a-futuristic-neon-city-43152-large.mp4" class="post-video" controls loop muted autoplay></video>
+                </div>
+                <div class="post-actions"><div class="left-actions"><i class="fa-solid fa-heart liked"></i></div></div>
+                <div class="post-likes">45.2K लाइक्स</div>
+                <div class="post-caption"><span>जस्सी संधू</span>नयी गाड़ी, नया रूट! 🎬 थार लवर्स हाजिरी लगाओ 👇 #Thar</div>
+            </div>
+
+            <div class="post">
+                <div class="post-header">
+                    <div class="post-user-info">
+                        <img src="https://images.unsplash.com/photo-1524504388940-b1c1722653e1?w=100" class="post-avatar">
+                        <div>
+                            <div class="post-username">काव्या खन्ना</div>
+                            <div class="post-location">दिल्ली • कनॉट प्लेस</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="post-media-wrapper">
+                    <img src="https://images.unsplash.com/photo-1529626455594-4ff0802cfb7e?w=600" class="post-image">
+                </div>
+                <div class="post-actions"><div class="left-actions"><i class="fa-solid fa-heart liked"></i></div></div>
+                <div class="post-likes">8,912 लाइक्स</div>
+                <div class="post-caption"><span>काव्या खन्ना</span>दिल्ली की सर्दी और गरम कैपुचिनो ☕❄️ #DelhiWinters</div>
+            </div>
+
+            <div class="post">
+                <div class="post-header">
+                    <div class="post-user-info">
+                        <img src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=100" class="post-avatar">
+                        <div>
+                            <div class="post-username">अमन खटाना</div>
+                            <div class="post-location">गुरुग्राम • गोल्फ कोर्स रोड</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="post-media-wrapper">
+                    <video src="https://assets.mixkit.co/videos/preview/mixkit-hands-of-a-driver-on-a-steering-wheel-41695-large.mp4" class="post-video" controls loop muted autoplay></video>
+                </div>
+                <div class="post-actions"><div class="left-actions"><i class="fa-solid fa-heart liked"></i></div></div>
+                <div class="post-likes">18.5K लाइक्स</div>
+                <div class="post-caption"><span>अमन खटाना</span>सिस्टम हैंग कर देंगे भाई! 🔥 फॉर्च्यूनर वाइब्स। #Gurgaon</div>
+            </div>
+
+            <div class="post">
+                <div class="post-header">
+                    <div class="post-user-info">
+                        <img src="https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=100" class="post-avatar">
+                        <div>
+                            <div class="post-username">स्नेहा रेड्डी</div>
+                            <div class="post-location">गोवा • बागा बीच</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="post-media-wrapper">
+                    <img src="https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=600" class="post-image">
+                </div>
+                <div class="post-actions"><div class="left-actions"><i class="fa-solid fa-heart liked"></i></div></div>
+                <div class="post-likes">15.1K लाइक्स</div>
+                <div class="post-caption"><span>स्नेहा रेड्डी</span>वर्क फ्रॉम होम? नहीं, वर्क फ्रॉम बीच! 🌴🍹 #GoaVibes</div>
+            </div>
+
+            <div class="post">
+                <div class="post-header">
+                    <div class="post-user-info">
+                        <img src="https://images.unsplash.com/photo-1492562080023-ab3db95bfbce?w=100" class="post-avatar">
+                        <div>
+                            <div class="post-username">रोहित यादव</div>
+                            <div class="post-location">रोहतक • MDU कैंपस</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="post-media-wrapper">
+                    <video src="https://assets.mixkit.co/videos/preview/mixkit-man-dancing-under-neon-lights-42245-large.mp4" class="post-video" controls loop muted autoplay></video>
+                </div>
+                <div class="post-actions"><div class="left-actions"><i class="fa-solid fa-heart liked"></i></div></div>
+                <div class="post-likes">32.9K लाइक्स</div>
+                <div class="post-caption"><span>रोहित यादव</span>कैंपस में पहली रील! भाई का स्वैग चेक करो 🎬🕺 #Haryana</div>
+            </div>
+
+            <div class="post">
+                <div class="post-header">
+                    <div class="post-user-info">
+                        <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=100" class="post-avatar">
+                        <div>
+                            <div class="post-username">दीक्षा सिंह</div>
+                            <div class="post-location">जयपुर • नाहरगढ़ फोर्ट</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="post-media-wrapper">
+                    <img src="https://images.unsplash.com/photo-1469334031218-e382a71b716b?w=600" class="post-image">
+                </div>
+                <div class="post-actions"><div class="left-actions"><i class="fa-solid fa-heart liked"></i></div></div>
+                <div class="post-likes">9,420 लाइक्स</div>
+                <div class="post-caption"><span>दीक्षा सिंह</span>गुलाबी शहर का खूबसूरत नजारा 🏰✨ #Jaipur</div>
+            </div>
+
+            <div class="post">
+                <div class="post-header">
+                    <div class="post-user-info">
+                        <img src="https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=100" class="post-avatar">
+                        <div>
+                            <div class="post-username">विक्रम हुड्डा</div>
+                            <div class="post-location">सोनीपत • अंसल सिटी</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="post-media-wrapper">
+                    <img src="https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?w=600" class="post-image">
+                </div>
+                <div class="post-actions"><div class="left-actions"><i class="fa-solid fa-heart liked"></i></div></div>
+                <div class="post-likes">21K लाइक्स</div>
+                <div class="post-caption"><span>विक्रम हुड्डा</span>ज़मींदार लाइफ! कुर्ता पायजामा गेम ऑन 👑🌾 #DesiSwag</div>
+            </div>
+
+            <div class="post">
+                <div class="post-header">
+                    <div class="post-user-info">
+                        <img src="https://images.unsplash.com/photo-1531746020798-e6953c6e8e04?w=100" class="post-avatar">
+                        <div>
+                            <div class="post-username">पूजा हीर</div>
+                            <div class="post-location">नोएडा • सेक्टर 18</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="post-media-wrapper">
+                    <video src="https://assets.mixkit.co/videos/preview/mixkit-girl-in-neon-sign-holding-a-camera-42247-large.mp4" class="post-video" controls loop muted autoplay></video>
+                </div>
+                <div class="post-actions"><div class="left-actions"><i class="fa-solid fa-heart liked"></i></div></div>
+                <div class="post-likes">11.2K लाइक्स</div>
+                <div class="post-caption"><span>पूजा हीर</span>नाइट आउट विद माय गर्ल्स! 🥂✨ #NoidaNightlife</div>
+            </div>
+
+            <div class="post">
+                <div class="post-header">
+                    <div class="post-user-info">
+                        <img src="https://images.unsplash.com/photo-1489980508314-941910ded1f4?w=100" class="post-avatar">
+                        <div>
+                            <div class="post-username">आरव जैन</div>
+                            <div class="post-location">बेंगलुरु • टेक पार्क</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="post-media-wrapper">
+                    <img src="https://images.unsplash.com/photo-1515879218367-8466d910aaa4?w=600" class="post-image">
+                </div>
+                <div class="post-actions"><div class="left-actions"><i class="fa-solid fa-heart liked"></i></div></div>
+                <div class="post-likes">6,540 लाइक्स</div>
+                <div class="post-caption"><span>आरव जैन</span>जब कोड पहली बार में बिना एरर के कंपाइल हो जाए! 💻🚀 #CoderLife</div>
+            </div>
+
+        </div>
 
         <nav class="bottom-nav">
             <a href="index.html" class="nav-item active"><i class="fa-solid fa-house"></i></a>
-            <i class="fa-solid fa-magnifying-glass nav-item" onclick="alert('खोज जारी है...')"></i>
-            <i class="fa-regular fa-square-plus nav-item" onclick="openModal('instagramUploadModal')"></i>
-            <i class="fa-regular fa-message nav-item" onclick="alert('चैट बॉक्स जल्द आ रहा है!')"></i>
+            <i class="fa-solid fa-magnifying-glass nav-item"></i>
+            <i class="fa-regular fa-square-plus nav-item"></i>
+            <i class="fa-regular fa-message nav-item"></i>
             <a href="profile.html" class="nav-item"><i class="fa-regular fa-user"></i></a>
         </nav>
     </div>
 
-    <div class="modal-overlay" id="instagramUploadModal">
-        <div class="modal-content">
-            <div class="modal-header">
-                <span>नया कन्टेंट बनाएं 📸</span>
-                <button class="modal-close" onclick="closeModal('instagramUploadModal')"><i class="fa-solid fa-xmark"></i></button>
-            </div>
-            <div style="padding: 20px;">
-                <button class="upload-option-btn" onclick="triggerUpload('photo')">💾 फोटो अपलोड करें</button>
-                <button class="upload-option-btn" onclick="triggerUpload('video')">📹 वीडियो अपलोड करें</button>
-                <button class="upload-option-btn" onclick="triggerUpload('reel')">🎬 रील अपलोड करें</button>
-            </div>
-        </div>
-    </div>
-
     <script>
-        // 🌟 10 डमी इंस्टाग्राम प्रोफाइल्स और उनका कड़क कंटेंट
-        const dummyInstagramFeed = [
-            {
-                authorName: "रितिका सेन",
-                authorPic: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=150",
-                location: "मुंबई • बैंडस्टैंड",
-                type: "photo",
-                url: "https://images.unsplash.com/photo-1517841905240-472988babdf9?w=600",
-                likes: "12.4K लाइक्स",
-                caption: "समुद्र की लहरें और मुंबई की शाम! 🌊✨ #MumbaiDiaries"
-            },
-            {
-                authorName: "जस्सी संधू",
-                authorPic: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150",
-                location: "चंडीगढ़ • गेड़ी रूट",
-                type: "reel",
-                url: "https://assets.mixkit.co/videos/preview/mixkit-driving-in-a-futuristic-neon-city-43152-large.mp4",
-                likes: "45.2K लाइक्स",
-                caption: "नयी गाड़ी, नया रूट! 🎬 थार लवर्स हाजिरी लगाओ 👇 #Thar"
-            },
-            {
-                authorName: "काव्या खन्ना",
-                authorPic: "https://images.unsplash.com/photo-1524504388940-b1c1722653e1?w=150",
-                location: "दिल्ली • कनॉट प्लेस",
-                type: "photo",
-                url: "https://images.unsplash.com/photo-1529626455594-4ff0802cfb7e?w=600",
-                likes: "8,912 लाइक्स",
-                caption: "दिल्ली की सर्दी और गरम कैपुचिनो ☕❄️ #DelhiWinters"
-            },
-            {
-                authorName: "अमन खटाना",
-                authorPic: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=150",
-                location: "गुरुग्राम • गोल्फ कोर्स रोड",
-                type: "video",
-                url: "https://assets.mixkit.co/videos/preview/mixkit-hands-of-a-driver-on-a-steering-wheel-41695-large.mp4",
-                likes: "18.5K लाइक्स",
-                caption: "सिस्टम हैंग कर देंगे भाई! 🔥 फॉर्च्यूनर वाइब्स। #Gurgaon"
-            },
-            {
-                authorName: "स्नेहा रेड्डी",
-                authorPic: "https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=150",
-                location: "गोवा • बागा बीच",
-                type: "photo",
-                url: "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=600",
-                likes: "15.1K लाइक्स",
-                caption: "वर्क फ्रॉम होम? नहीं, वर्क फ्रॉम बीच! 🌴🍹 #GoaVibes"
-            },
-            {
-                authorName: "रोहित यादव",
-                authorPic: "https://images.unsplash.com/photo-1492562080023-ab3db95bfbce?w=150",
-                location: "रोहतक • MDU कैंपस",
-                type: "reel",
-                url: "https://assets.mixkit.co/videos/preview/mixkit-man-dancing-under-neon-lights-42245-large.mp4",
-                likes: "32.9K लाइक्स",
-                caption: "कैंपस में पहली रील! भाई का स्वैग चेक करो 🎬🕺 #Haryana"
-            },
-            {
-                authorName: "दीक्षा सिंह",
-                authorPic: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=150",
-                location: "जयपुर • नाहरगढ़ फोर्ट",
-                type: "photo",
-                url: "https://images.unsplash.com/photo-1469334031218-e382a71b716b?w=600",
-                likes: "9,420 लाइक्स",
-                caption: "गुलाबी शहर का खूबसूरत नजारा 🏰✨ #Jaipur #PinkCity"
-            },
-            {
-                authorName: "विक्रम हुड्डा",
-                authorPic: "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=150",
-                location: "सोनीपत • अंसल सिटी",
-                type: "photo",
-                url: "https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?w=600",
-                likes: "21K लाइक्स",
-                caption: "ज़मींदार लाइफ! कुर्ता पायजामा गेम ऑन 👑🌾 #DesiSwag"
-            },
-            {
-                authorName: "पूजा हीर",
-                authorPic: "https://images.unsplash.com/photo-1531746020798-e6953c6e8e04?w=150",
-                location: "नोएडा • सेक्टर 18",
-                type: "reel",
-                url: "https://assets.mixkit.co/videos/preview/mixkit-girl-in-neon-sign-holding-a-camera-42247-large.mp4",
-                likes: "11.2K लाइक्स",
-                caption: "नाइट आउट विद माय गर्ल्स! 🥂✨ #NoidaNightlife"
-            },
-            {
-                authorName: "आरव जैन",
-                authorPic: "https://images.unsplash.com/photo-1489980508314-941910ded1f4?w=150",
-                location: "बेंगलुरु • टेक पार्क",
-                type: "photo",
-                url: "https://images.unsplash.com/photo-1515879218367-8466d910aaa4?w=600",
-                likes: "6,540 लाइक्स",
-                caption: "जब कोड पहली बार में बिना एरर के कंपाइल हो जाए! 💻🚀 #CoderLife"
-            }
-        ];
-
         window.addEventListener('load', () => {
-            const savedUser = localStorage.getItem('vip_user') || "राव_साहब_HR06";
-            const savedPic = localStorage.getItem('vip_pic') || "https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=100";
+            // डेटाबेस से लॉगिन यूजर की असली प्रोफाइल निकालो
+            const currentUser = localStorage.getItem('current_logged_in_user');
+            let secureDb = JSON.parse(localStorage.getItem('secure_users_db') || '{}');
             
-            document.getElementById('headerUsername').innerText = savedUser;
-            document.getElementById('headerUserAvatar').src = savedPic;
-            
-            renderLiveFeed();
+            let finalUser = "राव_साहब_HR06";
+            let finalPic = "https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=100";
+
+            if (secureDb[currentUser]) {
+                finalUser = secureDb[currentUser].username;
+                finalPic = secureDb[currentUser].pic;
+            } else {
+                finalUser = localStorage.getItem('vip_user') || finalUser;
+                finalPic = localStorage.getItem('vip_pic') || finalPic;
+            }
+
+            // हेडर और स्टोरी में नाम-फोटो सेट करें (यह कभी गायब नहीं होगा)
+            document.getElementById('headerUsername').innerText = finalUser;
+            document.getElementById('headerUserAvatar').src = finalPic;
         });
-
-        function openModal(id) { document.getElementById(id).classList.add('active'); }
-        function closeModal(id) { document.getElementById(id).classList.remove('active'); }
-
-        function triggerUpload(type) {
-            closeModal('instagramUploadModal');
-            if(type === 'photo' || type === 'video') { document.getElementById('photoVideoInput').click(); } 
-            else if(type === 'reel') { document.getElementById('reelInput').click(); }
-        }
 
         function processLogout() {
             if(confirm("क्या आप सच में लॉगआउट करना चाहते हैं?")) {
@@ -289,39 +338,6 @@
                 window.location.href = 'login.html';
             }
         }
-
-        function processUpload(event, mode) {
-            const file = event.target.files[0];
-            if (!file) return;
-
-            const reader = new FileReader();
-            reader.onload = function(e) {
-                const mediaUrl = e.target.result;
-                const myName = localStorage.getItem('vip_name') || "अमित राव";
-                const myPic = localStorage.getItem('vip_pic') || "https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=100";
-                const currentUser = localStorage.getItem('current_logged_in_user');
-                
-                let isVideo = file.type.startsWith('video');
-                let savedItems = JSON.parse(localStorage.getItem('my_uploaded_media') || '[]');
-                
-                savedItems.unshift({ 
-                    authorName: myName,
-                    authorPic: myPic,
-                    location: "पानीपत • अभी-अभी",
-                    type: mode === 'reel' ? 'reel' : (isVideo ? 'video' : 'photo'), 
-                    url: mediaUrl, 
-                    likes: "1 लाइक",
-                    caption: "नयी वीआईपी पोस्ट लाइव! 🔥 #ZomatoDating",
-                    owner: currentUser
-                });
-                
-                localStorage.setItem('my_uploaded_media', JSON.stringify(savedItems));
-                renderLiveFeed();
-                alert('आपकी पोस्ट जादुई तरीके से फीड में सबसे ऊपर लाइव हो गई! 🚀');
-            };
-            reader.readAsDataURL(file);
-        }
-
-        function renderLiveFeed() {
-            const mySavedItems = JSON.parse(localStorage.getItem('my_uploaded_media') || '[]');
-            const fullFeed =
+    </script>
+</body>
+</html>
