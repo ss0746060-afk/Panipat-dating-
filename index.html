@@ -1,257 +1,56 @@
-<!DOCTYPE html>
-<html lang="hi">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Zomato Dating - VIP Futuristic Social</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <style>
-        * {
-            margin: 0; padding: 0; box-sizing: border-box;
-            font-family: 'Segoe UI', Roboto, Helvetica, sans-serif;
-            -webkit-tap-highlight-color: transparent;
-        }
+// अपनी index.html के पुराने processUpload फंक्शन की जगह सिर्फ इसे पेस्ट करें:
+function processUpload(event, mode) {
+    const file = event.target.files[0];
+    if (!file) return;
 
-        body {
-            background: #05010d; color: #ffffff; display: flex; justify-content: center;
-            background: radial-gradient(circle at top, #1a0b2e 0%, #05010d 100%); min-height: 100vh;
-        }
-
-        .app-container {
-            width: 100%; max-width: 450px; background: rgba(15, 8, 28, 0.8);
-            min-height: 100vh; display: flex; flex-direction: column; position: relative;
-            border-left: 1px solid rgba(255, 255, 255, 0.05); border-right: 1px solid rgba(255, 255, 255, 0.05);
-            padding-bottom: 70px;
-        }
-
-        .app-header {
-            position: sticky; top: 0; background: rgba(5, 1, 13, 0.95); backdrop-filter: blur(10px);
-            padding: 15px 20px; display: flex; justify-content: space-between; align-items: center;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.08); z-index: 10;
-        }
-
-        .brand-logo {
-            font-size: 1.6rem; font-weight: 900; letter-spacing: 1px;
-            background: linear-gradient(45deg, #ff007f, #ff4b2b);
-            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-            text-shadow: 0 0 15px rgba(255, 0, 127, 0.3); cursor: pointer;
-        }
-
-        .header-icons { display: flex; gap: 20px; font-size: 1.3rem; cursor: pointer; }
-        .header-icons a { color: white; text-decoration: none; }
-
-        .stories-container {
-            display: flex; gap: 15px; padding: 15px; overflow-x: auto;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.05); background: rgba(255, 255, 255, 0.01);
-        }
-        .stories-container::-webkit-scrollbar { display: none; }
-
-        .story-wrapper { display: flex; flex-direction: column; align-items: center; font-size: 0.75rem; color: #8b8ba7; cursor: pointer; min-width: 65px; }
-        .story-ring { width: 65px; height: 65px; border-radius: 50%; padding: 2.5px; background: linear-gradient(45deg, #00f0ff, #ff007f, #7928ca); margin-bottom: 5px; position: relative; }
-        .story-ring.my-story { background: rgba(255, 255, 255, 0.2); }
-        .add-story-badge { position: absolute; bottom: 2px; right: 2px; background: #ff007f; width: 18px; height: 18px; border-radius: 50%; display: flex; justify-content: center; align-items: center; color: white; font-size: 0.7rem; border: 2px solid #05010d; }
-        .story-ring img { width: 100%; height: 100%; border-radius: 50%; object-fit: cover; background: #140a23; border: 2px solid #05010d; }
-
-        /* फीड और मीडिया प्लेयर्स */
-        .feed-container { display: flex; flex-direction: column; }
-        .post { border-bottom: 1px solid rgba(255, 255, 255, 0.05); padding-bottom: 15px; }
-        .post-header { display: flex; justify-content: space-between; align-items: center; padding: 12px 15px; }
-        .post-user-info { display: flex; align-items: center; gap: 10px; }
-        .post-avatar { width: 35px; height: 35px; border-radius: 50%; border: 1.5px solid #00f0ff; object-fit: cover; }
-        .post-username { font-weight: 600; font-size: 0.95rem; }
-        .post-location { font-size: 0.75rem; color: #00f0ff; }
+    const reader = new FileReader();
+    reader.onload = function(e) {
+        const mediaUrl = e.target.result;
+        const myName = localStorage.getItem('vip_name') || "अमित राव";
+        const myPic = localStorage.getItem('vip_pic') || "https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=100";
+        const currentUser = localStorage.getItem('current_logged_in_user') || "राव_साहब_HR06";
         
-        .post-media-wrapper { width: 100%; position: relative; background: #000; }
-        .post-image { width: 100%; max-height: 450px; object-fit: cover; }
-        .post-video { width: 100%; max-height: 450px; object-fit: cover; }
-        
-        /* रील स्टाइल पोस्ट */
-        .post.reel-style .post-media-wrapper { aspect-ratio: 9 / 16; max-height: 650px; }
-        .post.reel-style .post-video { height: 100%; max-height: 650px; object-fit: cover; }
+        let mediaHtml = '';
+        let isVideo = file.type.startsWith('video');
 
-        .post-actions { padding: 12px 15px; display: flex; justify-content: space-between; font-size: 1.35rem; }
-        .left-actions { display: flex; gap: 20px; }
-        .action-btn { cursor: pointer; }
-        .fa-heart.liked { color: #ff007f; }
+        // 🟢 मुख्य बदलाव: अब हर पोस्ट के साथ 'owner' (मालिक का यूजरनेम) भी सेव होगा!
+        let savedItems = JSON.parse(localStorage.getItem('my_uploaded_media') || '[]');
+        savedItems.unshift({ 
+            url: mediaUrl, 
+            type: mode === 'reel' ? 'reel' : (isVideo ? 'video' : 'photo'),
+            owner: currentUser // यह ट्रैक करेगा कि कन्टेंट किसका है
+        });
+        localStorage.setItem('my_uploaded_media', JSON.stringify(savedItems));
 
-        .post-likes { padding: 0 15px; font-size: 0.9rem; font-weight: bold; margin-bottom: 5px; }
-        .post-caption { padding: 0 15px; font-size: 0.9rem; line-height: 1.4; }
-        .post-caption span { font-weight: bold; margin-right: 8px; }
-
-        /* बॉटम नेविगेशन */
-        .bottom-nav {
-            position: fixed; bottom: 0; width: 100%; max-width: 450px;
-            background: rgba(5, 1, 13, 0.95); backdrop-filter: blur(10px);
-            border-top: 1px solid rgba(255, 255, 255, 0.08); display: flex;
-            justify-content: space-around; align-items: center; padding: 15px 0; font-size: 1.4rem; z-index: 10;
+        if (mode === 'reel') {
+            mediaHtml = `<video src="${mediaUrl}" class="post-video" controls autoplay loop muted></video>`;
+        } else if(isVideo) {
+            mediaHtml = `<video src="${mediaUrl}" class="post-video" controls></video>`;
+        } else {
+            mediaHtml = `<img src="${mediaUrl}" class="post-image">`;
         }
-        .nav-item { cursor: pointer; color: #8b8ba7; text-decoration: none; }
-        .nav-item.active { color: #00f0ff; }
 
-        /* मॉडल्स */
-        .modal-overlay {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(5, 1, 13, 0.95); backdrop-filter: blur(8px); z-index: 100;
-            display: flex; justify-content: center; align-items: center; opacity: 0; pointer-events: none; transition: all 0.3s ease;
-        }
-        .modal-overlay.active { opacity: 1; pointer-events: auto; }
-        .modal-content { width: 100%; max-width: 450px; height: 100%; display: flex; flex-direction: column; background: #0d061a; }
-        .modal-header { padding: 15px 20px; border-bottom: 1px solid rgba(255, 255, 255, 0.1); display: flex; justify-content: space-between; align-items: center; font-weight: bold; }
-        .modal-close { background: none; border: none; color: white; font-size: 1.5rem; cursor: pointer; }
-
-        /* अपलोडर बटन स्टाइल्स */
-        .upload-option-btn {
-            background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.1);
-            color: white; padding: 15px; margin: 10px 0; border-radius: 12px; font-weight: bold;
-            display: flex; align-items: center; gap: 15px; cursor: pointer; font-size: 1rem; width: 100%;
-        }
-        .upload-option-btn:hover { background: rgba(255, 0, 127, 0.1); border-color: #ff007f; }
-        .upload-option-btn i { font-size: 1.4rem; }
-    </style>
-</head>
-<body>
-
-    <div class="app-container">
-        <input type="file" id="photoVideoInput" accept="image/*,video/*" style="display: none;" onchange="processUpload(event, 'feed')">
-        <input type="file" id="reelInput" accept="video/*" style="display: none;" onchange="processUpload(event, 'reel')">
-
-        <header class="app-header">
-            <div class="brand-logo" onclick="location.href='index.html'">Zomato Dating</div>
-            <div class="header-icons">
-                <i class="fa-regular fa-heart" onclick="alert('VIP नोटिफिकेशन खाली हैं!')"></i>
-                <a href="chat.html"><i class="fa-regular fa-paper-plane"></i></a>
-            </div>
-        </header>
-
-        <div class="stories-container">
-            <div class="story-wrapper">
-                <div class="story-ring my-story">
-                    <img id="headerUserAvatar" src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=100">
-                    <div class="add-story-badge"><i class="fa-solid fa-plus"></i></div>
-                </div>
-                <span id="headerUsername">Your Story</span>
-            </div>
-        </div>
-
-        <div class="feed-container" id="mainFeed">
-            <div class="post">
+        const postHtml = `
+            <div class="post ${mode === 'reel' ? 'reel-style' : ''}">
                 <div class="post-header">
                     <div class="post-user-info">
-                        <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=100" class="post-avatar">
-                        <div><div class="post-username">प्रिया शर्मा</div><div class="post-location">पानीपत</div></div>
+                        <img src="${myPic}" class="post-avatar">
+                        <div>
+                            <div class="post-username">${myName} ${mode === 'reel' ? '• <span style="color:#ff007f;">रिल 🎬</span>' : ''}</div>
+                            <div class="post-location">पानीपत • अभी-अभी</div>
+                        </div>
                     </div>
                 </div>
-                <div class="post-media-wrapper">
-                    <img src="https://images.unsplash.com/photo-1524504388940-b1c1722653e1?w=500" class="post-image">
-                </div>
+                <div class="post-media-wrapper">${mediaHtml}</div>
                 <div class="post-actions">
-                    <div class="left-actions"><i class="fa-regular fa-heart action-btn"></i><i class="fa-regular fa-comment action-btn"></i></div>
+                    <div class="left-actions"><i class="fa-solid fa-heart" style="color:#ff007f;"></i><i class="fa-regular fa-comment action-btn"></i></div>
                 </div>
-                <div class="post-likes">1,248 लाइक्स</div>
+                <div class="post-likes">1 लाइक</div>
             </div>
-        </div>
+        `;
 
-        <nav class="bottom-nav">
-            <a href="index.html" class="nav-item active"><i class="fa-solid fa-house"></i></a>
-            <i class="fa-solid fa-magnifying-glass nav-item"></i>
-            <i class="fa-regular fa-square-plus nav-item" onclick="openModal('instagramUploadModal')"></i>
-            <a href="chat.html" class="nav-item"><i class="fa-regular fa-message"></i></a>
-            <a href="profile.html" class="nav-item"><i class="fa-solid fa-user"></i></a>
-        </nav>
-    </div>
-
-    <div class="modal-overlay" id="instagramUploadModal">
-        <div class="modal-content" style="height: auto; border-radius: 24px 24px 0 0; margin-top: auto; padding-bottom: 20px;">
-            <div class="modal-header">
-                <span>नया कन्टेंट बनाएं 📸</span>
-                <button class="modal-close" onclick="closeModal('instagramUploadModal')"><i class="fa-solid fa-xmark"></i></button>
-            </div>
-            <div style="padding: 20px;">
-                <button class="upload-option-btn" onclick="triggerUpload('photo')">
-                    <i class="fa-regular fa-image" style="color: #00f0ff;"></i> फोटो अपलोड करें (Post Photo)
-                </button>
-                <button class="upload-option-btn" onclick="triggerUpload('video')">
-                    <i class="fa-regular fa-file-video" style="color: #ffc107;"></i> वीडियो अपलोड करें (Post Video)
-                </button>
-                <button class="upload-option-btn" onclick="triggerUpload('reel')">
-                    <i class="fa-solid fa-film" style="color: #ff007f;"></i> रील अपलोड करें (Upload Reel 🎬)
-                </button>
-            </div>
-        </div>
-    </div>
-
-    <script>
-        window.addEventListener('load', () => {
-            const savedUser = localStorage.getItem('vip_user') || "राव_साहब_HR06";
-            const savedPic = localStorage.getItem('vip_pic') || "https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=100";
-            document.getElementById('headerUsername').innerText = savedUser;
-            document.getElementById('headerUserAvatar').src = savedPic;
-        });
-
-        function openModal(id) { document.getElementById(id).classList.add('active'); }
-        function closeModal(id) { document.getElementById(id).classList.remove('active'); }
-
-        function triggerUpload(type) {
-            closeModal('instagramUploadModal');
-            if(type === 'photo' || type === 'video') {
-                document.getElementById('photoVideoInput').click();
-            } else if(type === 'reel') {
-                document.getElementById('reelInput').click();
-            }
-        }
-
-        // असली मीडिया प्रोसेसिंग और लोकल डेटाबेस सिंक
-        function processUpload(event, mode) {
-            const file = event.target.files[0];
-            if (!file) return;
-
-            const reader = new FileReader();
-            reader.onload = function(e) {
-                const mediaUrl = e.target.result;
-                const myName = localStorage.getItem('vip_name') || "अमित राव";
-                const myPic = localStorage.getItem('vip_pic') || "https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=100";
-                
-                let mediaHtml = '';
-                let isVideo = file.type.startsWith('video');
-
-                // डेटा को संभालना ताकि प्रोफाइल पेज भी इसे पढ़ सके
-                let savedItems = JSON.parse(localStorage.getItem('my_uploaded_media') || '[]');
-                savedItems.unshift({ url: mediaUrl, type: mode === 'reel' ? 'reel' : (isVideo ? 'video' : 'photo') });
-                localStorage.setItem('my_uploaded_media', JSON.stringify(savedItems));
-
-                if (mode === 'reel') {
-                    // रील के लिए फुल वर्टिकल प्लेयर
-                    mediaHtml = `<video src="${mediaUrl}" class="post-video" controls autoplay loop muted></video>`;
-                } else if(isVideo) {
-                    mediaHtml = `<video src="${mediaUrl}" class="post-video" controls></video>`;
-                } else {
-                    mediaHtml = `<img src="${mediaUrl}" class="post-image">`;
-                }
-
-                const postHtml = `
-                    <div class="post ${mode === 'reel' ? 'reel-style' : ''}">
-                        <div class="post-header">
-                            <div class="post-user-info">
-                                <img src="${myPic}" class="post-avatar">
-                                <div>
-                                    <div class="post-username">${myName} ${mode === 'reel' ? '• <span style="color:#ff007f;">रिल 🎬</span>' : ''}</div>
-                                    <div class="post-location">पानीपत • अभी-अभी</div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="post-media-wrapper">${mediaHtml}</div>
-                        <div class="post-actions">
-                            <div class="left-actions"><i class="fa-solid fa-heart" style="color:#ff007f;"></i><i class="fa-regular fa-comment action-btn"></i></div>
-                        </div>
-                        <div class="post-likes">1 लाइक</div>
-                    </div>
-                `;
-
-                document.getElementById('mainFeed').insertAdjacentHTML('afterbegin', postHtml);
-                alert(`${mode === 'reel' ? 'रील' : 'पोस्ट'} सफलतापूर्वक आपके अकाउंट से लाइव हो गई! 🚀`);
-            };
-            reader.readAsDataURL(file);
-        }
-    </script>
-</body>
-</html>
+        document.getElementById('mainFeed').insertAdjacentHTML('afterbegin', postHtml);
+        alert(`${mode === 'reel' ? 'रील' : 'पोस्ट'} सफलतापूर्वक आपके पर्सनल अकाउंट से लाइव हो गई! 🚀`);
+    };
+    reader.readAsDataURL(file);
+}
